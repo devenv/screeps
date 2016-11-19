@@ -7,6 +7,10 @@ module.exports = {
            var max = broken.reduce(function(s, road) { return s += road.hitsMax }, 0);
            console.log("roads: " + roads.length + ", broken: " + broken.length + ", state: " + (Math.round(hits / max * 100)) + ", to fix: " + (max - hits));
         });
+    },
+
+    claimer: function() {
+      _.values(Game.spawns)[0].createCreep(setups['claimer'][100], 'claimer' + Math.random(), {"role": 'claimer', "level": 100});
     }
 
 };

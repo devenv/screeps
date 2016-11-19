@@ -63,6 +63,8 @@ module.exports.loop = function () {
         creep.act(new Ranged(creep));
       } else if(creep.memory.role === 'scout') {
         creep.act(new Scout(creep));
+      } else if(creep.memory.role === 'claimer') {
+        creep.act(new Claimer(creep));
       }
       if(creep.memory.stuck === undefined) {
         creep.memory.stuck = 0;
