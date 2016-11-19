@@ -108,12 +108,12 @@ var Setups = {
       7: [MOVE],
       8: [MOVE],
       9: [MOVE],
-      10: [MOVE, CLAIM],
-      11: [MOVE, CLAIM],
-      12: [MOVE, CLAIM],
-      13: [MOVE, CLAIM],
-      14: [MOVE, CLAIM],
-      15: [MOVE, CLAIM]
+      10: [MOVE],
+      11: [MOVE],
+      12: [MOVE],
+      13: [MOVE],
+      14: [MOVE],
+      15: [MOVE]
     }
 }
 
