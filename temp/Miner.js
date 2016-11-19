@@ -18,14 +18,14 @@ Miner.prototype.act = function() {
         return room.find(FIND_SOURCES).some(function(source) {
           var creeps_working = _.values(Game.creeps).filter(function(creep) { return creep.memory.source !== undefined && utils.samePos(creep.memory.source, source.pos) }).length;
           if (creeps_working < room.countFreeSpots(source.pos)) {
-            self.creep.memory.source = source.pos;
+            self.creep.memory.source = source.id;
             return true;
           }
         });
       });
     }
     if(self.creep.memory.source !== undefined) {
-      var source = self.creep.room.getPositionAt(self.creep.memory.source.x, self.creep.memory.source.y);
+      var source = Game.getObjectById(self.creep.memory.source);
       if(self.creep.pos.isNearTo(source)) {
         self.creep.harvest(self.creep.room.lookForAt(LOOK_SOURCES, source)[0]);
         self.creep.transferToNearby();
