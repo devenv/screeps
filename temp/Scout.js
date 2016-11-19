@@ -10,14 +10,19 @@ Scout.prototype.act = function() {
     if(self.creep.memory.target === undefined) {
       _.values(Game.flags).some(function(flag) {
         if(flag.name === 'scout') {
-          self.creep.memory.target = flag.pos;
-          flag.remove();
+          self.creep.memory.target = flag.id;
           return true;
         }
       });
     }
     if(self.creep.memory.target !== undefined) {
-      self.creep.goTo(self.creep.memory.target);
+      if(self.creep.room.name !== self.creep.memory.target.roomName) {
+        var exitDir = self.creep.room.findExitTo(self.creep.memory.target.roomName);
+        var exit = self.creep.pos.findClosestByPath(exitDir);
+        self.creep.goTo(exit);
+      } else {
+        self.creep.goTo(self.creep.memory.target);
+      }
     }
 }
 
