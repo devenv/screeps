@@ -2,7 +2,7 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'soldier', 'ranged', 'healer'];
+var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
 
 function Spawner(room) {
     this.room = room;
@@ -37,6 +37,7 @@ Spawner.prototype.shouldSpawn = function(role) {
         case 'soldier': return this.room.modernCreepsByRole(role).length < config.max_guards;
         case 'ranged': return this.room.modernCreepsByRole(role).length < config.max_ranged;
         case 'healer': return this.room.modernCreepsByRole(role).length < config.max_healers;
+        case 'scout': return this.room.modernCreepsByRole(role).length < config.max_scouts;
     }
     return false;
 }

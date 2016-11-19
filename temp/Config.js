@@ -4,6 +4,7 @@ Config.controller_upgraders = 2;
 Config.max_builders = 5;
 Config.builders = 2;
 Config.max_miners = 12;
+Config.max_scouts = 1;
 Config.max_guards = 1;
 Config.max_ranged = 1;
 Config.max_healers = 0;

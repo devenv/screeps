@@ -97,6 +97,23 @@ var Setups = {
       13: [HEAL, MOVE],
       14: [HEAL, MOVE],
       15: [MOVE, MOVE, HEAL, HEAL]
+    },
+    'scout': {
+      1: [MOVE],
+      2: [MOVE],
+      3: [MOVE],
+      4: [MOVE],
+      5: [MOVE],
+      6: [MOVE],
+      7: [MOVE],
+      8: [MOVE],
+      9: [MOVE],
+      10: [MOVE],
+      11: [MOVE],
+      12: [MOVE],
+      13: [MOVE],
+      14: [MOVE],
+      15: [MOVE]
     }
 }
 
