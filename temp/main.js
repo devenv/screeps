@@ -26,12 +26,12 @@ module.exports.loop = function () {
     try {
       var spawner = new Spawner(room);
       spawner.spawn();
-      var extensions = room.extensions();
-      var ext = extensions[Math.floor(Math.random() * extensions.length)];
-      var d =  Math.floor(Math.random() * 2) - 1;
-      if(ext) {
-        room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
-      }
+      //var extensions = room.extensions();
+      //var ext = extensions[Math.floor(Math.random() * extensions.length)];
+      //var d =  Math.floor(Math.random() * 2) - 1;
+      //if(ext) {
+        //room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
+      //}
     } catch(e) { console.log(e); exception = e; }
   });
 
