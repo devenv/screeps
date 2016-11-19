@@ -23,7 +23,7 @@ Scout.prototype.act = function() {
       self.creep.moveTo(exit);
     } else {
       if(!self.creep.pos.isNearTo(self.creep.memory.target)) {
-        self.creep.moveTo(self.creep.memory.target);
+        self.creep.moveTo(self.creep.memory.target.x, self.creep.memory.target.y);
       }
       //var controller = Game.rooms[self.creep.memory.target.roomName].controller;
       //if(self.creep.pos.isNearTo(controller)) {
@@ -34,6 +34,19 @@ Scout.prototype.act = function() {
         //self.creep.moveTo(controller);
       //}
     }
+  }
+}
+
+Scout.prototype.attackController = function() {
+  var controller = Game.rooms[this.creep.pos.roomName].controller;
+  if(!controller.my) {
+    this.creep.memory.moved = true;
+    this.creep.moveTo(controller);
+    this.creep.attackController(controller);
+    if(Math.random() > 0.9) {
+      this.creep.say('fatality', true);
+    }
+    return true;
   }
 }
 
