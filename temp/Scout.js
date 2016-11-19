@@ -5,7 +5,7 @@ function Scout(creep) {
     }
 }
 
-Soldier.prototype.act = function() {
+Scout.prototype.act = function() {
     var self = this;
     if(self.creep.memory.target === undefined) {
       _.values(Game.flags).some(function(flag) {
@@ -20,4 +20,4 @@ Soldier.prototype.act = function() {
     }
 }
 
-module.exports = Soldier;
+module.exports = Scout;
