@@ -23,7 +23,7 @@ Scout.prototype.act = function() {
       self.creep.moveTo(exit);
     } else {
       if(!self.creep.pos.isNearTo(self.creep.memory.target)) {
-        self.creep.moveTo(self.creep.memory.target);
+        console.log(self.creep.moveTo(self.creep.memory.target));
       }
       //var controller = Game.rooms[self.creep.memory.target.roomName].controller;
       //if(self.creep.pos.isNearTo(controller)) {
