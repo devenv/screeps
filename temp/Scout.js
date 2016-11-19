@@ -1,7 +1,7 @@
 function Scout(creep) {
     this.creep = creep;
     if(this.creep.memory.mode === undefined) {
-        this.creep.memory.mode = 'scout
+        this.creep.memory.mode = 'scout';
     }
 }
 
