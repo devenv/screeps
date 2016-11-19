@@ -5,6 +5,8 @@ var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_
 Creep.prototype.act = function(actor) {
     if(this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level) {
         this.memory.mode = 'renew';
+    }
+    if(this.memory.mode === 'renew') {
         var spawn = this.room.spawn();
         if(this.pos.isNearTo(spawn)) {
             this.transfer(spawn, RESOURCE_ENERGY);
