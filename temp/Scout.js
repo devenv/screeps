@@ -21,7 +21,7 @@ Scout.prototype.act = function() {
         var exit = self.creep.pos.findClosestByPath(exitDir);
         self.creep.moveTo(exit);
       } else {
-        self.creep.goTo(self.creep.memory.target.x, self.creep.memory.target.y);
+        self.creep.moveTo(self.creep.memory.target);
       }
     }
 }
