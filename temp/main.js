@@ -18,26 +18,6 @@ var CreepInjections = require('CreepInjections');
 
 module.exports.loop = function () {
   var exception;
-  Object.keys(Game.rooms).map(function(name) { return Game.rooms[name] }).forEach(function(room) {
-    try {
-      var spawner = new Spawner(room);
-      spawner.spawn();
-      var extensions = room.extensions();
-      var ext = extensions[Math.floor(Math.random() * extensions.length)];
-      var d =  Math.floor(Math.random() * 2) - 1;
-      if(ext) {
-        room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
-      }
-    } catch(e) { console.log(e); exception = e; }
-  });
-  Object.keys(Game.structures).map(function(st) { return Game.structures[st] }).forEach(function(st) {
-    try {
-      if(st.structureType === STRUCTURE_TOWER) {
-        new Tower(st).act();
-      }
-    } catch(e) { console.log(e); exception = e; }
-  });
-
   try {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
@@ -88,6 +68,27 @@ module.exports.loop = function () {
       creep.memory.last_pos = creep.pos;
     } catch(e) { console.log(e); exception = e; }
   });
+
+  _.values(Game.rooms).forEach(function(room) {
+    try {
+      var spawner = new Spawner(room);
+      spawner.spawn();
+      var extensions = room.extensions();
+      var ext = extensions[Math.floor(Math.random() * extensions.length)];
+      var d =  Math.floor(Math.random() * 2) - 1;
+      if(ext) {
+        room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
+      }
+    } catch(e) { console.log(e); exception = e; }
+  });
+  Object.keys(Game.structures).map(function(st) { return Game.structures[st] }).forEach(function(st) {
+    try {
+      if(st.structureType === STRUCTURE_TOWER) {
+        new Tower(st).act();
+      }
+    } catch(e) { console.log(e); exception = e; }
+  });
+
 
   if(exception !== undefined && debug) {
     throw exception;
