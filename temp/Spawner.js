@@ -38,7 +38,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'carrier': return this.countByRole(role, this.room.level())< this.countByRole('miner', level) + this.countByRole('builder', level);
     case 'miner':
       var count = this.countByRole(role, this.room.level());
-      return count < his.room.neighborsMinerSpots() && count < config.max_miners;
+      return count < this.room.neighborsMinerSpots() && count < config.max_miners;
     case 'global_carrier': return this.countByRole(role, level) < 1;
     case 'builder': return this.countByRole(role, level) < config.max_builders;
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
