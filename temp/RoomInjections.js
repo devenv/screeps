@@ -63,9 +63,9 @@ Room.prototype.spawn = function() {
 
 Room.prototype.getEnergySink = function(creep) {
   var spawn = this.spawn();
-  if(spawn.energy < spawn.energyCapacity * 0.8) {
-    return spawn;
-  }
+  //if(spawn.energy < spawn.energyCapacity * 0.8) {
+    //return spawn;
+  //}
   var extensions = this.extensions()
   .filter(function(structure) { return structure.energy < structure.energyCapacity})
   .sort(function(a, b) { return creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1});
