@@ -19,7 +19,7 @@ Scout.prototype.act = function() {
       if(self.creep.room.name !== self.creep.memory.target.roomName) {
         var exitDir = self.creep.room.findExitTo(self.creep.memory.target.roomName);
         var exit = self.creep.pos.findClosestByPath(exitDir);
-        self.creep.goTo(exit);
+        self.creep.moveTo(exit);
       } else {
         self.creep.goTo(self.creep.memory.target);
       }
