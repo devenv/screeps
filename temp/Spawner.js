@@ -16,10 +16,21 @@ function Spawner(room) {
   }
 };
 
+Spawner.prototype.renewNearbyCreeps = function() {
+  if(this.spawner !== undefined && !this.spawner.spawning) {
+    var creeps = this.pos.findInRange(FIND_MY_CREEPS, 1).sort(function(a, b) { return a.hits > b.hits ? 1 : -1 });
+    if(creeps.length > 0) {
+      this.renewCreep(creeps[0]);
+      return true
+    }
+  }
+  return false;
+}
+
 Spawner.prototype.spawn = function() {
-  var self = this;
   if(this.spawner !== undefined && !this.spawner.spawning) {
     this.showStats();
+    var self = this;
     roles.some(function(role) {
       if(self.shouldSpawn(role) && self.spawnCreep(role)) {
         return true;

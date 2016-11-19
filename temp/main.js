@@ -25,7 +25,9 @@ module.exports.loop = function () {
   _.values(Game.rooms).forEach(function(room) {
     try {
       var spawner = new Spawner(room);
-      spawner.spawn();
+      if(!spawner.renewNearbyCreeps()) {
+        spawner.spawn();
+      }
       //var extensions = room.extensions();
       //var ext = extensions[Math.floor(Math.random() * extensions.length)];
       //var d =  Math.floor(Math.random() * 2) - 1;

@@ -24,7 +24,7 @@ Creep.prototype.renew = function() {
   var spawn = this.room.spawn();
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
-    spawn.renewCreep(this);
+    //spawn.renewCreep(this);
     if(this.room.energyAvailable < 400 || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
       this.memory.mode = undefined;
     }
