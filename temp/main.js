@@ -13,6 +13,7 @@ var Soldier = require('Soldier');
 var Ranged = require('Ranged');
 var Healer = require('Healer');
 var Scout = require('Scout');
+var Claimer = require('Claimer');
 var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
 
