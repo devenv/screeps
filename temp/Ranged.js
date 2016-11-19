@@ -29,7 +29,6 @@ Ranged.prototype.act = function() {
   if(self.creep.memory.mode === 'guard') {
     if(self.attackHostiles()) { return; }
     if(self.attackSpawns()) { return; }
-    if(self.attackController()) { return; }
 
     if(!Game.rooms[this.creep.pos.roomName].controller.my) {
       self.creep.moveTo(Game.rooms[self.creep.memory.origin_room].controller);
@@ -79,19 +78,6 @@ Ranged.prototype.attackSpawns = function() {
     }
   }
   return false;
-}
-
-Ranged.prototype.attackController = function() {
-  var controller = Game.rooms[this.creep.pos.roomName].controller;
-  if(!controller.my) {
-    this.creep.memory.moved = true;
-    this.creep.moveTo(controller);
-    this.creep.attackController(controller);
-    if(Math.random() > 0.9) {
-      this.creep.say('fatality', true);
-    }
-    return true;
-  }
 }
 
 module.exports = Ranged;
