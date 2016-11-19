@@ -24,7 +24,9 @@ Scout.prototype.act = function() {
     } else {
       var controller = Game.rooms[self.creep.memory.target.roomName].controller;
       if(self.creep.pos.isNearTo(controller)) {
-        self.creep.claim(controller);
+        if(self.creep.claimController(controller) !== 0) {
+          self.creep.reserveController(controller);
+        }
       } else {
         self.creep.moveTo(controller);
       }
