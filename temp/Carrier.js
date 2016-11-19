@@ -34,7 +34,7 @@ Carrier.prototype.act = function() {
             }
         }
     }
-    
+
     if(self.creep.carry.energy < this.creep.carryCapacity) {
         var results = self.creep.pos.lookFor(LOOK_RESOURCES);
         if (results.length > 0) {
@@ -48,9 +48,6 @@ Carrier.prototype.act = function() {
             if(self.creep.memory.supplying) {
                 src = Game.spawns[self.creep.room.memory.spawn];
                 if(self.creep.pos.isNearTo(src)) {
-                    if(self.creep.ticksToLive < config.renew_to_ttl && self.creep.memory.level >= self.creep.room.memory.level) {
-                        src.renewCreep(self.creep);
-                    }
                     if ((self.creep.room.energyAvailable - src.energy) / self.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
                         self.creep.withdraw(src, RESOURCE_ENERGY);
                     }
@@ -70,7 +67,7 @@ Carrier.prototype.act = function() {
                     self.creep.goTo(src.pos);
                 }
             }
-            
+
         } else if (self.creep.memory.mode === 'unload') {
             var trg;
             if(self.creep.memory.supplying) {
@@ -82,11 +79,6 @@ Carrier.prototype.act = function() {
 
             if(self.creep.pos.isNearTo(trg)) {
                 self.creep.transfer(trg, RESOURCE_ENERGY);
-                try {
-                    if(self.creep.ticksToLive < config.renew_to_ttl && self.creep.memory.level >= self.creep.room.memory.level) {
-                        trg.renewCreep(self.creep);
-                    }
-                } catch(e) {}
                 if(self.creep.carry.energy === 0) {
                     self.creep.memory.mode = 'load';
                 }

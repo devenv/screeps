@@ -27,12 +27,6 @@ Ranged.prototype.act = function() {
         console.log(self.creep)
         return;
     }
-    if(self.creep.ticksToLive < config.renew_ttl && self.creep.memory.level >= self.creep.room.memory.level) {
-        if(!hasTarget) {
-            self.creep.memory.mode = 'renew';
-            self.creep.say('renew');
-        }
-    }
     if(self.creep.memory.mode === 'guard') {
         if(self.attackHostiles()) { return; }
         if(self.attackSpawns()) { return; }
@@ -47,17 +41,6 @@ Ranged.prototype.act = function() {
             self.creep.goTo(target);
         }
 
-    } else if(self.creep.memory.mode === 'renew') {
-        var spawn = Game.spawns[self.creep.room.memory.spawn];
-        if(self.creep.pos.isNearTo(spawn)) {
-            spawn.renewCreep(self.creep);
-            if(self.creep.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
-                self.creep.withdraw(spawn, RESOURCE_ENERGY);
-                self.creep.memory.mode = 'guard';
-            }
-        } else {
-            self.creep.goTo(spawn.pos);
-        }
     }
 }
 
@@ -83,7 +66,7 @@ Ranged.prototype.attackSpawns = function() {
         if(Math.random() > 0.9) {
             this.creep.say('exterminate', true);
         }
-        
+
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_SPAWNS, 3);
         if(rangedTargets.length > 0) {
             this.creep.rangedAttack(rangedTargets[0]);

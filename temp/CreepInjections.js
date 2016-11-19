@@ -4,8 +4,20 @@ var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_
 Creep.prototype.act = function(actor) {
     if(this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level) {
         this.memory.mode = 'renew';
+        var spawn = this.room.spawn();
+        if(this.pos.isNearTo(spawn)) {
+            this.transfer(spawn, RESOURCE_ENERGY);
+            spawn.renewCreep(this);
+            this.transfer(spawn, RESOURCE_ENERGY);
+            if(this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
+                this.memory.mode = undefined;
+            }
+        } else {
+            this.goTo(spawn.pos);
+        }
+    } else {
+        actor.act();
     }
-    actor.act();
 }
 
 Creep.prototype.goTo = function(pos) {

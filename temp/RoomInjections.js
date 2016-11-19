@@ -57,8 +57,12 @@ Room.prototype.countFreeSpots = function(pos) {
 	return count;
 }
 
+Room.prototype.spawn = function() {
+    return Game.spawns[this.memory.spawn];
+}
+
 Room.prototype.getEnergySink = function() {
-    var spawn = Game.spawns[this.memory.spawn];
+    var spawn = this.spawn();
     if(spawn.energy < config.min_spawn_energy) {
         return spawn;
     }
@@ -85,7 +89,7 @@ Room.prototype.minerSpots = function() {
 
 Room.prototype.neighborsMinerSpots = function() {
     if(this.memory.neighbors_miner_max === undefined) {
-        
+
         _.values(Game.map.describeExits(this.name)).map(function(name) { return Game.rooms[name] }).filter(function(obj) { return obj !== undefined });
         this.memory.neighbors_miner_max = rooms.map(function(room) { return room.minerSpots() }).reduce(function(s, r) { return s += r }, 0);
         console.log(this.memory.neighbors_miner_max)

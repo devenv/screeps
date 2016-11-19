@@ -50,18 +50,14 @@ Builder.prototype.act = function() {
             }
         }
     }
-    
-    if(self.creep.ticksToLive < config.renew_ttl && self.creep.memory.level >= self.creep.room.memory.level) {
-        self.creep.memory.mode = 'renew';
-    }
-    
+
     if(self.creep.memory.mode === 'build' && self.creep.memory.site !== undefined && Game.constructionSites[self.creep.memory.site] !== undefined || self.creep.memory.controller || self.creep.memory.repair) {
         self.creep.withdrawFromNearby();
         if(self.creep.carry.energy < self.creep.carryCapacity / 2) {
             self.creep.pos.findInRange(FIND_CREEPS, 1).forEach(function(creep) {
                if(creep.memory.role == 'carrier') {
                    creep.transfer(self.creep, RESOURCE_ENERGY);
-               } 
+               }
             });
         }
         if(self.creep.memory.controller) {
@@ -109,19 +105,6 @@ Builder.prototype.act = function() {
             } else {
                 self.creep.goTo(site.pos);
             }
-        }
-    }
-    if(self.creep.memory.mode === 'renew') {
-        var spawn = Game.spawns[self.creep.room.memory.spawn];
-        if(self.creep.pos.isNearTo(spawn)) {
-            self.creep.transfer(spawn, RESOURCE_ENERGY);
-            spawn.renewCreep(self.creep);
-            if(self.creep.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
-                // self.creep.withdraw(spawn, RESOURCE_ENERGY);
-                self.creep.memory.mode = 'build';
-            }
-        } else {
-            self.creep.goTo(spawn.pos);
         }
     }
 
