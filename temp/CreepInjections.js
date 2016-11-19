@@ -3,6 +3,10 @@ var config = require('Config');
 var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT];
 
 Creep.prototype.act = function(actor) {
+  if(this.memory.origin_room === undefined) {
+    this.memory.origin_room = this.room.name;
+  }
+
   this.pickupEnergy();
 
   if(this.shouldRenew()) {

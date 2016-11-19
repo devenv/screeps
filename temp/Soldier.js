@@ -6,16 +6,13 @@ function Soldier(creep) {
     if(this.creep.memory.mode === undefined) {
         this.creep.memory.mode = 'guard';
     }
-    if(this.creep.memory.origin_room === undefined) {
-        this.creep.memory.origin_room = this.creep.room.name;
-    }
 }
 
 Soldier.prototype.act = function() {
     var self = this;
     var flagged = false;
     var hasTarget = false;
-    Object.keys(Game.flags).map(function(name) { return Game.flags[name] }).forEach(function(flag) {
+    _.values(Game.flags).forEach(function(flag) {
         if(flag.name === 'target room') {
             hasTarget = true;
             if(self.creep.pos.roomName != flag.pos.roomName) {
