@@ -27,7 +27,7 @@ Miner.prototype.act = function() {
     if(self.creep.memory.source !== undefined) {
       var source = Game.getObjectById(self.creep.memory.source);
       if(self.creep.pos.isNearTo(source)) {
-        self.creep.harvest(self.creep.room.lookForAt(LOOK_SOURCES, source)[0]);
+        self.creep.harvest(source);
         self.creep.transferToNearby();
         var hasCarrier = self.creep.room.creepsByRole('carrier').filter(function(creep) { return creep !== undefined && creep.memory.owner === self.creep.name}).length > 0;
         if(self.creep.carry.energy >= self.creep.carryCapacity && !hasCarrier) {
