@@ -38,7 +38,7 @@ module.exports.loop = function () {
         try {
             var creep = Game.creeps[cr];
             if(creep.memory.role === 'miner') {
-                creep.act(new Miner(creep).act());
+                creep.act(new Miner(creep));
             } else if(creep.memory.role === 'carrier') {
                 creep.act(new Carrier(creep));
             } else if(creep.memory.role === 'global_carrier') {

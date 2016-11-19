@@ -39,7 +39,7 @@ Miner.prototype.act = function() {
             var keys = Object.keys(sources);
             for(var i = 0; i < keys.length; i++) {
                 var source = sources[keys[i]];
-                ear creeps_working = Object.keys(Game.creeps).filter(function(creep) { return Game.creeps[creep].memory.source !== undefined && Game.creeps[creep].memory.source.x === source.pos.x && Game.creeps[creep].memory.source.y === source.pos.y; }).length;
+                var creeps_working = Object.keys(Game.creeps).filter(function(creep) { return Game.creeps[creep].memory.source !== undefined && Game.creeps[creep].memory.source.x === source.pos.x && Game.creeps[creep].memory.source.y === source.pos.y; }).length;
                 var empty_spots = self.creep.room.countFreeSpots(source.pos);
                 if (creeps_working < empty_spots) {
                     this.creep.memory.source = source.pos;
