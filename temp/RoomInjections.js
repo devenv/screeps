@@ -90,8 +90,8 @@ Room.prototype.minerSpots = function() {
 
 Room.prototype.neighborsMinerSpots = function() {
   if(Game.ticks % 10 === 0 || this.memory.neighbors_miner_max === undefined) {
+    console.log('bla');
     this.memory.neighbors_miner_max = _.values(Game.rooms).map(function(room) { return room.minerSpots() }).reduce(function(s, r) { return s += r }, 0);
-    console.log(this.memory.neighbors_miner_max)
   }
   return this.memory.neighbors_miner_max;
 }
