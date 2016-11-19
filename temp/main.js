@@ -22,9 +22,29 @@ module.exports.loop = function () {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
 
-  Object.keys(Game.creeps).forEach(function(cr) {
+  _.values(Game.rooms).forEach(function(room) {
     try {
-      var creep = Game.creeps[cr];
+      var spawner = new Spawner(room);
+      spawner.spawn();
+      var extensions = room.extensions();
+      var ext = extensions[Math.floor(Math.random() * extensions.length)];
+      var d =  Math.floor(Math.random() * 2) - 1;
+      if(ext) {
+        room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
+      }
+    } catch(e) { console.log(e); exception = e; }
+  });
+
+  _.values(Game.structures).forEach(function(st) {
+    try {
+      if(st.structureType === STRUCTURE_TOWER) {
+        new Tower(st).act();
+      }
+    } catch(e) { console.log(e); exception = e; }
+  });
+
+  _.values(Game.creeps).forEach(function(creep) {
+    try {
       if(creep.memory.role === 'miner') {
         creep.act(new Miner(creep));
       } else if(creep.memory.role === 'carrier') {
@@ -66,26 +86,6 @@ module.exports.loop = function () {
       }
 
       creep.memory.last_pos = creep.pos;
-    } catch(e) { console.log(e); exception = e; }
-  });
-
-  _.values(Game.rooms).forEach(function(room) {
-    try {
-      var spawner = new Spawner(room);
-      spawner.spawn();
-      var extensions = room.extensions();
-      var ext = extensions[Math.floor(Math.random() * extensions.length)];
-      var d =  Math.floor(Math.random() * 2) - 1;
-      if(ext) {
-        room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
-      }
-    } catch(e) { console.log(e); exception = e; }
-  });
-  Object.keys(Game.structures).map(function(st) { return Game.structures[st] }).forEach(function(st) {
-    try {
-      if(st.structureType === STRUCTURE_TOWER) {
-        new Tower(st).act();
-      }
     } catch(e) { console.log(e); exception = e; }
   });
 
