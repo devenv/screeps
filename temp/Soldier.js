@@ -30,6 +30,7 @@ Soldier.prototype.act = function() {
 
         if(self.attackSpawns()) { return; }
         if(self.attackHostiles()) { return; }
+        if(self.attackController()) { return; }
 
         var target;
         var flags = Object.keys(Game.flags).map(function(name) { return Game.flags[name] }).filter(function(flag) { return flag.pos.roomName === self.creep.room.name && flag.name === 'guard'});
@@ -71,6 +72,19 @@ Soldier.prototype.attackSpawns = function() {
         return true;
     }
     return false;
+}
+
+Soldier.prototype.attackController = function() {
+    var controller = Game.rooms[this.creep.pos.roomName].controller;
+    if(!controller.my) {
+      this.creep.memory.moved = true;
+      this.creep.moveTo(controller);
+      this.creep.attackController(controller);
+      if(Math.random() > 0.9) {
+        this.creep.say('fatality', true);
+      }
+      return true;
+    }
 }
 
 module.exports = Soldier;
