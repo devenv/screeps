@@ -43,7 +43,7 @@ Creep.prototype.pickupEnergy = function() {
 }
 
 Creep.prototype.shouldRenew = function() {
-  return this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level;
+  return this.room.energyAvailable > 400 && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level;
 }
 
 Creep.prototype.goTo = function(pos) {
