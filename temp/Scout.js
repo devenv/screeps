@@ -16,6 +16,8 @@ Scout.prototype.act = function() {
       });
     }
     if(self.creep.memory.target !== undefined) {
+      console.log(self.creep.room.name)
+      console.log(self.creep.memory.target.roomName)
       if(self.creep.room.name !== self.creep.memory.target.roomName) {
         var exitDir = self.creep.room.findExitTo(self.creep.memory.target.roomName);
         var exit = self.creep.pos.findClosestByPath(exitDir);
