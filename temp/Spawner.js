@@ -2,7 +2,7 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer';
+var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
 
 function Spawner(room) {
   this.room = room;
