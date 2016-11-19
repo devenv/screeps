@@ -50,12 +50,6 @@ Miner.prototype.act = function() {
         if(self.creep.memory.source !== undefined) {
             var source = self.creep.room.getPositionAt(self.creep.memory.source.x, self.creep.memory.source.y);
             if(self.creep.pos.isNearTo(source)) {
-                if(self.creep.carry.energy < this.creep.carryCapacity) {
-                  var results = self.creep.pos.lookFor(LOOK_RESOURCES);
-                  if (results.length > 0) {
-                      self.creep.pickup(results[0]);
-                  }
-              }
                 self.creep.harvest(self.creep.room.lookForAt(LOOK_SOURCES, source)[0]);
                 self.creep.transferToNearby();
                 var hasCarrier = self.creep.room.creepsByRole('carrier').filter(function(creep) { return creep !== undefined && creep.memory.owner === self.creep.name}).length > 0;

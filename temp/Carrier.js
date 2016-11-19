@@ -35,12 +35,6 @@ Carrier.prototype.act = function() {
         }
     }
 
-    if(self.creep.carry.energy < this.creep.carryCapacity) {
-        var results = self.creep.pos.lookFor(LOOK_RESOURCES);
-        if (results.length > 0) {
-            self.creep.pickup(results[0]);
-        }
-    }
 
     if(self.creep.memory.owner !== undefined && Game.creeps[self.creep.memory.owner] !== undefined) {
         if(self.creep.memory.mode === 'load') {

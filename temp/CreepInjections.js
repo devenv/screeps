@@ -6,6 +6,12 @@ Creep.prototype.act = function(actor) {
     if(this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level) {
         this.memory.mode = 'renew';
     }
+    if(this.carryCapacity > 0 && this.carry.energy < this.carryCapacity) {
+        var results = this.pos.lookFor(LOOK_RESOURCES);
+        if (results.length > 0) {
+            this.pickup(results[0]);
+        }
+    }
     if(this.memory.mode === 'renew') {
         var spawn = this.room.spawn();
         if(this.pos.isNearTo(spawn)) {
