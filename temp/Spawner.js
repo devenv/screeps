@@ -18,7 +18,7 @@ function Spawner(room) {
 
 Spawner.prototype.renewNearbyCreeps = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
-    var creeps = this.pos.findInRange(FIND_MY_CREEPS, 1).sort(function(a, b) { return a.hits > b.hits ? 1 : -1 });
+    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).sort(function(a, b) { return a.hits > b.hits ? 1 : -1 });
     if(creeps.length > 0) {
       this.renewCreep(creeps[0]);
       return true
