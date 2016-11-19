@@ -28,16 +28,20 @@ Spawner.prototype.spawn = function() {
   }
 }
 
+Spawner.prototype.countByRole = function(role, level) {
+  return _.values(Game.creeps).filter(function(creep) { return creep.memory.role === role && creep.memory.level >= level }).length;
+}
+
 Spawner.prototype.shouldSpawn = function(role) {
   switch(role) {
-    case 'carrier': return this.room.modernCreepsByRole(role).length < this.room.modernCreepsByRole('miner').length + this.room.modernCreepsByRole('builder').length;
-    case 'miner':  return this.room.modernCreepsByRole(role).length < this.room.minerSpots() + this.room.neighborsMinerSpots() && this.room.modernCreepsByRole('miner').length < config.max_miners;
-    case 'global_carrier': return this.room.modernCreepsByRole(role).length < 1;
-    case 'builder': return this.room.modernCreepsByRole(role).length < config.max_builders;
-    case 'soldier': return this.room.modernCreepsByRole(role).length < config.max_guards;
-    case 'ranged': return this.room.modernCreepsByRole(role).length < config.max_ranged;
-    case 'healer': return this.room.modernCreepsByRole(role).length < config.max_healers;
-    case 'scout': return this.room.modernCreepsByRole(role).length < config.max_scouts;
+    case 'carrier': return this.countByRole(role, this.room.level())< this.room.modernCreepsByRole('miner').length + this.room.modernCreepsByRole('builder').length;
+    case 'miner':  return this.countByRole(role, this.room.level()) < this.room.minerSpots() + this.room.neighborsMinerSpots() && this.room.modernCreepsByRole('miner').length < config.max_miners;
+    case 'global_carrier': return this.countByRole(role, this.room.level()) < 1;
+    case 'builder': return this.countByRole(role, this.room.level()) < config.max_builders;
+    case 'soldier': return this.countByRole(role, this.room.level()) < config.max_guards;
+    case 'ranged': return this.countByRole(role, this.room.level()) < config.max_ranged;
+    case 'healer': return this.countByRole(role, this.room.level()) < config.max_healers;
+    case 'scout': return this.countByRole(role, this.room.level()) < config.max_scouts;
   }
   return false;
 }
