@@ -31,7 +31,7 @@ Spawner.prototype.spawn = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
     this.showStats();
     var self = this;
-    roles.some(function(role) {
+    return roles.some(function(role) {
       if(self.shouldSpawn(role) && self.spawnCreep(role)) {
         return true;
       }
