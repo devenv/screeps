@@ -2,7 +2,7 @@ function Flags() {
 }
 
 Flags.prototype.process = function() {
-  _.values(Game.flags).forEach(function(room) {
+  _.values(Game.flags).forEach(function(flag) {
     if(flag.name === 'd') {
       this.demolish(flag);
     }
