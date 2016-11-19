@@ -1,3 +1,5 @@
+var setups = require('UnitSetups');
+
 module.exports = {
     brokenRoads: function() {
         Object.keys(Game.rooms).forEach(function(roomName) {
