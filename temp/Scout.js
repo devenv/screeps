@@ -22,14 +22,17 @@ Scout.prototype.act = function() {
       var exit = self.creep.pos.findClosestByPath(exitDir);
       self.creep.moveTo(exit);
     } else {
-      var controller = Game.rooms[self.creep.memory.target.roomName].controller;
-      if(self.creep.pos.isNearTo(controller)) {
-        if(self.creep.claimController(controller) !== 0) {
-          self.creep.reserveController(controller);
-        }
-      } else {
-        self.creep.moveTo(controller);
+      if(!self.creep.pos.isNearTo(self.creep.memory.target)) {
+        self.creep.moveTo(self.creep.memory.target);
       }
+      //var controller = Game.rooms[self.creep.memory.target.roomName].controller;
+      //if(self.creep.pos.isNearTo(controller)) {
+        //if(self.creep.claimController(controller) !== 0) {
+          //self.creep.reserveController(controller);
+        //}
+      //} else {
+        //self.creep.moveTo(controller);
+      //}
     }
   }
 }
