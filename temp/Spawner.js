@@ -33,15 +33,18 @@ Spawner.prototype.countByRole = function(role, level) {
 }
 
 Spawner.prototype.shouldSpawn = function(role) {
+  var level = this.room.level();
   switch(role) {
-    case 'carrier': return this.countByRole(role, this.room.level())< this.room.modernCreepsByRole('miner').length + this.room.modernCreepsByRole('builder').length;
-    case 'miner':  return this.countByRole(role, this.room.level()) < this.room.minerSpots() + this.room.neighborsMinerSpots() && this.room.modernCreepsByRole('miner').length < config.max_miners;
-    case 'global_carrier': return this.countByRole(role, this.room.level()) < 1;
-    case 'builder': return this.countByRole(role, this.room.level()) < config.max_builders;
-    case 'soldier': return this.countByRole(role, this.room.level()) < config.max_guards;
-    case 'ranged': return this.countByRole(role, this.room.level()) < config.max_ranged;
-    case 'healer': return this.countByRole(role, this.room.level()) < config.max_healers;
-    case 'scout': return this.countByRole(role, this.room.level()) < config.max_scouts;
+    case 'carrier': return this.countByRole(role, this.room.level())< this.countByRole('miner', level) + this.countByRole('builder', level);
+    case 'miner':
+      var count = this.countByRole(role, this.room.level());
+      return count < his.room.neighborsMinerSpots() && count < config.max_miners;
+    case 'global_carrier': return this.countByRole(role, level) < 1;
+    case 'builder': return this.countByRole(role, level) < config.max_builders;
+    case 'soldier': return this.countByRole(role, level) < config.max_guards;
+    case 'ranged': return this.countByRole(role, level) < config.max_ranged;
+    case 'healer': return this.countByRole(role, level) < config.max_healers;
+    case 'scout': return this.countByRole(role, level) < config.max_scouts;
   }
   return false;
 }
