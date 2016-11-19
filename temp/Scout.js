@@ -11,6 +11,7 @@ Scout.prototype.act = function() {
       _.values(Game.flags).some(function(flag) {
         if(flag.name === 'scout') {
           self.creep.memory.target = flag.pos;
+          flag.remove();
           return true;
         }
       });
