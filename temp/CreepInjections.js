@@ -3,30 +3,44 @@ var config = require('Config');
 var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT];
 
 Creep.prototype.act = function(actor) {
-    if(this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level) {
-        this.memory.mode = 'renew';
+  this.pickupEnergy();
+
+  if(this.shouldRenew()) {
+    this.memory.mode = 'renew';
+  }
+
+  if(this.memory.mode === 'renew') {
+    this.renew();
+  } else {
+    actor.act();
+  }
+}
+
+Creep.prototype.renew = function() {
+  var spawn = this.room.spawn();
+  if(this.pos.isNearTo(spawn)) {
+    this.transfer(spawn, RESOURCE_ENERGY);
+    spawn.renewCreep(this);
+    this.transfer(spawn, RESOURCE_ENERGY);
+    if(this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
+      this.memory.mode = undefined;
     }
-    if(this.carryCapacity > 0 && this.carry.energy < this.carryCapacity) {
-        var results = this.pos.lookFor(LOOK_RESOURCES);
-        if (results.length > 0) {
-            this.pickup(results[0]);
-        }
+  } else {
+    this.goTo(spawn.pos);
+  }
+}
+
+Creep.prototype.pickupEnergy = function() {
+  if(this.carryCapacity > 0 && this.carry.energy < this.carryCapacity) {
+    var results = this.pos.lookFor(LOOK_RESOURCES);
+    if (results.length > 0) {
+      this.pickup(results[0]);
     }
-    if(this.memory.mode === 'renew') {
-        var spawn = this.room.spawn();
-        if(this.pos.isNearTo(spawn)) {
-            this.transfer(spawn, RESOURCE_ENERGY);
-            spawn.renewCreep(this);
-            this.transfer(spawn, RESOURCE_ENERGY);
-            if(this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
-                this.memory.mode = undefined;
-            }
-        } else {
-            this.goTo(spawn.pos);
-        }
-    } else {
-        actor.act();
-    }
+  }
+}
+
+Creep.prototype.shouldRenew = function() {
+  return this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level;
 }
 
 Creep.prototype.goTo = function(pos) {
