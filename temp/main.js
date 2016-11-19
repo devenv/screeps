@@ -2,6 +2,7 @@ var debug = true;
 
 var config = require('Config');
 var utils = require('Utils');
+var Flags = require('Flags');
 var Spawner = require('Spawner');
 var Tower = require('Tower');
 var Miner = require('Miner');
