@@ -10,7 +10,7 @@ Scout.prototype.act = function() {
     if(self.creep.memory.target === undefined) {
       _.values(Game.flags).some(function(flag) {
         if(flag.name === 'scout') {
-          self.creep.memory.target = flag.id;
+          self.creep.memory.target = flag.pos;
           return true;
         }
       });
