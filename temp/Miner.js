@@ -9,27 +9,6 @@ function Miner(creep) {
 Miner.prototype.act = function() {
     var self = this;
 
-    var flags = self.creep.room.find(FIND_FLAGS, {filter: {name: 'd'}});
-    if(flags.length > 0) {
-        var flag = flags[0];
-        var miner = self.creep.room.creepsByRole('miner')[0];
-        if(self.creep.name === miner.name) {
-            miner.say('x_x');
-            if(miner.carry.energy === miner.carryCapacity) {
-                var trg = miner.room.getEnergySink();
-                miner.moveTo(trg);
-                miner.transfer(trg, RESOURCE_ENERGY);
-            } else {
-                var src = self.creep.room.lookForAt(LOOK_STRUCTURES, flag.pos)[0];
-                if(src !== undefined) {
-                    miner.moveTo(src.pos);
-                    miner.dismantle(src);
-                }
-            }
-            return;
-        }
-    }
-
     if(self.creep.memory.mode === undefined) {
         self.creep.memory.mode = 'mining';
     }
@@ -62,7 +41,7 @@ Miner.prototype.act = function() {
             }
         }
     } else if (self.creep.memory.mode === 'unload') {
-        var spawn = self.creep.room.getEnergySink();
+        var spawn = self.creep.room.getEnergySink(self.creep);
         if(self.creep.pos.isNearTo(spawn)) {
             self.creep.transfer(spawn, RESOURCE_ENERGY);
             self.creep.memory.mode = 'mining';

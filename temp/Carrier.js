@@ -3,14 +3,15 @@ var config = require('Config');
 
 function Carrier(creep) {
     this.creep = creep;
+    if(this.creep.memory.mode === undefined) {
+        this.creep.memory.mode = 'load';
+    }
     // this.creep.memory.owner = undefined;
 }
 
 Carrier.prototype.act = function() {
     var self = this;
-    if(self.creep.memory.mode === undefined) {
-        self.creep.memory.mode = 'load';
-    }
+
     if(self.creep.memory.owner === undefined || Game.creeps[self.creep.memory.owner] === undefined) {
         self.creep.memory.owner = undefined;
         var miners = self.creep.room.creepsByRole('miner');
@@ -40,7 +41,7 @@ Carrier.prototype.act = function() {
         if(self.creep.memory.mode === 'load') {
             var src;
             if(self.creep.memory.supplying) {
-                src = Game.spawns[self.creep.room.memory.spawn];
+                src = self.creep.room.getEnergySink(self.creep);
                 if(self.creep.pos.isNearTo(src)) {
                     if ((self.creep.room.energyAvailable - src.energy) / self.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
                         self.creep.withdraw(src, RESOURCE_ENERGY);
@@ -68,7 +69,7 @@ Carrier.prototype.act = function() {
                 trg = Game.creeps[self.creep.memory.owner];
                 self.creep.transferToNearby();
             } else {
-                trg = self.creep.room.getEnergySink();
+                trg = self.creep.room.getEnergySink(self.creep);
             }
 
             if(self.creep.pos.isNearTo(trg)) {
