@@ -130,7 +130,7 @@ var Setups = {
       12: [MOVE, CLAIM],
       13: [MOVE, CLAIM],
       14: [MOVE, CLAIM],
-      15: [MOV, CLAIME]
+      15: [MOVE, CLAIM]
     }
 }
 
