@@ -18,7 +18,7 @@ Healer.prototype.act = function() {
             if(self.creep.pos.roomName != flag.pos.roomName) {
                 var exitDir = self.creep.room.findExitTo(flag.pos.roomName);
                 var exit = self.creep.pos.findClosestByRange(exitDir);
-                self.creep.goTo(exit);
+                self.creep.moveTo(exit);
                 flagged = true;
             }
         }
@@ -37,7 +37,7 @@ Healer.prototype.act = function() {
             target = self.creep.room.getPositionAt(25, 25);
         }
         if(this.creep.pos.getRangeTo(target) > 1) {
-            self.creep.goTo(target);
+            self.creep.moveTo(target);
         }
 
     }
