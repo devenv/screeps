@@ -20,7 +20,7 @@ Spawner.prototype.renewNearbyCreeps = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
     var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(function(creep) { return creep.hits < config.renew_to_ttl }).sort(function(a, b) { return a.hits > config.critical_ttl ? 1 : -1 });
     if(creeps.length > 0) {
-      this.spawner.renewCreep(creeps[0]);
+      creeps.some(function(creep) { return this.spawner.renewCreep(creep) === 0 });
       return true
     }
   }
