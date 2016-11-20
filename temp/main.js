@@ -35,7 +35,16 @@ module.exports.loop = function() {
       //if(ext) {
         //room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
       //}
+
+
+
+
       room.createConstructionSite(32, 19, STRUCTURE_SPAWN);
+
+
+
+
+
     } catch(e) { console.log(e); exception = e; }
   });
 
