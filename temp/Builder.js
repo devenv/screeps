@@ -1,7 +1,7 @@
 var utils = require('Utils');
 var config = require('Config');
 
-var Builder = (creep)=> {
+function Builder(creep) {
     this.creep = creep;
     if(this.creep.memory.mode === undefined) {
         this.creep.memory.mode = 'build';

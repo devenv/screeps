@@ -1,7 +1,7 @@
 var utils = require('Utils');
 var config = require('Config');
 
-var Miner = (creep)=> {
+function Miner(creep) {
   this.creep = creep;
   // this.creep.memory.source = undefined;
 }

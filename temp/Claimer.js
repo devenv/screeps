@@ -1,5 +1,5 @@
 
-var Claimer = (creep)=> {
+function Claimer(creep) {
   this.creep = creep;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'claim';

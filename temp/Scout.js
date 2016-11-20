@@ -1,4 +1,4 @@
-var Scout = (creep)=> {
+function Scout(creep) {
   this.creep = creep;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'scout';

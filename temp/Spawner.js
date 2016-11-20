@@ -4,7 +4,7 @@ var setups = require('UnitSetups');
 
 var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
 
-var Spawner = (room) => {
+function Spawner(room) {
   this.room = room;
   this.spawner = Game.spawns[this.room.memory.spawn];
   this.level = this.room.level();

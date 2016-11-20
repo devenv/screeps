@@ -1,6 +1,6 @@
 var config = require('Config');
 
-var Tower = (tower)=> {
+function Tower(tower) {
     this.tower = tower;
 };
 
