@@ -66,7 +66,7 @@ Creep.prototype.goTo = function(pos) {
     }
 }
 
-Creep.prototype.twitch = functio() {
+Creep.prototype.twitch = function() {
     this.say('twitch');
     this.move(dirs[Math.floor(Math.random() * dirs.length)]);
 }
