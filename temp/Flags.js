@@ -1,4 +1,4 @@
-var Flags = ()=> {
+function Flags() {
 }
 
 Flags.prototype.process = ()=> {
