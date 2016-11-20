@@ -9,11 +9,11 @@ Room.prototype.findHostileSpawn = function() { return this.find(FIND_HOSTILE_SPA
 
 Room.prototype.extensions = function() { return this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}) };
 
-Room.prototype.creepsByRole = (rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role }) };
+Room.prototype.creepsByRole = function(rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role }) };
 
-Room.prototype.creeps = (rolefunction) { return this.find(FIND_MY_CREEPS) };
+Room.prototype.creeps = function(rolefunction) { return this.find(FIND_MY_CREEPS) };
 
-Room.prototype.modernCreepsByRole = (rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role}).filter(creep => creep.memory.level >= this.level()) };
+Room.prototype.modernCreepsByRole = function(rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role}).filter(creep => creep.memory.level >= this.level()) };
 
 Room.prototype.oldCreeps = function() { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.level < this.level() }) };
 
