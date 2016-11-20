@@ -17,13 +17,13 @@ var Claimer = require('Claimer');
 var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
 
-module.exports.loop = function () {
+module.exports.loop = ()=> {
   var exception;
   try {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
 
-  _.values(Game.rooms).forEach(function(room) {
+  _.values(Game.rooms).forEach(room => {
     try {
       var spawner = new Spawner(room);
       if(!spawner.spawn()) {
@@ -38,7 +38,7 @@ module.exports.loop = function () {
     } catch(e) { console.log(e); exception = e; }
   });
 
-  _.values(Game.structures).forEach(function(st) {
+  _.values(Game.structures).forEach(st => {
     try {
       if(st.structureType === STRUCTURE_TOWER) {
         new Tower(st).act();
@@ -46,7 +46,7 @@ module.exports.loop = function () {
     } catch(e) { console.log(e); exception = e; }
   });
 
-  _.values(Game.creeps).forEach(function(creep) {
+  _.values(Game.creeps).forEach(creep => {
     try {
       if(creep.memory.role === 'miner') {
         creep.act(new Miner(creep));
@@ -77,7 +77,7 @@ module.exports.loop = function () {
     } catch(e) { console.log(e); exception = e; }
 
     try {
-      var forceTwitchFlags = Object.keys(Game.flags).filter(function(flag) { return Game.flags[flag].name === 'twitch' }).map(function(name) { return Game.flags[name] });
+      var forceTwitchFlags = Object.keys(Game.flags).filter(flag => Game.flags[flag].name === 'twitch').map(name => Game.flags[name]);
       if(forceTwitchFlags.length > 0 || creep.memory.stuck > config.twitch_threshold) {
         if(forceTwitchFlags.length > 0 || (creep.memory.moved || Math.random() > 0.9) && creep.memory.same_pos || Math.random() < 1 / (config.twitch_threshold * 10)) {
           creep.twitch();
