@@ -10,7 +10,7 @@ function Builder(creep) {
     // this.creep.memory.repair = false;
 }
 
-Builder.prototype.act = ()=> {
+Builder.prototype.act = function() {
     if(!this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || Game.constructionSites[this.creep.memory.site] === undefined)) {
         var builders = this.creep.room.creepsByRole('builder');
         if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
