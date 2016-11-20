@@ -1,25 +1,25 @@
 var config = require('Config');
 var utils = require('Utils');
 
-Room.prototype.level = ()=> _.min([15, this.extensions().length]);
+Room.prototype.level = function() { return _.min([15, this.extensions().length]) };
 
-Room.prototype.findHostiles = ()=> this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
+Room.prototype.findHostiles = function() { return this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'}) };
 
-Room.prototype.findHostileSpawn = ()=> this.find(FIND_HOSTILE_SPAWNS);
+Room.prototype.findHostileSpawn = function() { return this.find(FIND_HOSTILE_SPAWNS) };
 
-Room.prototype.extensions = ()=> this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }});
+Room.prototype.extensions = function() { return this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}) };
 
-Room.prototype.creepsByRole = (role)=> this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role });
+Room.prototype.creepsByRole = (rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role }) };
 
-Room.prototype.creeps = (role)=> this.find(FIND_MY_CREEPS);
+Room.prototype.creeps = (rolefunction) { return this.find(FIND_MY_CREEPS) };
 
-Room.prototype.modernCreepsByRole = (role)=> this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role}).filter(creep => creep.memory.level >= this.level());
+Room.prototype.modernCreepsByRole = (rolefunction) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role}).filter(creep => creep.memory.level >= this.level()) };
 
-Room.prototype.oldCreeps = ()=> this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.level < this.level() });
+Room.prototype.oldCreeps = function() { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.level < this.level() }) };
 
-Room.prototype.sites = ()=> this.find(FIND_CONSTRUCTION_SITES);
+Room.prototype.sites = function() { return this.find(FIND_CONSTRUCTION_SITES) };
 
-Room.prototype.countFreeSpots = (pos)=> {
+Room.prototype.countFreeSpots = function(pos) {
   var creep = this;
   var check = (dx, dy)=> Game.map.getTerrainAt(pos.x + dx, pos.y + dy, creep.name) !== 'wall';
   var count = 0;
@@ -34,9 +34,9 @@ Room.prototype.countFreeSpots = (pos)=> {
   return count;
 }
 
-Room.prototype.spawn = ()=> Game.spawns[this.memory.spawn];
+Room.prototype.spawn = function() { return Game.spawns[this.memory.spawn] };
 
-Room.prototype.getEnergySink = (creep)=> {
+Room.prototype.getEnergySink = function(creep) {
   var spawn = this.spawn();
   //if(spawn.energy < spawn.energyCapacity * 0.8) {
     //return spawn;
@@ -55,7 +55,7 @@ Room.prototype.getEnergySink = (creep)=> {
   }
 }
 
-Room.prototype.minerSpots = ()=> {
+Room.prototype.minerSpots = function() {
   if(this.memory.miner_max === undefined) {
     var sources = this.find(FIND_SOURCES);
     var max = Object.keys(sources).map(source => this.countFreeSpots(sources[source].pos)).reduce((s, spots) => s += spots);
@@ -64,14 +64,14 @@ Room.prototype.minerSpots = ()=> {
   return this.memory.miner_max;
 }
 
-Room.prototype.neighborsMinerSpots = ()=> {
+Room.prototype.neighborsMinerSpots = function() {
   if(Game.time % 10 === 0 || this.memory.neighbors_miner_max === undefined) {
     this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller.my || room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
   }
   return this.memory.neighbors_miner_max;
 }
 
-Room.prototype.brokenStructures = ()=> {
+Room.prototype.brokenStructures = function() {
   var flags = this.find(FIND_FLAGS, {filter: {name: 'd'}});
   if(flags.length > 0) {
     return this.find(FIND_STRUCTURES, {filter: st => !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1);
