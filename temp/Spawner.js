@@ -19,7 +19,7 @@ function Spawner(room) {
 Spawner.prototype.renewNearbyCreeps = function() {
   var self = this;
   if(this.spawner !== undefined && !this.spawner.spawning) {
-    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(function(creep) { return creep.hits < config.renew_to_ttl }).sort(function(a, b) { return a.hits > config.critical_ttl ? 1 : -1 });
+    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(function(creep) { return creep.ticksToLive < config.renew_to_ttl }).sort(function(a, b) { return a.hits > config.critical_ttl ? 1 : -1 });
     if(creeps.length > 0) {
       creeps.some(function(creep) { return self.spawner.renewCreep(creep) === 0 });
       return true
