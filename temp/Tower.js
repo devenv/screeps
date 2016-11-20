@@ -9,7 +9,7 @@ Tower.prototype.act = function() {
     if(targets.length > 0) {
         this.tower.attack(targets[0]);
     } else {
-        var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.room.name === this.tower.name && creep.hits < creep.hitsMax);
+        var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.my && creep.room.name === this.tower.name && creep.hits < creep.hitsMax);
         if(wounded.length > 0) {
             this.tower.heal(wounded[0]);
         } else {
