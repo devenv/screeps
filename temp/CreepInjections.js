@@ -2,7 +2,7 @@ var config = require('Config');
 
 var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT];
 
-Creep.prototype.act = (actor)=> {
+Creep.prototype.act = function(actor) {
   if(this.memory.origin_room === undefined) {
     this.memory.origin_room = this.room.name;
   }
@@ -20,7 +20,7 @@ Creep.prototype.act = (actor)=> {
   }
 }
 
-Creep.prototype.renew = ()=> {
+Creep.prototype.renew = function() {
   var spawn = this.room.spawn();
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
@@ -33,7 +33,7 @@ Creep.prototype.renew = ()=> {
   }
 }
 
-Creep.prototype.pickupEnergy = ()=> {
+Creep.prototype.pickupEnergy = function() {
   if(this.carryCapacity > 0 && this.carry.energy < this.carryCapacity) {
     var results = this.pos.lookFor(LOOK_RESOURCES);
     if (results.length > 0) {
@@ -42,9 +42,9 @@ Creep.prototype.pickupEnergy = ()=> {
   }
 }
 
-Creep.prototype.shouldRenew = ()=> !this.body.some(part => part.type === CLAIM) && this.room.energyAvailable > config.minimal_energy_for_renew && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level;
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.room.energyAvailable > config.minimal_energy_for_renew && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level };
 
-Creep.prototype.goTo = (pos)=> {
+Creep.prototype.goTo = function(pos) {
     this.memory.moved = true;
     if(!this.pos.isNearTo(pos)) {
         var res = this.moveTo(pos, {reusePath: true});
@@ -66,19 +66,19 @@ Creep.prototype.goTo = (pos)=> {
     }
 }
 
-Creep.prototype.twitch = ()=> {
+Creep.prototype.twitch = functio() {
     this.say('twitch');
     this.move(dirs[Math.floor(Math.random() * dirs.length)]);
 }
 
-Creep.prototype.withdrawFromNearby = ()=> {
+Creep.prototype.withdrawFromNearby = function() {
     var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: STRUCTURE_CONTAINER }});
     if(containers !== undefined && containers.length > 0) {
         this.withdraw(containers[0], RESOURCE_ENERGY);
     }
 }
 
-Creep.prototype.transferToNearby= ()=> {
+Creep.prototype.transferToNearby= function() {
     var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: STRUCTURE_CONTAINER }});
     if(containers.length > 0) {
         this.transfer(containers[0], RESOURCE_ENERGY);
