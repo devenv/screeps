@@ -7,7 +7,6 @@ function Tower(tower) {
 Tower.prototype.act = function() {
   var targets = this.tower.room.findHostiles();
   if(targets.length > 0) {
-    console.log(targets[0]);
     this.tower.attack(targets[0]);
   } else {
     var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.my && creep.room.name === this.tower.name && creep.hits < creep.hitsMax);
