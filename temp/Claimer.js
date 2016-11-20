@@ -1,45 +1,44 @@
 
-function Claimer(creep) {
+var Claimer = (creep)=> {
   this.creep = creep;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'claim';
   }
 }
 
-Claimer.prototype.act = function() {
-  var self = this;
-  if(self.creep.memory.target === undefined) {
-    _.values(Game.flags).some(function(flag) {
+Claimer.prototype.act = ()=> {
+  if(this.creep.memory.target === undefined) {
+    _.values(Game.flags).some(flag => {
       if(flag.name === 'claim') {
-        self.creep.memory.target = flag.pos;
+        this.creep.memory.target = flag.pos;
         flag.remove();
         return true;
       }
     });
   }
-  if(self.creep.memory.target !== undefined) {
-    if(self.creep.room.name !== self.creep.memory.target.roomName) {
-      var exitDir = self.creep.room.findExitTo(self.creep.memory.target.roomName);
-      var exit = self.creep.pos.findClosestByPath(exitDir);
-      self.creep.moveTo(exit);
+  if(this.creep.memory.target !== undefined) {
+    if(this.creep.room.name !== this.creep.memory.target.roomName) {
+      var exitDir = this.creep.room.findExitTo(this.creep.memory.target.roomName);
+      var exit = this.creep.pos.findClosestByPath(exitDir);
+      this.creep.moveTo(exit);
     } else {
-      if(!self.creep.pos.isNearTo(self.creep.memory.target)) {
-        self.creep.moveTo(self.creep.memory.target.x, self.creep.memory.target.y);
-        self.attackController();
+      if(!this.creep.pos.isNearTo(this.creep.memory.target)) {
+        this.creep.moveTo(this.creep.memory.target.x, this.creep.memory.target.y);
+        this.attackController();
       }
-      //var controller = Game.rooms[self.creep.memory.target.roomName].controller;
-      //if(self.creep.pos.isNearTo(controller)) {
-        //if(self.creep.claimController(controller) !== 0) {
-          //self.creep.reserveController(controller);
+      //var controller = Game.rooms[this.creep.memory.target.roomName].controller;
+      //if(this.creep.pos.isNearTo(controller)) {
+        //if(this.creep.claimController(controller) !== 0) {
+          //this.creep.reserveController(controller);
         //}
       //} else {
-        //self.creep.moveTo(controller);
+        //this.creep.moveTo(controller);
       //}
     }
   }
 }
 
-Claimer.prototype.attackController = function() {
+Claimer.prototype.attackController = ()=> {
   var controller = Game.rooms[this.creep.pos.roomName].controller;
   if(!controller.my) {
     this.creep.memory.moved = true;

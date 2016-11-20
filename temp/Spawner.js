@@ -4,47 +4,45 @@ var setups = require('UnitSetups');
 
 var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
 
-function Spawner(room) {
+var Spawner = (room) => {
   this.room = room;
   this.spawner = Game.spawns[this.room.memory.spawn];
   this.level = this.room.level();
   if(this.room.memory.spawn === undefined) {
-    this.room.memory.spawn = Object.keys(Game.spawns).filter(function(spawn) { return Game.spawns[spawn].room.name === room.name })[0];
+    this.room.memory.spawn = Object.keys(Game.spawns).filter(spawn => Game.spawns[spawn].room.name === room.name)[0];
   }
   if(this.room.memory.creep_id === undefined) {
     this.room.memory.creep_id = 0;
   }
 };
 
-Spawner.prototype.renewNearbyCreeps = function() {
-  var self = this;
+Spawner.prototype.renewNearbyCreeps = () => {
   if(this.spawner !== undefined && !this.spawner.spawning) {
-    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(function(creep) { return creep.ticksToLive < config.renew_to_ttl }).sort(function(a, b) { return a.ticksToLive > config.critical_ttl ? 1 : -1 });
+    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
     if(creeps.length > 0) {
-      creeps.some(function(creep) { return self.spawner.renewCreep(creep) === 0 });
+      creeps.some(creep => this.spawner.renewCreep(creep) === 0);
       return true
     }
   }
   return false;
 }
 
-Spawner.prototype.spawn = function() {
+Spawner.prototype.spawn = () => {
   if(this.spawner !== undefined && !this.spawner.spawning) {
     this.showStats();
-    var self = this;
-    return roles.some(function(role) {
-      if(self.shouldSpawn(role)) {
-        return self.spawnCreep(role);
+    return roles.some(role => {
+      if(this.shouldSpawn(role)) {
+        return this.spawnCreep(role);
       }
     });
   }
 }
 
-Spawner.prototype.countByRole = function(role, level) {
-  return _.values(Game.creeps).filter(function(creep) { return creep.memory.role === role && creep.memory.level >= level }).length;
+Spawner.prototype.countByRole = (role, level) => {
+  return _.values(Game.creeps).filter(creep => creep.memory.role === role && creep.memory.level >= level).length;
 }
 
-Spawner.prototype.shouldSpawn = function(role) {
+Spawner.prototype.shouldSpawn = (role)=> {
   var level = this.room.level();
   switch(role) {
     case 'carrier': return this.countByRole(role, this.room.level())< this.countByRole('miner', level) + this.countByRole('builder', level);
@@ -61,7 +59,7 @@ Spawner.prototype.shouldSpawn = function(role) {
   return false;
 }
 
-Spawner.prototype.spawnCreep = function(role) {
+Spawner.prototype.spawnCreep = (role)=> {
   var id = 1 + this.room.memory.creep_id;
   this.room.memory.creep_id = id;
   var count = this.room.creeps().length;
@@ -73,12 +71,12 @@ Spawner.prototype.spawnCreep = function(role) {
   return false;
 }
 
-Spawner.prototype.showStats = function() {
+Spawner.prototype.showStats = ()=> {
   if(Game.time % 10 === 0) {
     var builders_count = this.room.modernCreepsByRole('builder').length;
     var old_count = this.room.oldCreeps().length;
-    var controller = this.room.modernCreepsByRole('builder').filter(function(builder) { return builder.memory.controller}).length;
-    var repair = this.room.modernCreepsByRole('builder').filter(function(builder) { return builder.memory.repair}).length;
+    var controller = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.controller).length;
+    var repair = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.repair).length;
     console.log("miners: " + this.room.modernCreepsByRole('miner').length + ", carriers: " + this.room.modernCreepsByRole('carrier').length + ", global_carriers: " + this.room.modernCreepsByRole('global_carrier').length + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " +  this.room.modernCreepsByRole('soldier').length + ", ranged: " + this.room.modernCreepsByRole('ranged').length + ", healers: " + this.room.modernCreepsByRole('healer').length + ", old: " + old_count);
   }
 }

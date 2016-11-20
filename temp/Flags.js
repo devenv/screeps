@@ -1,15 +1,15 @@
-function Flags() {
+var Flags = ()=> {
 }
 
-Flags.prototype.process = function() {
-  _.values(Game.flags).forEach(function(flag) {
+Flags.prototype.process = ()=> {
+  _.values(Game.flags).forEach(flag => {
     if(flag.name === 'd') {
       this.demolish(flag);
     }
   });
 }
 
-Flags.prototype.demolish = function(flag) {
+Flags.prototype.demolish = (flag)=> {
   var miner = flag.room.creepsByRole('miner')[0];
   if(self.creep.name === miner.name) {
     miner.say('x_x');

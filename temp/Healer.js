@@ -1,50 +1,49 @@
 var utils = require('Utils');
 var config = require('Config');
 
-function Healer(creep) {
+var Healer = (creep)=> {
     this.creep = creep;
     if(this.creep.memory.mode === undefined) {
         this.creep.memory.mode = 'guard';
     }
 }
 
-Healer.prototype.act = function() {
-    var self = this;
-        var flagged = false;
+Healer.prototype.act = ()=> {
+    var flagged = false;
     var hasTarget = false;
-    Object.keys(Game.flags).map(function(name) { return Game.flags[name] }).forEach(function(flag) {
+    Object.keys(Game.flags).map(name => Game.flags[name]).forEach(flag => {
         if(flag.name === 'target room') {
             hasTarget = true;
-            if(self.creep.pos.roomName != flag.pos.roomName) {
-                var exitDir = self.creep.room.findExitTo(flag.pos.roomName);
-                var exit = self.creep.pos.findClosestByRange(exitDir);
-                self.creep.moveTo(exit);
+            if(this.creep.pos.roomName != flag.pos.roomName) {
+                var exitDir = this.creep.room.findExitTo(flag.pos.roomName);
+                var exit = this.creep.pos.findClosestByRange(exitDir);
+                this.creep.moveTo(exit);
                 flagged = true;
             }
         }
     });
     if(flagged) {
-        console.log(self.creep)
+        console.log(this.creep)
         return;
     }
-    if(self.creep.memory.mode === 'guard') {
-        if(self.healFriendly()) { return; }
+    if(this.creep.memory.mode === 'guard') {
+        if(this.healFriendly()) { return; }
         var target;
-        var flags = Object.keys(Game.flags).map(function(name) { return Game.flags[name] }).filter(function(flag) { return flag.pos.roomName === self.creep.room.name && flag.name === 'guard'});
+        var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && flag.name === 'guard');
         if(flags.length > 0) {
             target = flags[0].pos;
         } else {
-            target = self.creep.room.getPositionAt(25, 25);
+            target = this.creep.room.getPositionAt(25, 25);
         }
         if(this.creep.pos.getRangeTo(target) > 1) {
-            self.creep.moveTo(target);
+            this.creep.moveTo(target);
         }
 
     }
 }
 
-Healer.prototype.healFriendly = function() {
-    var wounded = Object.keys(Game.creeps).map(function(name) { return Game.creeps[name] }).filter(function(creep) { return creep.hits < creep.hitsMax });
+Healer.prototype.healFriendly = ()=> {
+    var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.hits < creep.hitsMax);
     if(wounded.length) {
         this.creep.moveTo(wounded[0]);
         this.creep.heal(wounded[0]);

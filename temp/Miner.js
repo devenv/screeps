@@ -1,50 +1,48 @@
 var utils = require('Utils');
 var config = require('Config');
 
-function Miner(creep) {
+var Miner = (creep)=> {
   this.creep = creep;
   // this.creep.memory.source = undefined;
 }
 
-Miner.prototype.act = function() {
-  var self = this;
-
-  if(self.creep.memory.mode === undefined) {
-    self.creep.memory.mode = 'mining';
+Miner.prototype.act = () {
+  if(this.creep.memory.mode === undefined) {
+    this.creep.memory.mode = 'mining';
   }
-  if(self.creep.memory.mode === 'mining') {
-    if(self.creep.memory.source === undefined) {
-      _.values(Game.rooms).some(function(room) {
-        return room.find(FIND_SOURCES).some(function(source) {
-          var creeps_working = _.values(Game.creeps).filter(function(creep) { return creep.memory.source === source.id }).length;
+  if(this.creep.memory.mode === 'mining') {
+    if(this.creep.memory.source === undefined) {
+      _.values(Game.rooms).some(room => {
+        return room.find(FIND_SOURCES).some(source => {
+          var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.source === source.id).length;
           if (creeps_working < room.countFreeSpots(source.pos)) {
-            self.creep.memory.source = source.id;
+            this.creep.memory.source = source.id;
             return true;
           }
         });
       });
     }
-    if(self.creep.memory.source !== undefined) {
-      var source = Game.getObjectById(self.creep.memory.source);
-      if(self.creep.pos.isNearTo(source)) {
-        self.creep.harvest(source);
-        self.creep.transferToNearby();
-        var hasCarrier = self.creep.room.creepsByRole('carrier').filter(function(creep) { return creep !== undefined && creep.memory.owner === self.creep.name}).length > 0;
-        if(self.creep.carry.energy >= self.creep.carryCapacity && !hasCarrier) {
-          self.creep.say('unload');
-          self.creep.memory.mode = 'unload';
+    if(this.creep.memory.source !== undefined) {
+      var source = Game.getObjectById(this.creep.memory.source);
+      if(this.creep.pos.isNearTo(source)) {
+        this.creep.harvest(source);
+        this.creep.transferToNearby();
+        var hasCarrier = this.creep.room.creepsByRole('carrier').filter(creep => creep !== undefined && creep.memory.owner === this.creep.name).length > 0;
+        if(this.creep.carry.energy >= this.creep.carryCapacity && !hasCarrier) {
+          this.creep.say('unload');
+          this.creep.memory.mode = 'unload';
         }
       } else {
-        self.creep.goTo(source);
+        this.creep.goTo(source);
       }
     }
-  } else if (self.creep.memory.mode === 'unload') {
-    var spawn = self.creep.room.getEnergySink(self.creep);
-    if(self.creep.pos.isNearTo(spawn)) {
-      self.creep.transfer(spawn, RESOURCE_ENERGY);
-      self.creep.memory.mode = 'mining';
+  } else if (this.creep.memory.mode === 'unload') {
+    var spawn = this.creep.room.getEnergySink(this.creep);
+    if(this.creep.pos.isNearTo(spawn)) {
+      this.creep.transfer(spawn, RESOURCE_ENERGY);
+      this.creep.memory.mode = 'mining';
     } else {
-      self.creep.goTo(spawn.pos);
+      this.creep.goTo(spawn.pos);
     }
   }
 }

@@ -1,24 +1,23 @@
 var utils = require('Utils');
 var config = require('Config');
 
-function Soldier(creep) {
+var Soldier = (creep)=> {
   this.creep = creep;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'guard';
   }
 }
 
-Soldier.prototype.act = function() {
-  var self = this;
+Soldier.prototype.act = ()=> {
   var flagged = false;
   var hasTarget = false;
-  _.values(Game.flags).forEach(function(flag) {
+  _.values(Game.flags).forEach(flag => {
     if(flag.name === 'target room') {
       hasTarget = true;
-      if(self.creep.pos.roomName != flag.pos.roomName) {
-        var exitDir = self.creep.room.findExitTo(flag.pos.roomName);
-        var exit = self.creep.pos.findClosestByRange(exitDir);
-        self.creep.moveTo(exit);
+      if(this.creep.pos.roomName != flag.pos.roomName) {
+        var exitDir = this.creep.room.findExitTo(flag.pos.roomName);
+        var exit = this.creep.pos.findClosestByRange(exitDir);
+        this.creep.moveTo(exit);
         flagged = true;
       }
     }
@@ -26,30 +25,30 @@ Soldier.prototype.act = function() {
   if(flagged) {
     return;
   }
-  if(self.creep.memory.mode === 'guard') {
+  if(this.creep.memory.mode === 'guard') {
 
-    if(self.attackSpawns()) { return; }
-    if(self.attackHostiles()) { return; }
+    if(this.attackSpawns()) { return; }
+    if(this.attackHostiles()) { return; }
 
     if(!Game.rooms[this.creep.pos.roomName].controller.my) {
-      self.creep.moveTo(Game.rooms[self.creep.memory.origin_room].controller);
+      this.creep.moveTo(Game.rooms[this.creep.memory.origin_room].controller);
     } else {
       var target;
-      var flags = Object.keys(Game.flags).map(function(name) { return Game.flags[name] }).filter(function(flag) { return flag.pos.roomName === self.creep.room.name && flag.name === 'guard'});
+      var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && flag.name === 'guard');
       if(flags.length > 0) {
         target = flags[0].pos;
       } else {
-        target = self.creep.room.getPositionAt(25, 25);
+        target = this.creep.room.getPositionAt(25, 25);
       }
       if(this.creep.pos.getRangeTo(target) > 1) {
-        self.creep.moveTo(target);
+        this.creep.moveTo(target);
       }
       return;
     }
   }
 }
 
-Soldier.prototype.attackHostiles = function() {
+Soldier.prototype.attackHostiles = ()=> {
   var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
   if(target !== null) {
     this.creep.memory.moved = true;
@@ -63,7 +62,7 @@ Soldier.prototype.attackHostiles = function() {
   return false;
 }
 
-Soldier.prototype.attackSpawns = function() {
+Soldier.prototype.attackSpawns = ()=> {
   var targets = Game.rooms[this.creep.pos.roomName].findHostileSpawn();
   if(targets !== undefined && targets.length > 0) {
     this.creep.memory.moved = true;
