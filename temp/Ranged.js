@@ -8,7 +8,7 @@ function Ranged(creep) {
   }
 }
 
-Ranged.prototype.act = ()=> {
+Ranged.prototype.act = function() {
   var flagged = false;
   var hasTarget = false;
   _.values(Game.flags).forEach(flag => {
@@ -47,7 +47,7 @@ Ranged.prototype.act = ()=> {
   }
 }
 
-Ranged.prototype.attackHostiles = ()=> {
+Ranged.prototype.attackHostiles = function() {
   var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
   if(target !== null) {
     this.creep.memory.moved = true;
@@ -61,7 +61,7 @@ Ranged.prototype.attackHostiles = ()=> {
   return false;
 }
 
-Ranged.prototype.attackSpawns = ()=> {
+Ranged.prototype.attackSpawns = function() {
   var targets = this.creep.room.findHostileSpawn();
   if(targets !== undefined && targets.length > 0) {
     this.creep.moveTo(targets[0]);

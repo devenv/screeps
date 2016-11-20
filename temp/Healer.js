@@ -8,7 +8,7 @@ function Healer(creep) {
     }
 }
 
-Healer.prototype.act = ()=> {
+Healer.prototype.act = function() {
     var flagged = false;
     var hasTarget = false;
     Object.keys(Game.flags).map(name => Game.flags[name]).forEach(flag => {
@@ -42,7 +42,7 @@ Healer.prototype.act = ()=> {
     }
 }
 
-Healer.prototype.healFriendly = ()=> {
+Healer.prototype.healFriendly = function() {
     var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.hits < creep.hitsMax);
     if(wounded.length) {
         this.creep.moveTo(wounded[0]);

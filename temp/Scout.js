@@ -5,7 +5,7 @@ function Scout(creep) {
   }
 }
 
-Scout.prototype.act = ()=> {
+Scout.prototype.act = function() {
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
       if(flag.name === 'scout') {
@@ -36,7 +36,7 @@ Scout.prototype.act = ()=> {
   }
 }
 
-Scout.prototype.attackController = () => {
+Scout.prototype.attackController = function() {
   var controller = Game.rooms[this.creep.pos.roomName].controller;
   if(!controller.my) {
     this.creep.memory.moved = true;

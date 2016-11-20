@@ -4,7 +4,7 @@ function Tower(tower) {
     this.tower = tower;
 };
 
-Tower.prototype.act = ()=> {
+Tower.prototype.act = function() {
     var targets = this.tower.room.findHostiles();
     if(targets.length > 0) {
         this.tower.attack(targets[0]);

@@ -16,7 +16,7 @@ function Spawner(room) {
   }
 };
 
-Spawner.prototype.renewNearbyCreeps = () => {
+Spawner.prototype.renewNearbyCreeps = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
     var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
     if(creeps.length > 0) {
@@ -27,7 +27,7 @@ Spawner.prototype.renewNearbyCreeps = () => {
   return false;
 }
 
-Spawner.prototype.spawn = () => {
+Spawner.prototype.spawn = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
     this.showStats();
     return roles.some(role => {
@@ -38,11 +38,11 @@ Spawner.prototype.spawn = () => {
   }
 }
 
-Spawner.prototype.countByRole = (role, level) => {
+Spawner.prototype.countByRole = function(role, level) {
   return _.values(Game.creeps).filter(creep => creep.memory.role === role && creep.memory.level >= level).length;
 }
 
-Spawner.prototype.shouldSpawn = (role)=> {
+Spawner.prototype.shouldSpawn = function(role) {
   var level = this.room.level();
   switch(role) {
     case 'carrier': return this.countByRole(role, this.room.level())< this.countByRole('miner', level) + this.countByRole('builder', level);
@@ -59,7 +59,7 @@ Spawner.prototype.shouldSpawn = (role)=> {
   return false;
 }
 
-Spawner.prototype.spawnCreep = (role)=> {
+Spawner.prototype.spawnCreep = function(role) {
   var id = 1 + this.room.memory.creep_id;
   this.room.memory.creep_id = id;
   var count = this.room.creeps().length;
@@ -71,7 +71,7 @@ Spawner.prototype.spawnCreep = (role)=> {
   return false;
 }
 
-Spawner.prototype.showStats = ()=> {
+Spawner.prototype.showStats = function() {
   if(Game.time % 10 === 0) {
     var builders_count = this.room.modernCreepsByRole('builder').length;
     var old_count = this.room.oldCreeps().length;

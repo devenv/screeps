@@ -6,7 +6,7 @@ function Claimer(creep) {
   }
 }
 
-Claimer.prototype.act = ()=> {
+Claimer.prototype.act = function() {
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
       if(flag.name === 'claim') {
@@ -38,7 +38,7 @@ Claimer.prototype.act = ()=> {
   }
 }
 
-Claimer.prototype.attackController = ()=> {
+Claimer.prototype.attackController = function() {
   var controller = Game.rooms[this.creep.pos.roomName].controller;
   if(!controller.my) {
     this.creep.memory.moved = true;

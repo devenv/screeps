@@ -1,7 +1,7 @@
 function Flags() {
 }
 
-Flags.prototype.process = ()=> {
+Flags.prototype.process = function() {
   _.values(Game.flags).forEach(flag => {
     if(flag.name === 'd') {
       this.demolish(flag);
@@ -9,7 +9,7 @@ Flags.prototype.process = ()=> {
   });
 }
 
-Flags.prototype.demolish = (flag)=> {
+Flags.prototype.demolish = function(flag) {
   var miner = flag.room.creepsByRole('miner')[0];
   if(self.creep.name === miner.name) {
     miner.say('x_x');

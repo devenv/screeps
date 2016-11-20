@@ -9,7 +9,7 @@ function Carrier(creep) {
     // this.creep.memory.owner = undefined;
 }
 
-Carrier.prototype.act = ()=> {
+Carrier.prototype.act = function() {
 
     if(this.creep.memory.owner === undefined || Game.creeps[this.creep.memory.owner] === undefined) {
         this.creep.memory.owner = undefined;

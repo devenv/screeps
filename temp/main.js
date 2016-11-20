@@ -17,7 +17,7 @@ var Claimer = require('Claimer');
 var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
 
-module.exports.loop = ()=> {
+module.exports.loop = function() {
   var exception;
   try {
     new Flags().process();

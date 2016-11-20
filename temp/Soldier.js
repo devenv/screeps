@@ -8,7 +8,7 @@ function Soldier(creep) {
   }
 }
 
-Soldier.prototype.act = ()=> {
+Soldier.prototype.act = function() {
   var flagged = false;
   var hasTarget = false;
   _.values(Game.flags).forEach(flag => {
@@ -48,7 +48,7 @@ Soldier.prototype.act = ()=> {
   }
 }
 
-Soldier.prototype.attackHostiles = ()=> {
+Soldier.prototype.attackHostiles = function() {
   var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
   if(target !== null) {
     this.creep.memory.moved = true;
@@ -62,7 +62,7 @@ Soldier.prototype.attackHostiles = ()=> {
   return false;
 }
 
-Soldier.prototype.attackSpawns = ()=> {
+Soldier.prototype.attackSpawns = function() {
   var targets = Game.rooms[this.creep.pos.roomName].findHostileSpawn();
   if(targets !== undefined && targets.length > 0) {
     this.creep.memory.moved = true;
