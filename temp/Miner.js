@@ -6,7 +6,7 @@ function Miner(creep) {
   // this.creep.memory.source = undefined;
 }
 
-Miner.prototype.act = ()=> {
+Miner.prototype.act = function() {
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'mining';
   }
