@@ -53,8 +53,9 @@ Builder.prototype.act = function() {
   if(this.creep.memory.mode === 'build' && this.creep.memory.site !== undefined && Game.constructionSites[this.creep.memory.site] !== undefined || this.creep.memory.controller || this.creep.memory.repair) {
     this.creep.withdrawFromNearby();
     if(this.creep.carry.energy === 0) {
-      this.creep.goTo(this.creep.originRoom().spawn());
-      this.creep.withdraw(this.creep.originRoom().spawn(), RESOURCE_ENERGY);
+      var spawn = this.creep.originRoom().spawn();
+      this.creep.goTo(spawn);
+      this.creep.withdraw(spawn, RESOURCE_ENERGY);
     } else {
       if(this.creep.memory.controller) {
         if(this.creep.pos.isNearTo(this.creep.room.controller)) {
