@@ -94,8 +94,7 @@ Carrier.prototype.act = function() {
     } else if (this.creep.memory.mode === 'unload') {
       var trg;
       if(this.creep.memory.supplying) {
-        trg = Game.rooms[this.creep.memory.target.roomName].lookForAt(STRUCTURE_CONTAINER, this.creep.memory.target.x, this.creep.memory.target.y);
-        console.log(trg);
+        trg = Game.rooms[this.creep.memory.target.roomName].lookForAt(LOOK_STRUCTURES, this.creep.memory.target.x, this.creep.memory.target.y).filter(st => st.structureType === STRUCTURE_CONTAINER)[0];
       } else {
         trg = this.creep.originRoom().getEnergySink(this.creep);
       }
