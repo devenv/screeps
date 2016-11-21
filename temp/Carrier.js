@@ -19,7 +19,7 @@ Carrier.prototype.act = function() {
           this.creep.memory.target = sources[0].pos;
           return true;
       } else {
-        if(room.controller.my && !_.values(Game.creeps).some(creep -> creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, room.controller.pos))) {
+        if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, room.controller.pos))) {
           this.creep.memory.supplying = true;
           this.creep.memory.target = room.controller.pos;
           return true;
