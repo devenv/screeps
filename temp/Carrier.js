@@ -95,6 +95,7 @@ Carrier.prototype.act = function() {
       var trg;
       if(this.creep.memory.supplying) {
         trg = Game.rooms[this.creep.memory.target.roomName].lookForAt(STRUCTURE_CONTAINER, this.creep.memory.target.x, this.creep.memory.target.y);
+        console.log(trg);
       } else {
         trg = this.creep.originRoom().getEnergySink(this.creep);
       }
