@@ -50,7 +50,7 @@ Carrier.prototype.act = function() {
     if(this.creep.memory.mode === 'load') {
       var src;
       if(this.creep.memory.supplying) {
-        src = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
+        src = Game.spawns[Game.rooms[this.creep.memory.origin_room].spawn];
         if(this.creep.pos.isNearTo(src)) {
           if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
