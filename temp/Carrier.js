@@ -15,7 +15,7 @@ Carrier.prototype.act = function() {
     _.values(Game.rooms).some(room => {
       var sources = room.find(FIND_SOURCES).filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, source.pos)));
       if(sources.length > 0) {
-        var containers = sources[0].pos.findInRange(STRUCTURE_CONTAINER, 3);
+        var containers = sources[0].pos.findInRange(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}, 3);
         if(containers.length > 0) {
           this.creep.memory.supplying = false;
           this.creep.memory.target = containers[0].pos;
@@ -23,7 +23,7 @@ Carrier.prototype.act = function() {
         }
       } else {
         if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, room.controller.pos))) {
-          var containers = room.controller.pos.findInRange(STRUCTURE_CONTAINER, 3);
+          var containers = room.controller.pos.findInRange(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}, 3);
           if(containers.length > 0) {
             this.creep.memory.supplying = true;
             this.creep.memory.target = containers[0].pos;
