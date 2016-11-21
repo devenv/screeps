@@ -72,6 +72,10 @@ Creep.prototype.twitch = function() {
     this.move(dirs[Math.floor(Math.random() * dirs.length)]);
 }
 
+Creep.prototype.originRoom = function() {
+  return Game.rooms[this.memory.origin_room];
+}
+
 Creep.prototype.withdrawFromNearby = function() {
     var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: {structureType: STRUCTURE_CONTAINER}})
     .sort((a, b) => a.energy > b.energy ? -1 : 1);
