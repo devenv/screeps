@@ -12,7 +12,10 @@ module.exports = {
     },
 
     claimer: function() {
-      console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][1], 'claimer' + Math.random(), {"role": 'claimer', "level": 100}));
-    }
+      console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][1], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100}));
+    },
 
+    scount: function() {
+      console.log(_.values(Game.spawns)[0].createCreep(setups['scout'][1], 'scout' + _.floor(Math.random() * 1000), {"role": 'scout', "level": 100}));
+    }
 };
