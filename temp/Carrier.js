@@ -13,27 +13,30 @@ Carrier.prototype.act = function() {
 
   if(this.creep.memory.target === undefined) {
     _.values(Game.rooms).some(room => {
-      var sources = room.find(FIND_SOURCES).filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, source.pos)));
+      var sources = room.find(FIND_SOURCES).filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
       if(sources.length > 0) {
         var containers = sources[0].pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
         if(containers.length > 0) {
           this.creep.memory.supplying = false;
+          this.creep.memory.owner = sources[0].pos;
           this.creep.memory.target = containers[0].pos;
           return true;
         }
       } else {
-        if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, room.controller.pos))) {
+        if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
           var containers = room.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
           if(containers.length > 0) {
             this.creep.memory.supplying = true;
+            this.creep.memory.owner = room.controller.pos
             this.creep.memory.target = containers[0].pos;
             return true;
           }
         } else {
-          var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, tower.pos)));
+          var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, tower.pos)));
           if(towers.length > 0) {
             this.creep.memory.supplying = true;
-            this.creep.memory.target = room.controller.pos;
+            this.creep.memory.owner = towers[0].pos;
+            this.creep.memory.target = towers[0].pos;
             return true;
           } else {
             this.creep.say('no target');
