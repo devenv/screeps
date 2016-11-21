@@ -1,6 +1,8 @@
 var config = require('Config');
 
 var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT];
+var energySources = [STRUCTURE_CONTAINER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]
+var energySinks = [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]
 
 Creep.prototype.act = function(actor) {
   if(this.memory.origin_room === undefined) {
@@ -72,14 +74,14 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]  }});
+    var containers = this.pos.findInRange(FIND_STRUCTURES, 1).filter(st => _.contains(energySources, st.structureType));
     if(containers !== undefined && containers.length > 0) {
         this.withdraw(containers[0], RESOURCE_ENERGY);
     }
 }
 
 Creep.prototype.transferToNearby= function() {
-    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION] }});
+    var containers = this.pos.findInRange(FIND_STRUCTURES, 1).filter(st => _.contains(energySinks, st.structureType));
     if(containers.length > 0) {
         this.transfer(containers[0], RESOURCE_ENERGY);
     }
