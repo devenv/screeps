@@ -57,7 +57,7 @@ Carrier.prototype.act = function() {
           src = this.creep.originRoom().spawn();
         }
         if(this.creep.pos.isNearTo(src)) {
-          if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
+          if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy) {
             console.log(this.creep.withdraw(src, RESOURCE_ENERGY));
             this.creep.memory.mode = 'unload';
           }
