@@ -2,7 +2,7 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-var roles = ['carrier', 'miner', 'global_carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
+var roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
 
 function Spawner(room) {
   this.room = room;
@@ -45,11 +45,10 @@ Spawner.prototype.countByRole = function(role, level) {
 Spawner.prototype.shouldSpawn = function(role) {
   var level = this.room.level();
   switch(role) {
-    case 'carrier': return this.countByRole(role, this.room.level())< this.countByRole('miner', level) + this.countByRole('builder', level);
     case 'miner':
       var count = this.countByRole(role, this.room.level());
       return count < this.room.neighborsMinerSpots() && count < config.max_miners;
-    case 'global_carrier': return this.countByRole(role, level) < 1;
+    case 'carrier': return this.countByRole(role, this.room.level()) < _.values(Game.rooms).map(room => room.carriersNeeded).reduce((s, e) => s+= e, 0)
     case 'builder': return this.countByRole(role, level) < config.max_builders;
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
@@ -77,7 +76,7 @@ Spawner.prototype.showStats = function() {
     var old_count = this.room.oldCreeps().length;
     var controller = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.controller).length;
     var repair = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.repair).length;
-    console.log("miners: " + this.room.modernCreepsByRole('miner').length + ", carriers: " + this.room.modernCreepsByRole('carrier').length + ", global_carriers: " + this.room.modernCreepsByRole('global_carrier').length + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " +  this.room.modernCreepsByRole('soldier').length + ", ranged: " + this.room.modernCreepsByRole('ranged').length + ", healers: " + this.room.modernCreepsByRole('healer').length + ", old: " + old_count);
+    console.log("miners: " + this.room.modernCreepsByRole('miner').length + ", carriers: " + this.room.modernCreepsByRole('carrier').length + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " +  this.room.modernCreepsByRole('soldier').length + ", ranged: " + this.room.modernCreepsByRole('ranged').length + ", healers: " + this.room.modernCreepsByRole('healer').length + ", old: " + old_count);
   }
 }
 

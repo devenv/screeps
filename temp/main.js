@@ -7,7 +7,6 @@ var Spawner = require('Spawner');
 var Tower = require('Tower');
 var Miner = require('Miner');
 var Carrier = require('Carrier');
-var GlobalCarrier = require('GlobalCarrier');
 var Builder = require('Builder');
 var Soldier = require('Soldier');
 var Ranged = require('Ranged');
@@ -62,8 +61,6 @@ module.exports.loop = function() {
         creep.act(new Miner(creep));
       } else if(creep.memory.role === 'carrier') {
         creep.act(new Carrier(creep));
-      } else if(creep.memory.role === 'global_carrier') {
-        creep.act(new GlobalCarrier(creep));
       } else if(creep.memory.role === 'builder') {
         creep.act(new Builder(creep));
       } else if(creep.memory.role === 'soldier') {
