@@ -98,7 +98,7 @@ Carrier.prototype.act = function() {
       }
 
       if(this.creep.pos.isNearTo(trg)) {
-        this.creep.transferToNearby();
+        this.creep.transfer(trg, RESOURCE_ENERGY);
       } else {
         this.creep.goTo(trg);
       }
