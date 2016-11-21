@@ -52,7 +52,10 @@ Carrier.prototype.act = function() {
         }
       } else {
         src = Game.rooms[this.creep.memory.target.roomName].getPositionAt(this.creep.memory.target.x, this.creep.memory.target.y);
-        this.creep.withdrawFromNearby();
+
+        if(this.creep.pos.isNearTo(src)) {
+          this.creep.withdrawFromNearby();
+        }
         if(this.creep.carry.energy >= this.creep.carryCapacity) {
           this.creep.memory.mode = 'unload';
         } else {
@@ -67,7 +70,9 @@ Carrier.prototype.act = function() {
         trg = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
       }
 
-      this.creep.transferToNearby();
+      if(this.creep.pos.isNearTo(trg)) {
+        this.creep.transferToNearby();
+      }
 
       if(this.creep.carry.energy === 0) {
         this.creep.memory.mode = 'load';
