@@ -50,10 +50,15 @@ Carrier.prototype.act = function() {
     if(this.creep.memory.mode === 'load') {
       var src;
       if(this.creep.memory.supplying) {
-        src = this.creep.originRoom().spawn();
+        var exts = this.creep.originRoom().extensions().filter(ext => ext.energy === 0).sort((a, b) => a.energy > b.energy ? -1 : 1)
+        if(exts.length > 0) {
+          src = exts[0];
+        } else {
+          src = this.creep.originRoom().spawn();
+        }
         if(this.creep.pos.isNearTo(src)) {
           if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
-            this.creep.withdraw(src, RESOURCE_ENERGY);
+            console.log(this.creep.withdraw(src, RESOURCE_ENERGY));
             this.creep.memory.mode = 'unload';
           }
         } else {
