@@ -72,14 +72,14 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: STRUCTURE_CONTAINER }});
+    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]  }});
     if(containers !== undefined && containers.length > 0) {
         this.withdraw(containers[0], RESOURCE_ENERGY);
     }
 }
 
 Creep.prototype.transferToNearby= function() {
-    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: STRUCTURE_CONTAINER }});
+    var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: { structureType: [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION] }});
     if(containers.length > 0) {
         this.transfer(containers[0], RESOURCE_ENERGY);
     }
