@@ -23,9 +23,12 @@ Carrier.prototype.act = function() {
         }
       } else {
         if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, room.controller.pos))) {
-          this.creep.memory.supplying = true;
-          this.creep.memory.target = room.controller.pos;
-          return true;
+          var containers = room.controller.pos.findInRange(STRUCTURE_CONTAINER, 3);
+          if(containers.length > 0) {
+            this.creep.memory.supplying = true;
+            this.creep.memory.target = containers[0].pos;
+            return true;
+          }
         } else {
           var towers = room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.target, tower.pos)));
           if(towers.length > 0) {
