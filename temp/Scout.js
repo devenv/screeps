@@ -1,3 +1,5 @@
+var utils = require('Utils');
+
 function Scout(creep) {
   this.creep = creep;
   if(this.creep.memory.mode === undefined) {
@@ -8,9 +10,8 @@ function Scout(creep) {
 Scout.prototype.act = function() {
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
-      if(flag.name === 'scout') {
+      if(flag.name === 'scout' && !_.values(Game.creeps).some(creep => creep.memory.role === 'scout' && utils.samePos(creep.memory.target, flag.target))) {
         this.creep.memory.target = flag.pos;
-        flag.remove();
         return true;
       }
     });
