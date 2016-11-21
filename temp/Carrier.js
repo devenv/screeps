@@ -40,7 +40,7 @@ Carrier.prototype.act = function() {
         if(this.creep.memory.mode === 'load') {
             var src;
             if(this.creep.memory.supplying) {
-                src = Game.rooms[this.creep.origin_room].getEnergySink(this.creep);
+                src = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
                 if(this.creep.pos.isNearTo(src)) {
                     if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy && src.energy > config.min_spawn_energy) {
                         this.creep.withdraw(src, RESOURCE_ENERGY);
@@ -68,7 +68,7 @@ Carrier.prototype.act = function() {
                 trg = Game.creeps[this.creep.memory.owner];
                 this.creep.transferToNearby();
             } else {
-                trg = Game.rooms[this.creep.origin_room].getEnergySink(this.creep);
+                trg = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
             }
 
             if(this.creep.pos.isNearTo(trg)) {
