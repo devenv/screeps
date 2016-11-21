@@ -66,6 +66,7 @@ Carrier.prototype.act = function() {
         } else {
           src = Game.getObjectById(this.creep.memory.src);
         }
+        this.creep.withdrawFromNearby();
         if(this.creep.pos.isNearTo(src)) {
           if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
