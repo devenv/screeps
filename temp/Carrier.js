@@ -51,11 +51,16 @@ Carrier.prototype.act = function() {
       var src;
       if(this.creep.memory.supplying) {
         if(this.creep.memory.src === undefined) {
-          var exts = this.creep.originRoom().extensions().filter(ext => ext.energy > 0).sort((a, b) => this.creep.pos.getRangeTo(a) > this.creep.pos.getRangeTo(b) ? 1 : -1)
-          if(exts.length > 0) {
-            src = exts[0];
+          var spawn = this.creep.originRoom().spawn();
+          if(spawn.energy > spawn.energyCapacity / 2) {
+            src = spawn;
           } else {
-            src = this.creep.originRoom().spawn();
+            var exts = this.creep.originRoom().extensions().filter(ext => ext.energy > 0).sort((a, b) => this.creep.pos.getRangeTo(a) > this.creep.pos.getRangeTo(b) ? 1 : -1)
+            if(exts.length > 0) {
+              src = exts[0];
+            } else {
+              src = spawn
+            }
           }
           this.creep.memory.src = src.id;
         } else {
