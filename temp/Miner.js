@@ -37,7 +37,7 @@ Miner.prototype.act = function() {
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
-    var spawn = this.creep.room.getEnergySink(this.creep);
+    var spawn = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
     if(this.creep.pos.isNearTo(spawn)) {
       this.creep.transfer(spawn, RESOURCE_ENERGY);
       this.creep.memory.mode = 'mining';
