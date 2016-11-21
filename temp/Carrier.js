@@ -64,11 +64,11 @@ Carrier.prototype.act = function() {
 
         if(this.creep.pos.isNearTo(src)) {
           this.creep.withdrawFromNearby();
+        } else {
+          this.creep.goTo(src);
         }
         if(this.creep.carry.energy >= this.creep.carryCapacity) {
           this.creep.memory.mode = 'unload';
-        } else {
-          this.creep.goTo(src);
         }
       }
     } else if (this.creep.memory.mode === 'unload') {
@@ -81,12 +81,11 @@ Carrier.prototype.act = function() {
 
       if(this.creep.pos.isNearTo(trg)) {
         this.creep.transferToNearby();
-      }
-
-      if(this.creep.carry.energy === 0) {
-        this.creep.memory.mode = 'load';
       } else {
         this.creep.goTo(trg);
+      }
+      if(this.creep.carry.energy === 0) {
+        this.creep.memory.mode = 'load';
       }
     }
   }
