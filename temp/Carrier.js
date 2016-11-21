@@ -50,15 +50,21 @@ Carrier.prototype.act = function() {
     if(this.creep.memory.mode === 'load') {
       var src;
       if(this.creep.memory.supplying) {
-        var exts = this.creep.originRoom().extensions().filter(ext => ext.energy > 0).sort((a, b) => this.creep.pos.getRangeTo(a) > this.creep.pos.getRangeTo(b) ? -1 : 1)
-        if(exts.length > 0) {
-          src = exts[0];
+        if(this.creep.memory.src === undefined) {
+          var exts = this.creep.originRoom().extensions().filter(ext => ext.energy > 0).sort((a, b) => this.creep.pos.getRangeTo(a) > this.creep.pos.getRangeTo(b) ? -1 : 1)
+          if(exts.length > 0) {
+            src = exts[0];
+          } else {
+            src = this.creep.originRoom().spawn();
+          }
+          this.creep.memory.src = src.id;
         } else {
-          src = this.creep.originRoom().spawn();
+          src = Game.getObjectById(this.creep.memory.src);
         }
         if(this.creep.pos.isNearTo(src)) {
           if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
+            this.creep.memory.src = undefined;
             if(this.creep.carry.energy >= this.creep.carryCapacity) {
               this.creep.memory.mode = 'unload';
             }
