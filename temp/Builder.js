@@ -54,7 +54,7 @@ Builder.prototype.act = function() {
     this.creep.withdrawFromNearby();
     if(this.creep.carry.energy === 0) {
       this.creep.goTo(this.creep.originRoom().spawn());
-      this.creep.withdraw(this.creep.originRoom().spawn());
+      this.creep.withdraw(this.creep.originRoom().spawn(), RESOURCE_ENERGY);
     } else {
       if(this.creep.memory.controller) {
         if(this.creep.pos.isNearTo(this.creep.room.controller)) {
