@@ -64,7 +64,6 @@ Carrier.prototype.act = function() {
 
         if(this.creep.pos.isNearTo(src)) {
           this.creep.withdrawFromNearby();
-          this.creep.memory._move = undefined;
         } else {
           this.creep.goTo(src);
         }
@@ -82,7 +81,6 @@ Carrier.prototype.act = function() {
 
       if(this.creep.pos.isNearTo(trg)) {
         this.creep.transferToNearby();
-        this.creep.memory._move = undefined;
       } else {
         this.creep.goTo(trg);
       }
