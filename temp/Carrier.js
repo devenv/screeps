@@ -102,6 +102,10 @@ Carrier.prototype.act = function() {
       if(this.creep.pos.isNearTo(trg)) {
         this.creep.transfer(trg, RESOURCE_ENERGY);
       } else {
+        var carriers = this.creep.pos.findInRange(FIND_MY_CREEPS).filter(creep => creep.memory.role === 'carrier' && creep.memory.supplying && creep.carry.energy < creep.carryCapacity);
+        if(carriers.length > 0) {
+          this.creep.transfer(carriers[0], RESOURCE_ENERGY);
+        }
         this.creep.goTo(trg);
       }
       if(this.creep.carry.energy === 0) {
