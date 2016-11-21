@@ -58,8 +58,10 @@ Carrier.prototype.act = function() {
         }
         if(this.creep.pos.isNearTo(src)) {
           if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy) {
-            console.log(this.creep.withdraw(src, RESOURCE_ENERGY));
-            this.creep.memory.mode = 'unload';
+            this.creep.withdraw(src, RESOURCE_ENERGY);
+            if(this.creep.carry.energy >= this.creep.carryCapacity) {
+              this.creep.memory.mode = 'unload';
+            }
           }
         } else {
           this.creep.goTo(src);
