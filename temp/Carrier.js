@@ -48,21 +48,21 @@ Carrier.prototype.act = function() {
             this.creep.memory.mode = 'unload';
           }
         } else {
-          this.creep.goTo(src.pos);
+          this.creep.goTo(src);
         }
       } else {
-        src = this.creep.memory.target;
+        src = Game.rooms[this.creep.memory.target.roomName].getPositionAt(this.creep.memory.target.x, this.creep.memory.target.y);
         this.creep.withdrawFromNearby();
         if(this.creep.carry.energy >= this.creep.carryCapacity) {
           this.creep.memory.mode = 'unload';
         } else {
-          this.creep.goTo(src.pos);
+          this.creep.goTo(src);
         }
       }
     } else if (this.creep.memory.mode === 'unload') {
       var trg;
       if(this.creep.memory.supplying) {
-        trg = this.creep.memory.target;
+        trg = Game.rooms[this.creep.memory.target.roomName].getPositionAt(this.creep.memory.target.x, this.creep.memory.target.y);
       } else {
         trg = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
       }
@@ -72,7 +72,7 @@ Carrier.prototype.act = function() {
       if(this.creep.carry.energy === 0) {
         this.creep.memory.mode = 'load';
       } else {
-        this.creep.goTo(trg.pos);
+        this.creep.goTo(trg);
       }
     }
   }
