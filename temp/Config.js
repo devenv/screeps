@@ -15,7 +15,6 @@ Config.renew_ttl = 500;
 Config.renew_to_ttl = 1500;
 Config.stop_renew_prob = 0.005;
 Config.min_extension_energy = 40;
-Config.min_spawn_energy = 200;
 Config.repair_threshold = 0.9;
 Config.structures_repair_threshold = 0.5;
 Config.min_repair = 30000;
