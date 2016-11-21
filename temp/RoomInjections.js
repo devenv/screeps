@@ -45,7 +45,7 @@ Room.prototype.getEnergySink = function(creep) {
   .filter(structure => structure.energy < structure.energyCapacity)
   .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
   if(extensions.length > 0) {
-    if(spawn && creep.pos.getRangeTo(extensions[0]) > creep.pos.getRangeTo(spawn)) {
+    if(spawn && creep.pos.getRangeTo(extensions[0]) > creep.pos.getRangeTo(spawn) && spawn.energy < spawn.energyCapacity) {
       return spawn;
     } else {
       return extensions[0];
