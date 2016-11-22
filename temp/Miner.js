@@ -40,7 +40,9 @@ Miner.prototype.act = function() {
     var spawn = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
     if(this.creep.pos.isNearTo(spawn)) {
       this.creep.transfer(spawn, RESOURCE_ENERGY);
-      this.creep.memory.mode = 'mining';
+      if(this.creep.energy === 0) {
+        this.creep.memory.mode = 'mining';
+      }
     } else {
       this.creep.goTo(spawn.pos);
     }
