@@ -22,7 +22,8 @@ Carrier.prototype.act = function() {
           this.creep.memory.target = containers[0].pos;
           return true;
         }
-      } else {
+      }
+      if(this.creep.memory.target === undefined) {
         if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
           var containers = room.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
           if(containers.length > 0) {
@@ -31,16 +32,17 @@ Carrier.prototype.act = function() {
             this.creep.memory.target = containers[0].pos;
             return true;
           }
+        }
+      }
+      if(this.creep.memory.target === undefined) {
+        var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, tower.pos)));
+        if(towers.length > 0) {
+          this.creep.memory.supplying = true;
+          this.creep.memory.owner = towers[0].pos;
+          this.creep.memory.target = towers[0].pos;
+          return true;
         } else {
-          var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, tower.pos)));
-          if(towers.length > 0) {
-            this.creep.memory.supplying = true;
-            this.creep.memory.owner = towers[0].pos;
-            this.creep.memory.target = towers[0].pos;
-            return true;
-          } else {
-            this.creep.say('no target');
-          }
+          this.creep.say('no target');
         }
       }
     });
@@ -116,3 +118,4 @@ Carrier.prototype.act = function() {
 }
 
 module.exports = Carrier;
+
