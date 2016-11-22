@@ -56,10 +56,13 @@ Room.prototype.getEnergySink = function(creep) {
 }
 
 Room.prototype.carriersNeeded = function() {
+  if(!this.controller.my) {
+    return 0;
+  }
   if(!this.memory.sources) {
     this.memory.sources = this.find(FIND_SOURCES).length;
   }
-  return this.memory.sources + this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).length + (this.controller.my ? 1 : 0);
+  return this.memory.sources + this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).length + 1;
 }
 
 Room.prototype.minerSpots = function() {
