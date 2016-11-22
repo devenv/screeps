@@ -24,7 +24,7 @@ Builder.prototype.act = function() {
         if(sites.length > 0) {
           var site = Game.constructionSites[sites[0]];
           this.creep.say("build");
-          this.creep.memory.site = sites[i];
+          this.creep.memory.site = sites[0];
           this.creep.memory.controller = false;
           this.creep.memory.repair = false;
         }
