@@ -50,49 +50,57 @@ Builder.prototype.act = function() {
 
   this.creep.withdrawFromNearby();
   if(this.creep.carry.energy === 0) {
-    var spawn = this.creep.originRoom().spawn();
-    this.creep.goTo(spawn);
-    this.creep.withdraw(spawn, RESOURCE_ENERGY);
+    this.creep.memory.mode = 'load';
   } else {
-    if(this.creep.memory.controller) {
-      if(this.creep.pos.isNearTo(this.creep.room.controller)) {
-        if(this.creep.carry.energy > 0) {
-          this.creep.upgradeController(this.creep.room.controller);
-        }
+    if(this.creep.memory.mode === 'load') {
+      if(this.creep.carry.energy === this.creep.carryCapacity) {
+        this.creep.memory.mode = 'build';
       } else {
-        this.creep.goTo(this.creep.room.controller.pos);
+        var trg = this.creep.room.getEnergySink(this.creep);
+        this.creep.goTo(trg);
+        this.creep.withdraw(trg, RESOURCE_ENERGY);
       }
-    } else if(this.creep.memory.repair) {
-      var structure = Game.structures[this.creep.memory.site];
-      if(structure === undefined) {
-        var obj = Game.getObjectById(this.creep.memory.site);
-        if(obj !== null) {
-          structure = obj;
+    } else if(this.creep.memory.mode === 'build') {
+      if(this.creep.memory.controller) {
+        if(this.creep.pos.isNearTo(this.creep.room.controller)) {
+          if(this.creep.carry.energy > 0) {
+            this.creep.upgradeController(this.creep.room.controller);
+          }
         } else {
-          this.creep.memory.site = undefined;
+          this.creep.goTo(this.creep.room.controller.pos);
         }
-      }
-      if(this.creep.pos.isNearTo(structure)) {
-        if(this.creep.carry.energy > 0) {
-          this.creep.repair(structure);
-          if(structure.hits === structure.hitsMax) {
+      } else if(this.creep.memory.repair) {
+        var structure = Game.structures[this.creep.memory.site];
+        if(structure === undefined) {
+          var obj = Game.getObjectById(this.creep.memory.site);
+          if(obj !== null) {
+            structure = obj;
+          } else {
             this.creep.memory.site = undefined;
-            this.creep.memory.repair = false;
+          }
+        }
+        if(this.creep.pos.isNearTo(structure)) {
+          if(this.creep.carry.energy > 0) {
+            this.creep.repair(structure);
+            if(structure.hits === structure.hitsMax) {
+              this.creep.memory.site = undefined;
+              this.creep.memory.repair = false;
+            }
+          }
+        } else {
+          if(structure !== undefined) {
+            this.creep.goTo(structure.pos);
           }
         }
       } else {
-        if(structure !== undefined) {
-          this.creep.goTo(structure.pos);
+        var site = Game.constructionSites[this.creep.memory.site];
+        if(this.creep.pos.isNearTo(site)) {
+          if(this.creep.carry.energy > 0) {
+            this.creep.build(site);
+          }
+        } else {
+          this.creep.goTo(site.pos);
         }
-      }
-    } else {
-      var site = Game.constructionSites[this.creep.memory.site];
-      if(this.creep.pos.isNearTo(site)) {
-        if(this.creep.carry.energy > 0) {
-          this.creep.build(site);
-        }
-      } else {
-        this.creep.goTo(site.pos);
       }
     }
   }
