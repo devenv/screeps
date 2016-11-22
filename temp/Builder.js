@@ -44,7 +44,7 @@ Builder.prototype.act = function() {
       this.creep.memory.controller = true;
       this.creep.memory.repair = false;
       this.creep.memory.site = this.creep.room.controller;
-      this.creep.say("controller");
+      this.creep.say("idle->ctrlr");
     }
   }
 
