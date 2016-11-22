@@ -21,15 +21,12 @@ Builder.prototype.act = function() {
     } else {
       if(builders.filter(builder => !builder.memory.controller && !builder.memory.repair).length < config.builders) {
         var sites = Object.keys(Game.constructionSites);
-        for(var i = 0; i < sites.length; i++) {
-          var site = Game.constructionSites[sites[i]];
-          if(!builders.some(builder => Game.constructionSites[builder.memory.site] !== undefined && !utils.samePos(Game.constructionSites[builder.memory.site].pos, site.pos))) {
-            this.creep.say("build");
-            this.creep.memory.site = sites[i];
-            this.creep.memory.controller = false;
-            this.creep.memory.repair = false;
-            break;
-          }
+        if(sites.length > 0) {
+          var site = Game.constructionSites[sites[0]];
+          this.creep.say("build");
+          this.creep.memory.site = sites[i];
+          this.creep.memory.controller = false;
+          this.creep.memory.repair = false;
         }
       }
       if(this.creep.memory.site === undefined) {
