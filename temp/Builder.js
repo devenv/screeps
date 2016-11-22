@@ -70,12 +70,7 @@ Builder.prototype.act = function() {
         if(structure === undefined) {
           var obj = Game.getObjectById(this.creep.memory.site);
           if(obj !== null) {
-            var structures = this.creep.room.lookForAt(LOOK_STRUCTURES, obj.pos.x, obj.pos.y);
-            if(structures.length > 0) {
-              structure = structures[0];
-            } else {
-              this.creep.memory.site = undefined;
-            }
+            structure = obj;
           } else {
             this.creep.memory.site = undefined;
           }
