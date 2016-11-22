@@ -18,7 +18,8 @@ Builder.prototype.act = function() {
       this.creep.memory.repair = false;
       this.creep.memory.site = this.creep.room.controller;
       this.creep.say("controller");
-    } else {
+    }
+    if(this.creep.memory.site === undefined) {
       if(builders.filter(builder => !builder.memory.controller && !builder.memory.repair).length < config.builders) {
         var sites = Object.keys(Game.constructionSites);
         if(sites.length > 0) {
@@ -29,21 +30,21 @@ Builder.prototype.act = function() {
           this.creep.memory.repair = false;
         }
       }
-      if(this.creep.memory.site === undefined) {
-        var to_repair = this.creep.room.brokenStructures();
-        if(to_repair.length > 0) {
-          this.creep.say("repair");
-          this.creep.memory.site = to_repair[0].id;
-          this.creep.memory.controller = false;
-          this.creep.memory.repair = true;
-        }
+    }
+    if(this.creep.memory.site === undefined) {
+      var to_repair = this.creep.room.brokenStructures();
+      if(to_repair.length > 0) {
+        this.creep.say("repair");
+        this.creep.memory.site = to_repair[0].id;
+        this.creep.memory.controller = false;
+        this.creep.memory.repair = true;
       }
-      if(this.creep.memory.site === undefined) {
-        this.creep.memory.controller = true;
-        this.creep.memory.repair = false;
-        this.creep.memory.site = this.creep.room.controller;
-        this.creep.say("controller");
-      }
+    }
+    if(this.creep.memory.site === undefined) {
+      this.creep.memory.controller = true;
+      this.creep.memory.repair = false;
+      this.creep.memory.site = this.creep.room.controller;
+      this.creep.say("controller");
     }
   }
 
