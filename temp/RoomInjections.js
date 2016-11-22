@@ -55,6 +55,22 @@ Room.prototype.getEnergySink = function(creep) {
   }
 }
 
+Room.prototype.getEnergySource = function(creep) {
+  var spawn = this.spawn();
+  var extensions = this.extensions()
+  .filter(structure => structure.energy > 0)
+  .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
+  if(extensions.length > 0) {
+    if(spawn && creep.pos.getRangeTo(extensions[0]) > creep.pos.getRangeTo(spawn) && spawn.energy > 0) {
+      return spawn;
+    } else {
+      return extensions[0];
+    }
+  } else {
+    return spawn;
+  }
+}
+
 Room.prototype.carriersNeeded = function() {
   if(!this.controller.my) {
     return 0;
