@@ -33,6 +33,7 @@ Spawner.prototype.spawn = function() {
     return roles.some(role => {
       if(this.shouldSpawn(role)) {
         return this.spawnCreep(role);
+        return true;
       }
     });
   }
@@ -65,9 +66,7 @@ Spawner.prototype.spawnCreep = function(role) {
   var level = _.min([this.level, count < 10 ? count : 1000]);
   if(_.isString(this.spawner.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level}))) {
     console.log("spawning " + role);
-    return true;
   }
-  return false;
 }
 
 Spawner.prototype.showStats = function() {
