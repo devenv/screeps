@@ -41,7 +41,7 @@ Carrier.prototype.act = function() {
         }
       }
       if(this.creep.memory.target === undefined) {
-        var towers = _.suffle(room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, tower.pos))));
+        var towers = _.shuffle(room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).filter(tower => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, tower.pos))));
         if(towers.length > 0) {
           this.creep.memory.supplying = true;
           this.creep.memory.owner = towers[0].pos;
