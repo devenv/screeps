@@ -28,8 +28,8 @@ Spawner.prototype.renewNearbyCreeps = function() {
 }
 
 Spawner.prototype.spawn = function() {
+  this.showStats();
   if(this.spawner !== undefined && !this.spawner.spawning) {
-    this.showStats();
     return roles.some(role => {
       if(this.shouldSpawn(role)) {
         this.spawnCreep(role);
