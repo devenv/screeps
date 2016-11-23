@@ -39,12 +39,14 @@ Builder.prototype.act = function() {
       }
     }
     if(this.creep.memory.site === undefined) {
-      var to_repair = this.creep.room.brokenStructures();
-      if(to_repair.length > 0) {
-        this.creep.say("repair");
-        this.creep.memory.site = to_repair[0].id;
-        this.creep.memory.controller = false;
-        this.creep.memory.repair = true;
+      if(builders.filter(builder => builder.memory.repair).length < config.repairers) {
+        var to_repair = this.creep.room.brokenStructures();
+        if(to_repair.length > 0) {
+          this.creep.say("repair");
+          this.creep.memory.site = to_repair[0].id;
+          this.creep.memory.controller = false;
+          this.creep.memory.repair = true;
+        }
       }
     }
     if(this.creep.memory.site === undefined) {
