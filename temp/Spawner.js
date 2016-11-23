@@ -93,6 +93,7 @@ Spawner.prototype.showStats = function() {
     Memory.stats['creeps.scouts'] = scouts;
     Memory.stats['creeps.old'] = old_count;
     Memory.stats['spawn.energy'] = this.spawner.energy;
+    Memory.stats['room.energy'] = this.room.energyAvailable;
     console.log("miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
 }
