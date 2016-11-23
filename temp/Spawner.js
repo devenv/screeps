@@ -27,6 +27,7 @@ Spawner.prototype.renewNearbyCreeps = function() {
     }
     return res;
   }
+  Memory.stats[this.room.name + '.energy.renew'] = 0;
   return false;
 }
 
