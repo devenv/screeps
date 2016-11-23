@@ -31,10 +31,10 @@ module.exports.loop = function() {
       if(!spawner.spawning) {
         var energy = spawner.room.energyAvailable;
         if(!spawner.renewNearbyCreeps()) {
-          Memory.stats[this.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
+          Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
           spawner.spawn();
         } else {
-          Memory.stats[this.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
+          Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
         }
       }
     } catch(e) { console.log(e); exception = e; }
