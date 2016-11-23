@@ -95,8 +95,9 @@ Spawner.prototype.showStats = function() {
     Memory.stats['energy.spawn'] = this.spawner.energy;
     Memory.stats['energy.room'] = this.room.energyAvailable;
     Memory.stats['energy.towers'] = _.values(Game.structures).filter(st => st.structureType === STRUCTURE_TOWER).map(st => st.energy).reduce((s, e) => s += e, 0);
+    Memory.stats['energy.containers'] = _.values(Game.structures).filter(st => st.structureType === STRUCTURE_CONTAINER).map(st => st.energy).reduce((s, e) => s += e, 0);
     Memory.stats['energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
-    Memory.stats['structures.controller.progress'] = this.room.controller.progress / this.room.controller.progressTotal;
+    Memory.stats['progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
     console.log("miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
 }
