@@ -103,7 +103,11 @@ Spawner.prototype.showStats = function() {
   if(this.spawner) {
     Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
     Memory.stats[this.room.name + '.energy.towers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(st => st.energy).reduce((s, e) => s += e, 0);
+  } else {
+    Memory.stats[this.room.name + '.energy.spawn'] = 0;
+    Memory.stats[this.room.name + '.energy.towers'] = 0;
   }
+
   Memory.stats[this.room.name + '.energy.room'] = this.room.energyAvailable;
   Memory.stats[this.room.name + '.energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
   Memory.stats[this.room.name + '.energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
