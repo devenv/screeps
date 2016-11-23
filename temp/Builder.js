@@ -94,12 +94,14 @@ Builder.prototype.act = function() {
       }
     } else {
       var site = Game.constructionSites[this.creep.memory.site];
-      if(this.creep.pos.isNearTo(site)) {
-        if(this.creep.carry.energy > 0) {
-          this.creep.build(site);
+      if(site !== undefined) {
+        if(this.creep.pos.isNearTo(site)) {
+          if(this.creep.carry.energy > 0) {
+            this.creep.build(site);
+          }
+        } else {
+          this.creep.goTo(site.pos);
         }
-      } else {
-        this.creep.goTo(site.pos);
       }
     }
   }
