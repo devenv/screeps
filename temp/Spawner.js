@@ -47,9 +47,9 @@ Spawner.prototype.shouldSpawn = function(role) {
   var level = this.room.level();
   switch(role) {
     case 'miner':
-      var count = this.countByRole(role, this.room.level());
+      var count = this.countByRole(role, level);
       return count < this.room.neighborsMinerSpots()
-    case 'carrier': return this.countByRole(role, this.room.level()) < _.values(Game.rooms).map(room => room.carriersNeeded()).reduce((s, e) => s+= e, 0)
+    case 'carrier': return this.countByRole(role, level) < _.values(Game.rooms).map(room => room.carriersNeeded()).reduce((s, e) => s+= e, 0)
     case 'builder': return this.countByRole(role, level) < config.max_builders;
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
@@ -63,7 +63,7 @@ Spawner.prototype.spawnCreep = function(role) {
   var id = 1 + this.room.memory.creep_id;
   this.room.memory.creep_id = id;
   var count = this.room.creeps().length;
-  var level = _.min([this.level, count < 10 ? count : 1000]);
+  var level = _.min([this.level, count < 10 ? (count > 0 ? count : 1) : 1000]);
   if(_.isString(this.spawner.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level}))) {
     console.log("spawning " + role);
   }
