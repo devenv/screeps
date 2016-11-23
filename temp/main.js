@@ -28,7 +28,7 @@ module.exports.loop = function() {
   _.values(Game.rooms).forEach(room => {
     try {
       if(room.memory.last_energy) {
-        Memory.stats[room.name + '.energy.renew'] = Memory.last_energy - room.energyAvailable;
+        Memory.stats[room.name + '.energy.renew'] = room.memory.last_energy - room.energyAvailable;
         room.memory.last_energy = undefined;
       } else {
         Memory.stats[room.name + '.energy.renew'] = 0;
