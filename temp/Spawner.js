@@ -82,22 +82,22 @@ Spawner.prototype.showStats = function() {
     var ranged = this.room.modernCreepsByRole('ranged').length;
     var healers = this.room.modernCreepsByRole('healer').length;
     var scouts = this.room.modernCreepsByRole('scouts').length;
-    Memory.stats['creeps.miners'] = miners;
-    Memory.stats['creeps.carriers'] = carriers;
-    Memory.stats['creeps.builders'] = builders_count - controller - repair;
-    Memory.stats['creeps.controller_upgraders'] = controller;
-    Memory.stats['creeps.repair'] = repair;
-    Memory.stats['creeps.soldiers'] = soldiers;
-    Memory.stats['creeps.ranged'] = ranged;
-    Memory.stats['creeps.healers'] = healers;
-    Memory.stats['creeps.scouts'] = scouts;
-    Memory.stats['creeps.old'] = old_count;
-    Memory.stats['energy.spawn'] = this.spawner.energy;
-    Memory.stats['energy.room'] = this.room.energyAvailable;
-    Memory.stats['energy.towers'] = _.values(Game.structures).filter(st => st.structureType === STRUCTURE_TOWER).map(st => st.energy).reduce((s, e) => s += e, 0);
-    Memory.stats['energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
-    Memory.stats['energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
-    Memory.stats['progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
+    Memory.stats[this.room.name + '.creeps.miners'] = miners;
+    Memory.stats[this.room.name + '.creeps.carriers'] = carriers;
+    Memory.stats[this.room.name + '.creeps.builders'] = builders_count - controller - repair;
+    Memory.stats[this.room.name + '.creeps.controller_upgraders'] = controller;
+    Memory.stats[this.room.name + '.creeps.repair'] = repair;
+    Memory.stats[this.room.name + '.creeps.soldiers'] = soldiers;
+    Memory.stats[this.room.name + '.creeps.ranged'] = ranged;
+    Memory.stats[this.room.name + '.creeps.healers'] = healers;
+    Memory.stats[this.room.name + '.creeps.scouts'] = scouts;
+    Memory.stats[this.room.name + '.creeps.old'] = old_count;
+    Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
+    Memory.stats[this.room.name + '.energy.room'] = this.room.energyAvailable;
+    Memory.stats[this.room.name + '.energy.towers'] = _.values(Game.structures).filter(st => st.structureType === STRUCTURE_TOWER).map(st => st.energy).reduce((s, e) => s += e, 0);
+    Memory.stats[this.room.name + '.energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
+    Memory.stats[this.room.name + '.energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
+    Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
     console.log("miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
 }
