@@ -27,18 +27,13 @@ module.exports.loop = function() {
 
   _.values(Game.rooms).forEach(room => {
     try {
-      if(room.memory.last_energy) {
-        Memory.stats[room.name + '.energy.renew'] = room.memory.last_energy - room.energyAvailable;
-        room.memory.last_energy = undefined;
-      } else {
-        Memory.stats[room.name + '.energy.renew'] = 0;
-      }
       var spawner = new Spawner(room);
       if(!spawner.spawning) {
         if(!spawner.renewNearbyCreeps()) {
+          Memory.stats['renew'] = 0;
           spawner.spawn();
         } else {
-          room.memory.last_energy = room.energyAvailable;
+          Memory.stats['renew'] = 1;
         }
       }
     } catch(e) { console.log(e); exception = e; }
