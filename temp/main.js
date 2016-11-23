@@ -31,7 +31,7 @@ module.exports.loop = function() {
       if(!spawner.spawning) {
         var energy = spawner.room.energyAvailable;
         if(!spawner.renewNearbyCreeps()) {
-          Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
+          Memory.stats[spawner.room.name + '.energy.renew'] = 0;
           spawner.spawn();
         } else {
           Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
