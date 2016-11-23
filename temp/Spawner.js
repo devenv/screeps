@@ -76,7 +76,23 @@ Spawner.prototype.showStats = function() {
     var old_count = this.room.oldCreeps().length;
     var controller = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.controller).length;
     var repair = this.room.modernCreepsByRole('builder').filter(builder => builder.memory.repair).length;
-    console.log("miners: " + this.room.modernCreepsByRole('miner').length + ", carriers: " + this.room.modernCreepsByRole('carrier').length + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " +  this.room.modernCreepsByRole('soldier').length + ", ranged: " + this.room.modernCreepsByRole('ranged').length + ", healers: " + this.room.modernCreepsByRole('healer').length + ", old: " + old_count);
+    var miners = this.room.modernCreepsByRole('miner').length;
+    var carriers = this.room.modernCreepsByRole('carrier').length;
+    var soldiers = this.room.modernCreepsByRole('soldier').length;
+    var ranged = this.room.modernCreepsByRole('ranged').length;
+    var healers = this.room.modernCreepsByRole('healer').length;
+    var scouts = this.room.modernCreepsByRole('scouts').length;
+    Memory.stats['creeps.miners'] = miners;
+    Memory.stats['creeps.carriers'] = carriers;
+    Memory.stats['creeps.builders'] = builders_count - controller - repair;
+    Memory.stats['creeps.controller_upgraders'] = controller;
+    Memory.stats['creeps.repair'] = repair;
+    Memory.stats['creeps.soldiers'] = soldiers;
+    Memory.stats['creeps.ranged'] = ranged;
+    Memory.stats['creeps.healers'] = healers;
+    Memory.stats['creeps.scouts'] = scouts;
+    Memory.stats['creeps.old'] = old_count;
+    console.log("miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
 }
 

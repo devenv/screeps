@@ -17,6 +17,9 @@ var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
 
 module.exports.loop = function() {
+  if(Memory.stats === undefined) {
+    Memory.stats = {};
+  }
   var exception;
   try {
     new Flags().process();
