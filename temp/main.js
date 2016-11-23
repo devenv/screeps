@@ -33,22 +33,6 @@ module.exports.loop = function() {
           spawner.spawn();
         }
       }
-      //var extensions = room.extensions();
-      //var ext = extensions[Math.floor(Math.random() * extensions.length)];
-      //var d =  Math.floor(Math.random() * 2) - 1;
-      //if(ext) {
-        //room.createConstructionSite(ext.pos.x + d, ext.pos.y + d, STRUCTURE_EXTENSION);
-      //}
-
-
-
-
-      room.createConstructionSite(32, 19, STRUCTURE_SPAWN);
-
-
-
-
-
     } catch(e) { console.log(e); exception = e; }
   });
 
