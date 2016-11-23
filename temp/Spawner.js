@@ -35,6 +35,7 @@ Spawner.prototype.spawn = function() {
         return this.spawnCreep(role);
         return true;
       }
+      return false;
     });
   }
 }
