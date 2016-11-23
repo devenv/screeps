@@ -17,12 +17,10 @@ function Spawner(room) {
 };
 
 Spawner.prototype.renewNearbyCreeps = function() {
-  if(this.spawner !== undefined && !this.spawner.spawning) {
-    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
-    if(creeps.length > 0) {
-      creeps.some(creep => this.spawner.renewCreep(creep) === 0);
-      return true
-    }
+  var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
+  console.log(creeps.length)
+  if(creeps.length > 0) {
+    return creeps.some(creep => this.spawner.renewCreep(creep) === 0);
   }
   return false;
 }
