@@ -17,15 +17,16 @@ function Spawner(room) {
 };
 
 Spawner.prototype.renewNearbyCreeps = function() {
-  var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
-  console.log(creeps.length)
-  if(creeps.length > 0) {
-    var energy = this.spawner.energy;
-    var res = creeps.some(creep => this.spawner.renewCreep(creep) === 0);
-    if(res) {
-      Memory.stats[this.room.name + '.energy.renew'] = energy - this.spawner.energy;
+  if(this.spawner) {
+    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
+    if(creeps.length > 0) {
+      var energy = this.spawner.energy;
+      var res = creeps.some(creep => this.spawner.renewCreep(creep) === 0);
+      if(res) {
+        Memory.stats[this.room.name + '.energy.renew'] = energy - this.spawner.energy;
+      }
+      return res;
     }
-    return res;
   }
   Memory.stats[this.room.name + '.energy.renew'] = 0;
   return false;
