@@ -108,5 +108,7 @@ module.exports.loop = function() {
   if(exception !== undefined && debug) {
     Memory.stats['errors'] = 1;
     throw exception;
+  } else {
+    Memory.stats['errors'] = 0;
   }
 }
