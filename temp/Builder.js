@@ -11,6 +11,12 @@ function Builder(creep) {
 }
 
 Builder.prototype.act = function() {
+  if(Game.time % 50 === 0 && this.creep.memory.controller || Game.time % 200 === 0 && this.creep.memory.repair) {
+    this.creep.say('reset');
+    this.creep.memory.site = undefined;
+    this.creep.memory.controller = false;
+    this.creep.memory.repair = false;
+  }
   if(!this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || Game.constructionSites[this.creep.memory.site] === undefined)) {
     var builders = this.creep.room.creepsByRole('builder');
     if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
@@ -104,13 +110,6 @@ Builder.prototype.act = function() {
         }
       }
     }
-  }
-
-  if(Game.time % 50 === 0 && this.creep.memory.controller || Game.time % 200 === 0 && this.creep.memory.repair) {
-    this.creep.say('reset');
-    this.creep.memory.site = undefined;
-    this.creep.memory.controller = false;
-    this.creep.memory.repair = false;
   }
 }
 
