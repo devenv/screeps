@@ -28,7 +28,7 @@ Builder.prototype.act = function() {
     }
     if(this.creep.memory.site === undefined) {
       if(builders.filter(builder => !builder.memory.controller && !builder.memory.repair).length <= config.builders) {
-        var sites = Object.keys(Game.constructionSites);
+        var sites = _.shuffle(Object.keys(Game.constructionSites));
         if(sites.length > 0) {
           var site = Game.constructionSites[sites[0]];
           this.creep.say("build");
