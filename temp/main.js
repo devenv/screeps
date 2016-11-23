@@ -30,10 +30,10 @@ module.exports.loop = function() {
       var spawner = new Spawner(room);
       if(!spawner.spawning) {
         if(!spawner.renewNearbyCreeps()) {
-          Memory.stats['renew'] = 0;
+          Memory.stats[room.name + '.renew'] = 0;
           spawner.spawn();
         } else {
-          Memory.stats['renew'] = 1;
+          Memory.stats[room.name + '.renew'] = 1;
         }
       }
     } catch(e) { console.log(e); exception = e; }
