@@ -33,13 +33,14 @@ module.exports.loop = function() {
           spawner.spawn();
         } else {
           room.memory.last_energy = room.energyAvailable;
+          console.log(room.memory.last_energy);
         }
       }
       if(room.memory.last_energy) {
-        Memory.stats[spawner.room.name + '.energy.renew'] = Memory.last_energy - spawner.room.energyAvailable;
+        Memory.stats[room.name + '.energy.renew'] = Memory.last_energy - room.energyAvailable;
         room.memory.last_energy = undefined;
       } else {
-        Memory.stats[spawner.room.name + '.energy.renew'] = 0;
+        Memory.stats[room.name + '.energy.renew'] = 0;
       }
     } catch(e) { console.log(e); exception = e; }
   });
