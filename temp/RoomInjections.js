@@ -78,7 +78,7 @@ Room.prototype.carriersNeeded = function() {
   if(!this.memory.sources) {
     this.memory.sources = this.find(FIND_SOURCES).length;
   }
-  return this.memory.sources + this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).length + 1;
+  return this.memory.sources + 2;
 }
 
 Room.prototype.minerSpots = function() {
