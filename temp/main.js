@@ -29,13 +29,17 @@ module.exports.loop = function() {
     try {
       var spawner = new Spawner(room);
       if(!spawner.spawning) {
-        var energy = spawner.room.energyAvailable;
         if(!spawner.renewNearbyCreeps()) {
-          Memory.stats[spawner.room.name + '.energy.renew'] = 0;
           spawner.spawn();
         } else {
-          Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
+          room.memory.last_energy = room.energyAvailable;
         }
+      }
+      if(room.memory.last_energy) {
+        Memory.stats[spawner.room.name + '.energy.renew'] = energy - spawner.room.energyAvailable;
+        room.memory.last_energy = undeefined;
+      } else {
+        Memory.stats[spawner.room.name + '.energy.renew'] = 0;
       }
     } catch(e) { console.log(e); exception = e; }
   });
