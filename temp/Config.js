@@ -1,7 +1,7 @@
 var Config = {};
 
 Config.controller_upgraders = 1;
-Config.max_builders = 4;
+Config.max_builders = 5;
 Config.builders = 2;
 Config.max_scouts = 1;
 Config.max_guards = 1;
