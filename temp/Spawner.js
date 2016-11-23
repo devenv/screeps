@@ -22,7 +22,9 @@ Spawner.prototype.renewNearbyCreeps = function() {
   if(creeps.length > 0) {
     var energy = this.spawner.energy;
     var res = creeps.some(creep => this.spawner.renewCreep(creep) === 0);
-    Memory.stats[this.room.name + '.energy.renew'] = energy - this.spawner.energy;
+    if(res) {
+      Memory.stats[this.room.name + '.energy.renew'] = energy - this.spawner.energy;
+    }
     return res;
   }
   return false;
