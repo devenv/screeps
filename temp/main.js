@@ -37,7 +37,7 @@ module.exports.loop = function() {
       }
       if(room.memory.last_energy) {
         Memory.stats[spawner.room.name + '.energy.renew'] = Memory.last_energy - spawner.room.energyAvailable;
-        room.memory.last_energy = undeefined;
+        room.memory.last_energy = undefined;
       } else {
         Memory.stats[spawner.room.name + '.energy.renew'] = 0;
       }
