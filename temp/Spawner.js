@@ -95,7 +95,9 @@ Spawner.prototype.showStats = function() {
   Memory.stats[this.room.name + '.creeps.healers'] = healers;
   Memory.stats[this.room.name + '.creeps.scouts'] = scouts;
   Memory.stats[this.room.name + '.creeps.old'] = old_count;
-  Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
+  if(this.spawner) {
+    Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
+  }
   Memory.stats[this.room.name + '.energy.room'] = this.room.energyAvailable;
   Memory.stats[this.room.name + '.energy.towers'] = _.values(Game.structures).filter(st => st.structureType === STRUCTURE_TOWER).map(st => st.energy).reduce((s, e) => s += e, 0);
   Memory.stats[this.room.name + '.energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
