@@ -64,7 +64,7 @@ Spawner.prototype.spawnCreep = function(role) {
   var id = 1 + this.room.memory.creep_id;
   this.room.memory.creep_id = id;
   var count = this.room.creeps().length;
-  var level = _.min([this.level, count < 10 ? (count > 0 ? count : 1) : 1000]);
+  var level = _.min([this.level, count < 10 ? 1 : 1000]);
   if(_.isString(this.spawner.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level}))) {
     Memory.stats[this.room.name + '.spawning'] = 1;
     console.log("spawning " + role);
