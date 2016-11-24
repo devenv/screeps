@@ -40,7 +40,7 @@ Spawner.prototype.spawn = function() {
 }
 
 Spawner.prototype.countByRole = function(role, level) {
-  return _.values(Game.creeps).filter(creep => creep.memory.role === role && creep.memory.level >= level).length;
+  return _.values(Game.creeps).filter(creep => creep.memory.origin_room === this.room.name && creep.memory.role === role && creep.memory.level >= level).length;
 }
 
 Spawner.prototype.shouldSpawn = function(role) {
