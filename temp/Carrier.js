@@ -75,7 +75,7 @@ Carrier.prototype.act = function() {
           src = Game.getObjectById(this.creep.memory.src);
         }
         if(this.creep.pos.isNearTo(src)) {
-          if ((this.creep.room.energyAvailable - src.energy) / this.creep.room.extensions().length > config.min_extension_energy) {
+          if ((this.creep.room.energyAvailable - src.energy) / _.max([1, this.creep.room.extensions().length]) > config.min_extension_energy) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
             this.creep.memory.src = undefined;
           } else {
