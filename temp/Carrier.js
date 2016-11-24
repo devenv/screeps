@@ -76,7 +76,7 @@ Carrier.prototype.act = function() {
         }
         if(this.creep.pos.isNearTo(src)) {
           var extensions = this.creep.room.extensions().length;
-          if (extensions === 0 || (this.creep.room.energyAvailable - src.energy) / extensions) > config.min_extension_energy) {
+          if (extensions === 0 || ((this.creep.room.energyAvailable - src.energy) / extensions) > config.min_extension_energy) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
             this.creep.memory.src = undefined;
           } else {
