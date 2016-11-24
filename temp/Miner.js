@@ -12,10 +12,19 @@ Miner.prototype.act = function() {
   }
   if(this.creep.memory.mode === 'mining') {
     if(this.creep.memory.source === undefined) {
-      _.values(Game.rooms).filter(room => room.owner === undefined || room.name === this.creep.name).some(room => {
+      this.creep.originRoom().find(FIND_SOURCES).some(source => {
+        var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.source === source.id).length;
+        if (creeps_working < room.countFreeSpots(source.pos)) {
+          this.creep.memory.source = source.id;
+          return true;
+        }
+      });
+    }
+    if(this.creep.memory.source === undefined) {
+      _.values(Game.rooms).filter(room => room.owner === undefined).some(room => {
         return room.find(FIND_SOURCES).some(source => {
           var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.source === source.id).length;
-          if (creeps_working < room.countFreeSpots(source.pos)) {
+          if (creeps_working < room.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.cotronller.my).length) {
             this.creep.memory.source = source.id;
             return true;
           }
