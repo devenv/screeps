@@ -116,21 +116,8 @@ var Setups = {
       15: [MOVE]
     },
     'claimer': {
-      1: [MOVE, CLAIM],
-      2: [MOVE, CLAIM],
-      3: [MOVE, CLAIM],
-      4: [MOVE, CLAIM],
-      5: [MOVE, CLAIM],
-      6: [MOVE, CLAIM],
-      7: [MOVE, CLAIM],
-      8: [MOVE, CLAIM],
-      9: [MOVE, CLAIM],
-      10: [MOVE, CLAIM],
-      11: [MOVE, CLAIM],
-      12: [MOVE, CLAIM],
-      13: [MOVE, CLAIM],
-      14: [MOVE, CLAIM],
-      15: [MOVE, CLAIM]
+      1: [CLAIM, MOVE]
+      2: [CLAIM, CLAIM, MOVE, MOVE]
     }
 }
 

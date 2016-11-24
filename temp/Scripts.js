@@ -11,8 +11,12 @@ module.exports = {
         });
     },
 
-    claimer: function() {
+    claimer1: function() {
       console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][1], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100}));
+    },
+
+    claimer2: function() {
+      console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][2], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100}));
     },
 
     scout: function() {
