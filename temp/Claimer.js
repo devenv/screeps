@@ -26,14 +26,14 @@ Claimer.prototype.act = function() {
         this.creep.moveTo(this.creep.memory.target.x, this.creep.memory.target.y);
         this.attackController();
       }
-      //var controller = Game.rooms[this.creep.memory.target.roomName].controller;
-      //if(this.creep.pos.isNearTo(controller)) {
-        //if(this.creep.claimController(controller) !== 0) {
-          //this.creep.reserveController(controller);
-        //}
-      //} else {
-        //this.creep.moveTo(controller);
-      //}
+      var controller = Game.rooms[this.creep.memory.target.roomName].controller;
+      if(this.creep.pos.isNearTo(controller)) {
+        if(this.creep.claimController(controller) !== 0) {
+          this.creep.reserveController(controller);
+        }
+      } else {
+        this.creep.moveTo(controller);
+      }
     }
   }
 }
