@@ -12,7 +12,7 @@ Miner.prototype.act = function() {
   }
   if(this.creep.memory.mode === 'mining') {
     if(this.creep.memory.source === undefined) {
-      _.values(Game.rooms).some(room => {
+      _.values(Game.rooms).filter(room => room.owner === undefined || room.name === this.creep.name).some(room => {
         return room.find(FIND_SOURCES).some(source => {
           var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.source === source.id).length;
           if (creeps_working < room.countFreeSpots(source.pos)) {
