@@ -25,8 +25,8 @@ Carrier.prototype.act = function() {
         var containers = source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
         if(containers.length > 0) {
           this.creep.memory.supplying = false;
-          this.creep.memory.owner = sources.pos;
-          this.creep.memory.target = containers.pos;
+          this.creep.memory.owner = source.pos;
+          this.creep.memory.target = containers[0].pos;
           return true;
         }
       });
