@@ -29,7 +29,7 @@ Healer.prototype.act = function() {
     if(this.creep.memory.mode === 'guard') {
         if(this.healFriendly()) { return; }
         var target;
-        var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && flag.name === 'guard');
+        var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && _.startsWith(flag.name, 'guard'));
         if(flags.length > 0) {
             target = flags[0].pos;
         } else {
