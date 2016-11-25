@@ -33,7 +33,7 @@ Ranged.prototype.act = function() {
       this.creep.moveTo(Game.rooms[this.creep.memory.origin_room].controller);
     } else {
       var target;
-      var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && flag.name === 'guard');
+      var flags = Object.keys(Game.flags).map(name => Game.flags[name]).filter(flag => flag.pos.roomName === this.creep.room.name && _.startsWith(flag.name, 'guard'));
       if(flags.length > 0) {
         target = flags[0].pos;
       } else {
