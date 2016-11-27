@@ -67,7 +67,9 @@ Builder.prototype.act = function() {
     } else {
       var trg = this.creep.originRoom().getEnergySource(this.creep);
       this.creep.goTo(trg);
-      this.creep.withdraw(trg, RESOURCE_ENERGY);
+      if (this.creep.room.hasSpareEnergy()) {
+        this.creep.withdraw(trg, RESOURCE_ENERGY);
+      }
     }
   } else if(this.creep.memory.mode === 'build') {
     if(this.creep.memory.controller) {

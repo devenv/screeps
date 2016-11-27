@@ -106,3 +106,7 @@ Room.prototype.brokenStructures = function() {
   }
 
 }
+
+Room.prototype.hasSpareEnergy = function() {
+  return his.energyAvailable / this.level() > config.min_energy_per_level;
+}
