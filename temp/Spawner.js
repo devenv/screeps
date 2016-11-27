@@ -18,9 +18,11 @@ function Spawner(room) {
 
 Spawner.prototype.renewNearbyCreeps = function() {
   if(this.spawner) {
-    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
-    if(creeps.length > 0) {
-      return creeps.some(creep => this.spawner.renewCreep(creep) === 0);
+    if (this.creep.room.hasSpareEnergy()) {
+      var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
+      if(creeps.length > 0) {
+        return creeps.some(creep => this.spawner.renewCreep(creep) === 0);
+      }
     }
   }
   return false;
