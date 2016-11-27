@@ -1,5 +1,6 @@
 var config = require('Config');
 var utils = require('Utils');
+var setups = require('UnitSetups');
 
 Room.prototype.level = function() { return _.min([15, this.extensions().length]) };
 
@@ -108,5 +109,5 @@ Room.prototype.brokenStructures = function() {
 }
 
 Room.prototype.hasSpareEnergy = function() {
-  return this.energyAvailable / this.controller.level > config.min_energy_per_level;
+  return this.energyAvailable > setups.cost('miner', this.level()) * 1.2;
 }
