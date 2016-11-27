@@ -94,6 +94,8 @@ module.exports.loop = function() {
   });
 
 
+  Memory.stats['cpu.bucket'] = Game.cpu.bucket;
+  Memory.stats['cpu.ticks_limit'] = Game.cpu.ticksLimit;
   if(exception !== undefined && debug) {
     Memory.stats['errors'] = 1;
     throw exception;
