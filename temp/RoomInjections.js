@@ -79,7 +79,7 @@ Room.prototype.carriersNeeded = function() {
   if(!this.memory.sources) {
     this.memory.sources = this.find(FIND_SOURCES).length;
   }
-  return this.memory.sources + 2;
+  return this.memory.sources + 4;
 }
 
 Room.prototype.minerSpots = function() {
