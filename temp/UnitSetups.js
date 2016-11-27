@@ -133,7 +133,7 @@ var Setups = {
 }
 
 Setups.cost = function(role, level) {
-  return _.sum(Setups[role].map(part => prices[part]));
+  return _.sum(Setups[role][level].map(part => prices[part]));
 }
 
 module.exports = Setups;
