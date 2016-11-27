@@ -108,5 +108,5 @@ Room.prototype.brokenStructures = function() {
 }
 
 Room.prototype.hasSpareEnergy = function() {
-  return this.energyAvailable / this.level() > config.min_energy_per_level;
+  return this.energyAvailable / this.controller.level > config.min_energy_per_level;
 }
