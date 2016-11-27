@@ -94,12 +94,13 @@ module.exports.loop = function() {
   });
 
 
-  Memory.stats['cpu.bucket'] = Game.cpu.bucket;
-  Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
   if(exception !== undefined && debug) {
     Memory.stats['errors'] = 1;
     throw exception;
   } else {
     Memory.stats['errors'] = 0;
   }
+  Memory.stats['cpu.bucket'] = Game.cpu.bucket;
+  Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
+  Memory.stats['cpu.used'] = Game.cpu.getUsed();
 }
