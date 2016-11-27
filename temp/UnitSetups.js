@@ -1,14 +1,13 @@
 
-var prices = {
-  MOVE: 50,
-  CARRY: 50,
-  WORK: 100,
-  ATTACK: 80,
-  RANGED_ATTACK: 150,
-  HEAL: 250,
-  CLAIM: 600,
-  TOUGH: 10
-};
+var prices = {};
+prices[MOVE] = 50;
+prices[CARRY] = 50;
+prices[WORK] = 100;
+prices[ATTACK] = 80;
+prices[RANGED_ATTACK] = 150;
+prices[HEAL] = 250;
+prices[CLAIM] = 600;
+prices[TOUGH] = 1;
 
 var Setups = {
   'miner': {
