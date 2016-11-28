@@ -17,6 +17,7 @@ var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
 
 module.exports.loop = function() {
+  var cpu = Game.cpu.getUsed();
   if(Memory.stats === undefined) {
     Memory.stats = {};
   }
@@ -24,7 +25,9 @@ module.exports.loop = function() {
   try {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
+  Memory.stats['cpu.flags'] = Game.cpu.getUsed() - cpu;
 
+  cpu = Game.cpu.getUsed();
   _.values(Game.rooms).forEach(room => {
     try {
       var spawner = new Spawner(room);
@@ -38,7 +41,9 @@ module.exports.loop = function() {
       }
     } catch(e) { console.log(e); exception = e; }
   });
+  Memory.stats['cpu.spawns'] = Game.cpu.getUsed() - cpu;
 
+  cpu = Game.cpu.getUsed();
   _.values(Game.structures).forEach(st => {
     try {
       if(st.structureType === STRUCTURE_TOWER) {
@@ -46,7 +51,9 @@ module.exports.loop = function() {
       }
     } catch(e) { console.log(e); exception = e; }
   });
+  Memory.stats['cpu.towers'] = Game.cpu.getUsed() - cpu;
 
+  cpu = Game.cpu.getUsed();
   _.values(Game.creeps).forEach(creep => {
     try {
       if(creep.memory.role === 'miner') {
@@ -92,7 +99,7 @@ module.exports.loop = function() {
       creep.memory.last_pos = creep.pos;
     } catch(e) { console.log(e); exception = e; }
   });
-
+  Memory.stats['cpu.creeps'] = Game.cpu.getUsed() - cpu;
 
   if(exception !== undefined && debug) {
     Memory.stats['errors'] = 1;
