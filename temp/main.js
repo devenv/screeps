@@ -79,7 +79,7 @@ module.exports.loop = function() {
       }
       creep.memory.stuck++;
       creep.memory.same_pos = creep.memory.same_pos && utils.samePos(creep.memory.last_pos, creep.pos);
-      Memory.stats['cpu.creep.' + creep.memory.role + '.' + creep.memory.mode] = Game.cpu.getUsed() - cpu2;
+      Memory.stats['cpu.creep.' + creep.name + "." + creep.memory.role + '.' + creep.memory.mode] = Game.cpu.getUsed() - cpu2;
     } catch(e) { console.log(e); exception = e; }
 
     var cpu2 = Game.cpu.getUsed();
