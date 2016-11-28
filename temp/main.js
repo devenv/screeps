@@ -18,9 +18,6 @@ var CreepInjections = require('CreepInjections');
 
 module.exports.loop = function() {
   var cpu = Game.cpu.getUsed();
-  if(Memory.stats === undefined) {
-    Memory.stats = {};
-  }
   var exception;
   try {
     new Flags().process();
