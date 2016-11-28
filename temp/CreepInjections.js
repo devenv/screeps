@@ -4,6 +4,7 @@ var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_
 var energySinks = [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]
 
 Creep.prototype.act = function(actor) {
+  var cpu = Game.cpu.getUsed();
   if(this.memory.origin_room === undefined) {
     this.memory.origin_room = this.room.name;
   }
@@ -19,6 +20,7 @@ Creep.prototype.act = function(actor) {
   } else {
     actor.act();
   }
+  Memory.stats['cpu.creeps.' + this.memory.role + '.' + this.memory.mode] = Game.cpu.getUsed() - cpu;
 }
 
 Creep.prototype.renew = function() {
