@@ -35,6 +35,7 @@ module.exports.loop = function() {
           spawner.spawn();
         } else {
           Memory.stats[room.name + '.renew'] = 1;
+          Memory.stats[room.name + '.spawning'] = 0;
         }
       }
     } catch(e) { console.log(e); exception = e; }
