@@ -84,7 +84,7 @@ module.exports.loop = function() {
       Memory.stats['cpu.creep.' + creep.memory.role + '.' + creep.memory.mode] = Game.cpu.getUsed() - cpu2;
     } catch(e) { console.log(e); exception = e; }
 
-    cpu = Game.cpu.getUsed();
+    var cpu2 = Game.cpu.getUsed();
     try {
       var forceTwitchFlags = Object.keys(Game.flags).filter(flag => Game.flags[flag].name === 'twitch').map(name => Game.flags[name]);
       if(forceTwitchFlags.length > 0 || creep.memory.stuck > config.twitch_threshold) {
@@ -100,7 +100,7 @@ module.exports.loop = function() {
       }
 
       creep.memory.last_pos = creep.pos;
-      Memory.stats['cpu.creep.' + creep.memory.role + '.twitch'] = Game.cpu.getUsed() - cpu;
+      Memory.stats['cpu.creep.' + creep.memory.role + '.twitch'] = Game.cpu.getUsed() - cpu2;
     } catch(e) { console.log(e); exception = e; }
   });
   Memory.stats['cpu.creeps'] = Game.cpu.getUsed() - cpu;
