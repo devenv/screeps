@@ -100,7 +100,6 @@ module.exports.loop = function() {
       creep.memory.last_pos = creep.pos;
       Memory.stats['cpu.creep.' + creep.memory.role + '.twitch'] = Game.cpu.getUsed() - cpu;
     } catch(e) { console.log(e); exception = e; }
-    Memory.stats['cpu.creeps.' + this.memory.role + '.' + this.memory.mode] = Game.cpu.getUsed() - cpu;
   });
   Memory.stats['cpu.creeps'] = Game.cpu.getUsed() - cpu;
 
