@@ -20,7 +20,7 @@ Creep.prototype.act = function(actor) {
   } else {
     actor.act();
   }
-  Memory.stats['cpu.creeps.' + this.memory.role + '.' + this.memory.mode] = Game.cpu.getUsed() - cpu;
+  Memory.stats['cpu.creep.' + this.memory.role + '.' + this.memory.mode] = Game.cpu.getUsed() - cpu;
 }
 
 Creep.prototype.renew = function() {
