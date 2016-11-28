@@ -25,7 +25,8 @@ module.exports.loop = function() {
   try {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
-  Memory.stats['cpu.flags'] = Game.cpu.getUsed() - cpu;
+  var cpub = Game.cpu.getUsed();
+  Memory.stats['cpu.flags'] = cpub - cpu;
 
   cpu = Game.cpu.getUsed();
   _.values(Game.rooms).forEach(room => {
