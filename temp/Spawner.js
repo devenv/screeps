@@ -21,7 +21,7 @@ Spawner.prototype.renewNearbyCreeps = function() {
     var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
     if(creeps.length > 0) {
       return creeps.some(creep => {
-        if (this.room.hasSpareEnergy() || creep.memory.role === 'miner') {
+        if (this.room.hasSpareEnergy() || creep.ticksToLive <= config.critical_ttl || creep.memory.role === 'miner') {
           return this.spawner.renewCreep(creep) === 0
         }
       });
