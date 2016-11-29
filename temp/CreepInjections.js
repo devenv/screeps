@@ -25,7 +25,7 @@ Creep.prototype.renew = function() {
   var spawn = this.originRoom().spawn();
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
-    if(this.ticksToLive > config.critical_ttl && (!this.room.hasSpareEnergy() || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob)) {
+    if(this.ticksToLive > config.critical_ttl && (!this.originRoom().hasSpareEnergy() || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob)) {
       this.memory.mode = undefined;
     }
   } else {
@@ -42,7 +42,7 @@ Creep.prototype.pickupEnergy = function() {
   }
 }
 
-Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && (this.room.hasSpareEnergy() || this.ticksToLive < config.critical_ttl) && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.level() };
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && (this.originRoom().hasSpareEnergy() || this.ticksToLive < config.critical_ttl) && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level() };
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
