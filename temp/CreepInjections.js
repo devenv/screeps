@@ -42,7 +42,7 @@ Creep.prototype.pickupEnergy = function() {
   }
 }
 
-Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && (this.room.hasSpareEnergy() || this.ticksToLive < config.critical_ttl) && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.memory.level };
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && (this.room.hasSpareEnergy() || this.ticksToLive < config.critical_ttl) && this.ticksToLive < config.renew_ttl && this.memory.level >= this.room.level() };
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
