@@ -30,7 +30,7 @@ Scout.prototype.act = function() {
   }
 }
 
-Soldier.prototype.attackHostiles = function() {
+Scout.prototype.attackHostiles = function() {
   var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
   if(target !== null) {
     this.creep.memory.moved = true;
