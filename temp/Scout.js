@@ -8,6 +8,7 @@ function Scout(creep) {
 }
 
 Scout.prototype.act = function() {
+  if(this.attackHostiles()) { return; }
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
       if(flag.name === 'scout' && !_.values(Game.creeps).some(creep => creep.memory.role === 'scout' && utils.samePos(creep.memory.target, flag.target))) {
@@ -25,29 +26,22 @@ Scout.prototype.act = function() {
       if(!this.creep.pos.isNearTo(this.creep.memory.target)) {
         this.creep.moveTo(this.creep.memory.target.x, this.creep.memory.target.y);
       }
-      //var controller = Game.rooms[this.creep.memory.target.roomName].controller;
-      //if(this.creep.pos.isNearTo(controller)) {
-        //if(this.creep.claimController(controller) !== 0) {
-          //this.creep.reserveController(controller);
-        //}
-      //} else {
-        //this.creep.moveTo(controller);
-      //}
     }
   }
 }
 
-Scout.prototype.attackController = function() {
-  var controller = Game.rooms[this.creep.pos.roomName].controller;
-  if(!controller.my) {
+Soldier.prototype.attackHostiles = function() {
+  var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
+  if(target !== null) {
     this.creep.memory.moved = true;
-    this.creep.moveTo(controller);
-    this.creep.attackController(controller);
+    this.creep.moveTo(target);
+    this.creep.attack(target);
     if(Math.random() > 0.9) {
-      this.creep.say('fatality', true);
+      this.creep.say('die', true);
     }
     return true;
   }
+  return false;
 }
 
 module.exports = Scout;

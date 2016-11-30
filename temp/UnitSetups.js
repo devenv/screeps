@@ -123,7 +123,7 @@ var Setups = {
     12: [MOVE],
     13: [MOVE],
     14: [MOVE],
-    15: [MOVE]
+    15: [MOVE, ATTACK]
   },
   'claimer': {
     1: [CLAIM, MOVE],
