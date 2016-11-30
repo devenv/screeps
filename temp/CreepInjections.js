@@ -60,7 +60,11 @@ Creep.prototype.goTo = function(pos) {
     //     this.say('tired');
     // }
     if(res !== 0 && res !== ERR_TIRED) {
-      res = this.moveTo(pos, {reusePath: true});
+      if(Math.random() > config.reuse_path_prob) {
+        res = this.moveTo(pos, {reusePath: true});
+      } else {
+        res = this.moveTo(pos);
+      }
       if(res !== 0 && res !== ERR_TIRED) {
         this.say('stuck:' + res);
         if(Math.random() < 0.1) {
