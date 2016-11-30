@@ -16,7 +16,7 @@ Tower.prototype.act = function() {
       var broken = Object.keys(Game.structures).map(name => Game.structures[name]).filter(st => st.room.name === this.tower.name && st.hits < st.hitsMax);
       if(broken.length > 0) {
         this.tower.repair(broken[0]);
-      } else if(this.tower.energy > this.tower.energyCapacity / 1.33) {
+      } else if(this.tower.energy > this.tower.energyCapacity * 0.75) {
         var to_repair = this.tower.room.brokenStructures();
         if(to_repair.length > 0) {
           this.tower.repair(to_repair[0]);
