@@ -15,8 +15,8 @@ Creep.prototype.act = function(actor) {
   }
 
   if(this.body.some(part => part.type === ATTACK || part.type === RANGED_ATTACK)) {
-    if(this.creep.attackSpawns()) { return; }
-    if(this.creep.attackHostiles()) { return; }
+    if(this.attackSpawns()) { return; }
+    if(this.attackHostiles()) { return; }
   }
   if(this.body.some(part => part.type === HEAL)) {
     if(this.healFriendly()) { return; }
