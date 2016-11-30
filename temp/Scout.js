@@ -8,7 +8,6 @@ function Scout(creep) {
 }
 
 Scout.prototype.act = function() {
-  if(this.attackHostiles()) { return; }
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
       if(flag.name === 'scout' && !_.values(Game.creeps).some(creep => creep.memory.role === 'scout' && utils.samePos(creep.memory.target, flag.target))) {
@@ -28,20 +27,6 @@ Scout.prototype.act = function() {
       }
     }
   }
-}
-
-Scout.prototype.attackHostiles = function() {
-  var target = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
-  if(target !== null) {
-    this.creep.memory.moved = true;
-    this.creep.moveTo(target);
-    this.creep.attack(target);
-    if(Math.random() > 0.9) {
-      this.creep.say('die', true);
-    }
-    return true;
-  }
-  return false;
 }
 
 module.exports = Scout;

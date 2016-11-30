@@ -14,6 +14,14 @@ Creep.prototype.act = function(actor) {
     this.memory.mode = 'renew';
   }
 
+  if(this.body.some(part => part.type === ATTACK || part.type === RANGED_ATTACK)) {
+    if(this.creep.attackSpawns()) { return; }
+    if(this.creep.attackHostiles()) { return; }
+  }
+  if(this.body.some(part => part.type === HEAL)) {
+    if(this.healFriendly()) { return; }
+  }
+
   if(this.memory.mode === 'renew') {
     this.renew();
   } else {
@@ -90,4 +98,45 @@ Creep.prototype.transferToNearby= function() {
   if(containers.length > 0) {
     this.transfer(containers[0], RESOURCE_ENERGY);
   }
+}
+
+Creep.prototype.attackHostiles = function() {
+  var target = this.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
+  if(target !== null) {
+    this.memory.moved = true;
+    this.moveTo(target);
+    this.attack(target);
+    if(Math.random() > 0.9) {
+      this.say('die', true);
+    }
+    return true;
+  }
+  return false;
+}
+
+Creep.prototype.attackSpawns = function() {
+  var targets = Game.rooms[this.pos.roomName].findHostileSpawn();
+  if(targets !== undefined && targets.length > 0) {
+    this.memory.moved = true;
+    this.moveTo(targets[0]);
+    this.attack(targets[0]);
+    if(Math.random() > 0.9) {
+      this.say('destroy', true);
+    }
+    return true;
+  }
+  return false;
+}
+
+Creep.prototype.healFriendly = function() {
+  var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.hits < creep.hitsMax);
+  if(wounded.length) {
+    this.moveTo(wounded[0]);
+    this.heal(wounded[0]);
+    if(Math.random() > 0.9) {
+      this.say('+++');
+    }
+    return true;
+  }
+  return false;
 }
