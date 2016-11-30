@@ -109,8 +109,11 @@ Creep.prototype.attackHostiles = function() {
     if(Math.random() > 0.9) {
       this.say('die', true);
     }
+    Game.notify("Hostiles", 1);
+    Memory.stats[this.room.name + '.creeps.hostiles'] = 1;
     return true;
   }
+  Memory.stats[this.room.name + '.creeps.hostiles'] = 0;
   return false;
 }
 
