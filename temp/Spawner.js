@@ -14,6 +14,7 @@ function Spawner(room) {
   if(this.room.memory.creep_id === undefined) {
     this.room.memory.creep_id = 0;
   }
+  this.showStats();
 };
 
 Spawner.prototype.renewNearbyCreeps = function() {
@@ -31,7 +32,6 @@ Spawner.prototype.renewNearbyCreeps = function() {
 }
 
 Spawner.prototype.spawn = function() {
-  this.showStats();
   if(this.spawner !== undefined && !this.spawner.spawning) {
     return roles.some(role => {
       if(this.shouldSpawn(role)) {
