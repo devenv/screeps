@@ -19,5 +19,6 @@ Config.repair_threshold = 0.9;
 Config.structures_repair_threshold = 0.5;
 Config.min_repair = 30000;
 Config.reuse_path_ticks = 10;
+Config.path_max_ops = 1000;
 
 module.exports = Config;
