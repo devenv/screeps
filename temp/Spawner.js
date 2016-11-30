@@ -112,7 +112,7 @@ Spawner.prototype.showStats = function() {
   Memory.stats[this.room.name + '.energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
   Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
   if(Game.time % 10 === 0) {
-    console.log("miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
+    console.log(this.room.name + " - "miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
 }
 
