@@ -11,7 +11,6 @@ Miner.prototype.act = function() {
     this.creep.memory.mode = 'mining';
   }
   if(this.creep.carry.energy >= this.creep.carryCapacity) {
-    this.creep.say('unload');
     this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'mining') {

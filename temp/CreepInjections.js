@@ -26,10 +26,11 @@ Creep.prototype.act = function(actor) {
     this.renew();
     return;
   }
-  if(this.memory.mode === 'unload') {
-    var trg = this.pos.findInRange(FIND_MY_CREEPS, 1).filter(cr => cr.memory.mode === 'load' && cr.carry.energy < cr.carryCapacity);
+  if(_.include('unload', 'mining', this.memory.mode)) {
+    var trg = this.pos.findInRange(FIND_MY_CREEPS, 1).filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
     if(trg.length > 0) {
       this.transfer(trg[0], RESOURCE_ENERGY);
+      return
     }
   }
   actor.act();
@@ -100,6 +101,7 @@ Creep.prototype.transferToNearby= function() {
   .sort((a, b) => a.energy > b.energy ? 1 : -1);
   if(containers.length > 0) {
     this.transfer(containers[0], RESOURCE_ENERGY);
+    return;
   }
 }
 
