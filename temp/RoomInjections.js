@@ -101,5 +101,5 @@ Room.prototype.brokenStructures = function() {
 }
 
 Room.prototype.hasSpareEnergy = function() {
-  return this.energyAvailable > setups.cost('miner', _.max([15, this.level()])) * 1.2;
+  return this.energyAvailable > setups.cost('miner', _.min([15, this.level()])) * 1.2;
 }
