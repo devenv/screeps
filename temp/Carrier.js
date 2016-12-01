@@ -32,7 +32,7 @@ Carrier.prototype.act = function() {
       });
     }
     if(this.creep.memory.target === undefined) {
-      if(room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
+      if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
         var containers = room.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
         if(containers.length > 0) {
           this.creep.memory.supplying = true;

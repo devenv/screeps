@@ -102,15 +102,16 @@ Spawner.prototype.showStats = function() {
   if(this.spawner) {
     Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
     Memory.stats[this.room.name + '.energy.towers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(st => st.energy).reduce((s, e) => s += e, 0);
+    Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
   } else {
     Memory.stats[this.room.name + '.energy.spawn'] = 0;
     Memory.stats[this.room.name + '.energy.towers'] = 0;
+    Memory.stats[this.room.name + '.progress.controller'] = 0;
   }
 
   Memory.stats[this.room.name + '.energy.room'] = this.room.energyAvailable;
   Memory.stats[this.room.name + '.energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
   Memory.stats[this.room.name + '.energy.creeps'] = _.values(Game.creeps).filter(creep => creep.carryCapacity > 0).map(creep => creep.energy).reduce((s, e) => s += e, 0);
-  Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
   if(Game.time % 10 === 0) {
     console.log(this.room.name + " - miners: " + miners + ", carriers: " + carriers + ", builders: " + builders_count + "(" + controller + "/" + (builders_count - controller - repair) + "/" + repair + "), solderis: " + soldiers  + ", ranged: " + ranged + ", healers: " + healers + ", old: " + old_count);
   }
