@@ -47,14 +47,14 @@ Miner.prototype.act = function() {
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
-    var spawn = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
-    if(this.creep.pos.isNearTo(spawn)) {
-      this.creep.transfer(spawn, RESOURCE_ENERGY);
+    var src = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
+    if(this.creep.pos.isNearTo(src)) {
+      this.creep.transfer(src, RESOURCE_ENERGY);
       if(this.creep.carry.energy === 0) {
         this.creep.memory.mode = 'mining';
       }
     } else {
-      this.creep.goTo(spawn.pos);
+      this.creep.goTo(src);
     }
   }
 }
