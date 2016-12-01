@@ -26,14 +26,16 @@ Creep.prototype.act = function(actor) {
     this.renew();
     return;
   }
-  if(_.include(['unload', 'mining'], this.memory.mode)) {
-    var trg = this.pos.findInRange(FIND_MY_CREEPS, 1).filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
-    if(trg.length > 0) {
-      this.transfer(trg[0], RESOURCE_ENERGY);
-      return
+  actor.act();
+  if(this.carry.energy > 0) {
+    if(_.include(['unload', 'mining'], this.memory.mode)) {
+      var trg = this.pos.findInRange(FIND_MY_CREEPS, 1).filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
+      if(trg.length > 0) {
+        this.transfer(trg[0], RESOURCE_ENERGY);
+        return
+      }
     }
   }
-  actor.act();
 }
 
 Creep.prototype.renew = function() {
