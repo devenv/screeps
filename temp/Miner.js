@@ -7,8 +7,12 @@ function Miner(creep) {
 }
 
 Miner.prototype.act = function() {
-  if(this.creep.memory.mode === undefined) {
+  if(this.creep.memory.mode === undefined || this.creep.carry.energy === 0) {
     this.creep.memory.mode = 'mining';
+  }
+  if(this.creep.carry.energy >= this.creep.carryCapacity) {
+    this.creep.say('unload');
+    this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'mining') {
     if(this.creep.memory.source === undefined) {
@@ -37,11 +41,6 @@ Miner.prototype.act = function() {
       if(this.creep.pos.isNearTo(source)) {
         this.creep.harvest(source);
         this.creep.transferToNearby();
-        var hasCarrier = this.creep.room.creepsByRole('carrier').filter(creep => creep !== undefined && creep.memory.owner === this.creep.name).length > 0;
-        if(this.creep.carry.energy >= this.creep.carryCapacity && !hasCarrier) {
-          this.creep.say('unload');
-          this.creep.memory.mode = 'unload';
-        }
       } else {
         this.creep.goTo(source);
       }
@@ -50,9 +49,6 @@ Miner.prototype.act = function() {
     var src = Game.rooms[this.creep.memory.origin_room].getEnergySink(this.creep);
     if(this.creep.pos.isNearTo(src)) {
       this.creep.transfer(src, RESOURCE_ENERGY);
-      if(this.creep.carry.energy === 0) {
-        this.creep.memory.mode = 'mining';
-      }
     } else {
       this.creep.goTo(src);
     }
