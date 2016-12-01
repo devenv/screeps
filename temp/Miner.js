@@ -27,7 +27,7 @@ Miner.prototype.act = function() {
       _.values(Game.rooms).filter(room => room.owner === undefined).some(room => {
         return room.find(FIND_SOURCES).some(source => {
           var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
-          if (creeps_working < room.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller.my).length) {
+          if (creeps_working < room.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller && room.controller.my).length) {
             this.creep.memory.source = source.id;
             return true;
           }
