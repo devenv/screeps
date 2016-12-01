@@ -62,12 +62,7 @@ Carrier.prototype.act = function() {
           if(spawn.energy > spawn.energyCapacity / 2) {
             src = spawn;
           } else {
-            var exts = this.creep.originRoom().getEnergySource(this.creep);
-            if(exts.length > 0) {
-              src = exts[0];
-            } else {
-              src = spawn
-            }
+            src = this.creep.originRoom().getEnergySource(this.creep);
           }
           this.creep.memory.src = src.id;
         } else {
