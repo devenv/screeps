@@ -84,7 +84,8 @@ Room.prototype.minerSpots = function() {
 
 Room.prototype.neighborsMinerSpots = function() {
   if(Game.time % 10 === 0 || this.memory.neighbors_miner_max === undefined) {
-    this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.name === this.name || room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
+    //this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.name === this.name || room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
+    this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.name === this.name).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
   }
   return this.memory.neighbors_miner_max;
 }
