@@ -40,11 +40,11 @@ Room.prototype.spawn = function() { return Game.spawns[this.memory.spawn] };
 Room.prototype.getEnergySink = function(creep) {
   var extensions = this.extensions();
   extensions.push(this.spawn());
+  extensions = extensions.filter(structure => structure.energy < structure.energyCapacity);
   if(this.storage) {
     extensions.push(this.storage);
   }
-  extensions = extensions.filter(structure => structure.energy < structure.energyCapacity)
-  .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
+  extensions = extensions.sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
   if(extensions.length > 0) {
     return extensions[0];
   }
@@ -53,11 +53,11 @@ Room.prototype.getEnergySink = function(creep) {
 Room.prototype.getEnergySource = function(creep) {
   var extensions = this.extensions();
   extensions.push(this.spawn());
+  extensions = extensions.filter(structure => structure.energy > 0).
   if(this.storage) {
     extensions.push(this.storage);
   }
-  extensions = extensions.filter(structure => structure.energy > 0)
-  .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
+  extensions = extensions.sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
   if(extensions.length > 0) {
     return extensions[0];
   }
