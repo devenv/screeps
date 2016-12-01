@@ -59,7 +59,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
     case 'healer': return this.countByRole(role, level) < config.max_healers;
-    case 'scout': return this.countByRole(role, level) < config.max_scouts;
+    case 'scout': return this.countByRole(role, level) < _values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
   }
   return false;
 }
