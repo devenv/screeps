@@ -41,7 +41,7 @@ Room.prototype.getEnergySink = function(creep) {
   var extensions = this.extensions();
   extensions.push(this.spawn());
   extensions = extensions.filter(structure => structure.energy < structure.energyCapacity);
-  if(this.storage) {
+  if(this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000) {
     extensions.push(this.storage);
   }
   extensions = extensions.sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
@@ -54,7 +54,7 @@ Room.prototype.getEnergySource = function(creep) {
   var extensions = this.extensions();
   //extensions.push(this.spawn());
   extensions = extensions.filter(structure => structure.energy > 0);
-  if(this.storage) {
+  if(this.storage && this.storage.store[RESOURCE_ENERGY] > 0) {
     extensions.push(this.storage);
   }
   extensions = extensions.sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1);
