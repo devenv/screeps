@@ -10,7 +10,7 @@ function Scout(creep) {
 Scout.prototype.act = function() {
   if(this.creep.memory.target === undefined) {
     _.values(Game.flags).some(flag => {
-      if(flag.name === 'scout' && !_.values(Game.creeps).some(creep => creep.memory.role === 'scout' && utils.samePos(creep.memory.target, flag.target))) {
+      if(flag.name.indexOf('scout') !== -1 && !_.values(Game.creeps).some(creep => creep.memory.role === 'scout' && utils.samePos(creep.memory.target, flag.pos))) {
         this.creep.memory.target = flag.pos;
         return true;
       }
