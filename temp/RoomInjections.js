@@ -53,7 +53,7 @@ Room.prototype.getEnergySink = function(creep) {
 Room.prototype.getEnergySource = function(creep) {
   var extensions = this.extensions();
   extensions.push(this.spawn());
-  extensions = extensions.filter(structure => structure.energy > 0).
+  extensions = extensions.filter(structure => structure.energy > 0);
   if(this.storage) {
     extensions.push(this.storage);
   }
