@@ -42,7 +42,7 @@ Creep.prototype.renew = function() {
   var spawn = this.originRoom().spawn();
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
-    if(this.ticksToLive > config.critical_ttl && (!this.originRoom().hasSpareEnergy() || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob)) {
+    if(!this.originRoom().hasSpareEnergy() || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
       this.memory.mode = undefined;
     }
   } else {
