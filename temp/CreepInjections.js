@@ -59,7 +59,7 @@ Creep.prototype.pickupEnergy = function() {
   }
 }
 
-Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && (this.originRoom().hasSpareEnergy() || this.ticksToLive < config.critical_ttl) && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level() };
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy() && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level() };
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
