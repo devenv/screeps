@@ -15,7 +15,21 @@ function Spawner(room) {
     this.room.memory.creep_id = 0;
   }
   this.showStats();
+  if(Game.time % 100 === 0) {
+    Memory.extractors = this.findAllStructures(STRUCTURE_EXTRACTOR);
+    var terminals = this.findAllStructures(STRUCTURE_TERMINAL);
+    if(terminals.length > 0) {
+      Memory.terminal = terminals[0];
+    }
+  }
 };
+
+Spawner.prototype.findAllStructures = function(structure_type) {
+    return _.values(Game.rooms).map(room => {
+      var structures = room.find(FIND_STRUCTURES, {filter: {structureType: structure_type}});
+      return structures.length > 0 ? structures[0] : null
+    }).filter(structure => structure !== null)
+}
 
 Spawner.prototype.renewNearbyCreeps = function() {
   if(this.spawner) {
@@ -60,9 +74,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
     case 'healer': return this.countByRole(role, level) < config.max_healers;
     case 'scout': return this.countByRole(role, level) < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
-    case 'extractor':
-      var extractors = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}});
-      return this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).length > 0 && extractors.length > 0 && this.countByRole(role, level) < this.room.countFreeSpots(extractors[0].pos);
+    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.countByRole(role, level) < this.room.countFreeSpots(Memory.extractors[0].pos);
   }
   return false;
 }
