@@ -32,13 +32,10 @@ Extractor.prototype.act = function() {
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
-    var terminals = this.creep.originRoom().find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}});
-    if(terminals.length > 0) {
-      if(this.creep.pos.isNearTo(terminals[0])) {
-        this.creep.transfer(terminals[0], Object.keys(this.creep.carry)[0]);
-      } else {
-        this.creep.goTo(terminals[0]);
-      }
+    if(this.creep.pos.isNearTo(Memory.terminal)) {
+      this.creep.transfer(Memory.terminal, Object.keys(this.creep.carry)[0]);
+    } else {
+      this.creep.goTo(Memory.terminal);
     }
   }
 }
