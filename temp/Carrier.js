@@ -41,6 +41,14 @@ Carrier.prototype.act = function() {
         }
       }
     }
+    if(Memory.terminal !== undefined) {
+      var terminal = Game.getObjectById(Memory.terminal.id);
+      if(terminal.store[RESOURCE_ENERGY] < 200) {
+        this.creep.memory.supplying = true;
+        this.creep.memory.owner = terminal.pos;
+        this.creep.memory.target = terminal.pos;
+      }
+    }
     if(this.creep.memory.target === undefined) {
       var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).sort((a, b)=> a.energy > b.energy ? 1 : -1);
       if(towers.length > 0) {
