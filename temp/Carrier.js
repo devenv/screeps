@@ -47,6 +47,10 @@ Carrier.prototype.act = function() {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = terminal.pos;
         this.creep.memory.target = terminal.pos;
+      } else if(terminal.store[RESOURCE_ENERGY] > config.terminal_max_energy) {
+        this.creep.memory.supplying = false;
+        this.creep.memory.owner = terminal.pos;
+        this.creep.memory.target = terminal.pos;
       }
     }
     if(this.creep.memory.target === undefined) {
