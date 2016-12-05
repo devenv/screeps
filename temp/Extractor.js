@@ -9,7 +9,7 @@ Extractor.prototype.act = function() {
   if(this.creep.memory.mode === undefined || this.creep.carry.energy === 0) {
     this.creep.memory.mode = 'extracting';
   }
-  if(this.creep.carry.energy >= this.creep.carryCapacity) {
+  if(_.sum(_.values(this.creep.carry)) >= this.creep.carryCapacity) {
     this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'extracting') {
