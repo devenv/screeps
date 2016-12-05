@@ -145,6 +145,7 @@ var Setups = {
     13: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
     14: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
     15: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]
+  }
 }
 
 Setups.cost = function(role, level) {
