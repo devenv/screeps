@@ -60,7 +60,8 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
     case 'healer': return this.countByRole(role, level) < config.max_healers;
     case 'scout': return this.countByRole(role, level) < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
-    case 'extractor': return this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).length > 0 && this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).length > 0 && this.countByRole(role, level) < 1;
+    var extractors = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}});
+    case 'extractor': return this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).length > 0 && extractors.length > 0 && this.countByRole(role, level) < this.room.countFreeSpots(extractors[0].pos);
   }
   return false;
 }
