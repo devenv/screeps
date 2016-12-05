@@ -2,7 +2,7 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-var roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer'];
+var roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer', 'extractor'];
 
 function Spawner(room) {
   this.room = room;
@@ -60,6 +60,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
     case 'healer': return this.countByRole(role, level) < config.max_healers;
     case 'scout': return this.countByRole(role, level) < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
+    case 'extractor': return this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).length > 0 && this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).length > 0 && this.countByRole(role, level) < 1;
   }
   return false;
 }
@@ -89,6 +90,7 @@ Spawner.prototype.showStats = function() {
   var ranged = this.room.modernCreepsByRole('ranged').length;
   var healers = this.room.modernCreepsByRole('healer').length;
   var scouts = this.room.modernCreepsByRole('scouts').length;
+  var extractors = this.room.modernCreepsByRole('extractors').length;
   Memory.stats[this.room.name + '.creeps.miners'] = miners;
   Memory.stats[this.room.name + '.creeps.carriers'] = carriers;
   Memory.stats[this.room.name + '.creeps.builders'] = builders_count - controller - repair;
@@ -98,6 +100,7 @@ Spawner.prototype.showStats = function() {
   Memory.stats[this.room.name + '.creeps.ranged'] = ranged;
   Memory.stats[this.room.name + '.creeps.healers'] = healers;
   Memory.stats[this.room.name + '.creeps.scouts'] = scouts;
+  Memory.stats[this.room.name + '.creeps.extractors'] = extractors;
   Memory.stats[this.room.name + '.creeps.old'] = old_count;
   if(this.spawner) {
     Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
