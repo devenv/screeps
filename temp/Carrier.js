@@ -43,7 +43,7 @@ Carrier.prototype.act = function() {
     }
     if(Memory.terminal !== undefined) {
       var terminal = Game.getObjectById(Memory.terminal.id);
-      if(terminal.store[RESOURCE_ENERGY] < 200) {
+      if(terminal.store[RESOURCE_ENERGY] < config.terminal_min_energy) {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = terminal.pos;
         this.creep.memory.target = terminal.pos;
