@@ -128,7 +128,23 @@ var Setups = {
   'claimer': {
     1: [CLAIM, MOVE],
     2: [CLAIM, CLAIM, MOVE, MOVE]
-  }
+  },
+  'extractor': {
+    1: [WORK, CARRY, MOVE],
+    2: [WORK, CARRY, MOVE],
+    3: [WORK, CARRY, MOVE],
+    4: [WORK, CARRY, MOVE],
+    5: [WORK, WORK, CARRY, MOVE, MOVE],
+    6: [WORK, WORK, CARRY, MOVE, MOVE],
+    7: [WORK, WORK, CARRY, MOVE, MOVE],
+    8: [WORK, WORK, CARRY, MOVE, MOVE],
+    9: [WORK, WORK, CARRY, MOVE, MOVE],
+    10: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+    11: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+    12: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+    13: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+    14: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+    15: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]
 }
 
 Setups.cost = function(role, level) {
