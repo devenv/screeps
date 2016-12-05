@@ -15,7 +15,7 @@ function Spawner(room) {
     this.room.memory.creep_id = 0;
   }
   this.showStats();
-  if(Game.time % 100 === 0) {
+  if(Game.time % 100 === 1) {
     Memory.extractors = this.findAllStructures(STRUCTURE_EXTRACTOR);
     var terminals = this.findAllStructures(STRUCTURE_TERMINAL);
     if(terminals.length > 0) {
