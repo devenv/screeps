@@ -14,7 +14,7 @@ function Spawner(room) {
   if(this.room.memory.creep_id === undefined) {
     this.room.memory.creep_id = 0;
   }
-  this.showStats();
+  //this.showStats();
   if(Game.time % 100 === 1) {
     Memory.extractors = this.findAllStructures(STRUCTURE_EXTRACTOR);
     var terminals = this.findAllStructures(STRUCTURE_TERMINAL);
@@ -86,10 +86,10 @@ Spawner.prototype.spawnCreep = function(role) {
   var level = _.max([1, _.min([this.level, count < 4 ? 1 : 1000])]);
   var res = this.spawner.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level});
   if(_.isString(res)) {
-    Memory.stats[this.room.name + '.spawning'] = 1;
+    //Memory.stats[this.room.name + '.spawning'] = 1;
     console.log("spawning " + role);
   } else {
-    Memory.stats[this.room.name + '.spawning'] = 0;
+    //Memory.stats[this.room.name + '.spawning'] = 0;
   }
 }
 
