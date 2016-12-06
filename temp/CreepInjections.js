@@ -52,7 +52,7 @@ Creep.prototype.renew = function() {
 
 Creep.prototype.pickupEnergy = function() {
   if(this.carryCapacity > 0 && this.carry.energy < this.carryCapacity) {
-    var results = this.pos.lookFor(LOOK_ENERGY);
+    var results = this.pos.lookFor(LOOK_ENERGY).filter(res => res.resourceType === RESOURCE_OXYGEN);
     if (results.length > 0) {
       this.pickup(results[0]);
     }
