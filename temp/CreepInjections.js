@@ -63,18 +63,16 @@ Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.t
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
-  if(!this.pos.isNearTo(pos)) {
-    var res = this.moveTo(pos, {reusePath: true});
-    // if(res === ERR_TIRED) {
-    //     this.say('tired');
-    // }
+  var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+  // if(res === ERR_TIRED) {
+  //     this.say('tired');
+  // }
+  if(res !== 0 && res !== ERR_TIRED) {
+    res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
     if(res !== 0 && res !== ERR_TIRED) {
-      res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-      if(res !== 0 && res !== ERR_TIRED) {
-        this.say('stuck:' + res);
-        if(Math.random() < 0.1) {
-          this.twitch();
-        }
+      this.say('stuck:' + res);
+      if(Math.random() < 0.1) {
+        this.twitch();
       }
     }
   }
