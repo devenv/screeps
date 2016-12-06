@@ -74,7 +74,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'ranged': return this.countByRole(role, level) < config.max_ranged;
     case 'healer': return this.countByRole(role, level) < config.max_healers;
     case 'scout': return this.countByRole(role, level) < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
-    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.countByRole(role, level) < this.room.countFreeSpots(Memory.extractors[0].pos);
+    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.countByRole(role, level) < _.min([3, this.room.countFreeSpots(Memory.extractors[0].pos)]);
   }
   return false;
 }
