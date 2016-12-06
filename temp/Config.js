@@ -18,8 +18,8 @@ Config.min_energy_per_level = 200;
 Config.repair_threshold = 0.9;
 Config.structures_repair_threshold = 0.5;
 Config.min_repair = 30000;
-Config.reuse_path_ticks = 10;
-Config.path_max_ops = 1000;
+Config.reuse_path_ticks = 20;
+Config.path_max_ops = 500;
 Config.terminal_min_energy = 2000;
 Config.terminal_max_energy = 4000;
 
