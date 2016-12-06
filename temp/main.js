@@ -24,7 +24,7 @@ module.exports.loop = function() {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
   var cpub = Game.cpu.getUsed();
-  Memory.stats['cpu.flags'] = cpub - cpu;
+  //Memory.stats['cpu.flags'] = cpub - cpu;
 
   cpu = Game.cpu.getUsed();
   _.values(Game.rooms).forEach(room => {
@@ -32,16 +32,16 @@ module.exports.loop = function() {
       var spawner = new Spawner(room);
       if(!spawner.spawning) {
         if(!spawner.renewNearbyCreeps()) {
-          Memory.stats[room.name + '.renew'] = 0;
+          //Memory.stats[room.name + '.renew'] = 0;
           spawner.spawn();
         } else {
-          Memory.stats[room.name + '.renew'] = 1;
-          Memory.stats[room.name + '.spawning'] = 0;
+          //Memory.stats[room.name + '.renew'] = 1;
+          //Memory.stats[room.name + '.spawning'] = 0;
         }
       }
     } catch(e) { console.log(e); exception = e; }
   });
-  Memory.stats['cpu.spawns'] = Game.cpu.getUsed() - cpu;
+  //Memory.stats['cpu.spawns'] = Game.cpu.getUsed() - cpu;
 
   cpu = Game.cpu.getUsed();
   _.values(Game.structures).forEach(st => {
@@ -51,7 +51,7 @@ module.exports.loop = function() {
       }
     } catch(e) { console.log(e); exception = e; }
   });
-  Memory.stats['cpu.towers'] = Game.cpu.getUsed() - cpu;
+  //Memory.stats['cpu.towers'] = Game.cpu.getUsed() - cpu;
 
   cpu = Game.cpu.getUsed();
   _.values(Game.creeps).forEach(creep => {
@@ -83,7 +83,7 @@ module.exports.loop = function() {
       }
       creep.memory.stuck++;
       creep.memory.same_pos = creep.memory.same_pos && utils.samePos(creep.memory.last_pos, creep.pos);
-      Memory.stats['cpu.creep.' + creep.name + "." + creep.memory.role + '.' + creep.memory.mode] = Game.cpu.getUsed() - cpu2;
+      //Memory.stats['cpu.creep.' + creep.name + "." + creep.memory.role + '.' + creep.memory.mode] = Game.cpu.getUsed() - cpu2;
     } catch(e) { console.log(e); exception = e; }
 
     var cpu2 = Game.cpu.getUsed();
@@ -102,18 +102,18 @@ module.exports.loop = function() {
       }
 
       creep.memory.last_pos = creep.pos;
-      Memory.stats['cpu.creep.' + creep.memory.role + '.twitch'] = Game.cpu.getUsed() - cpu2;
+      //Memory.stats['cpu.creep.' + creep.memory.role + '.twitch'] = Game.cpu.getUsed() - cpu2;
     } catch(e) { console.log(e); exception = e; }
   });
-  Memory.stats['cpu.creeps'] = Game.cpu.getUsed() - cpu;
+  //Memory.stats['cpu.creeps'] = Game.cpu.getUsed() - cpu;
 
   if(exception !== undefined && debug) {
-    Memory.stats['errors'] = 1;
+    //Memory.stats['errors'] = 1;
     throw exception;
   } else {
-    Memory.stats['errors'] = 0;
+    //Memory.stats['errors'] = 0;
   }
-  Memory.stats['cpu.bucket'] = Game.cpu.bucket;
-  Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
-  Memory.stats['cpu.used'] = Game.cpu.getUsed();
+  //Memory.stats['cpu.bucket'] = Game.cpu.bucket;
+  //Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
+  //Memory.stats['cpu.used'] = Game.cpu.getUsed();
 }
