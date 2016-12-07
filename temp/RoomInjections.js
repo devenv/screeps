@@ -59,7 +59,7 @@ Room.prototype.longUpdate = function() {
 Room.prototype.getEnergySink = function(creep) {
   return utils.sortByDistance(
     _.first(
-      _.concat(this.extensions, this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : []))
+      this.extensions.concat(this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? [this.sotrage] : []))
       .filter(ext => ext.energy < ext.energyCapacity)
     )
   );
@@ -68,7 +68,7 @@ Room.prototype.getEnergySink = function(creep) {
 Room.prototype.getEnergySource = function(creep) {
   return utils.sortByDistance(
     _.first(
-      _.concat(this.extensions, this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : []))
+      this.extensions.concat(this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? [this.sotrage] : []))
       .filter(ext => ext.energy > 0)
     )
   );
