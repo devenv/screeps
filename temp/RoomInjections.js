@@ -16,6 +16,7 @@ Room.prototype.init = function() {
     this.memory.creep_id = 0;
     this.memory.initialized = true;
     this.memory.miner_spots = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
+    this.memory.paths = {};
   }
 }
 
@@ -88,8 +89,11 @@ Room.prototype.getBrokenStructures = function() {
 }
 
 Room.prototype.getPath = function(pos1, pos2) {
-  //var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
-  //if(this.memory.paths
+  var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
+  if(!this.memory.paths[key]) {
+    this.memory.paths[key] = this.findPath(pos1, pos2);
+  }
+  return this.memory.paths[key];
 }
 
 Room.prototype.idsToObjects = function(type) {
