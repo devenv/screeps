@@ -4,6 +4,7 @@ var setups = require('UnitSetups');
 
 function Spawner(spawn) {
   this.spawn = spawn;
+  this.room = spawn.room;
   this.creepsInRange = this.spawn.pos.findInRange(FIND_MY_CREEPS, 1);
   //this.showStats();
 };
