@@ -52,6 +52,9 @@ Room.prototype.update = function() {
 Room.prototype.longUpdate = function() {
   if(Game.time % config.long_update_freq === 1) {
     if(this.controller.my) {
+      this.memory.creeps = {};
+      config.roles.forEach(role => this.memory.creeps[role] = [])
+      this.find(FIND_MY_CREEPS).forEach(creep => this.memory.creeps[creep.memory.role].push(creep.name))
       this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
       this.memory.miner_cost = setups.cost('miner', _.min([15, _.max([1, this.level])]));
       this.memory.miners_needed = 1 + this.memory.miner_spots + Memory.neighbors_miner_max;
