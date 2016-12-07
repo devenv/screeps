@@ -22,7 +22,7 @@ module.exports.loop = function() {
     console.log('no cpu left');
     return;
   }
-  Memory.has_cpu = Game.cpu.bucket < 1000;
+  Memory.has_cpu = Game.cpu.bucket > 1000;
 
   if(Game.time % config.long_update_freq === 1) {
     Memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.memory.miner_spots).reduce((s, r)=> s += r, 0);
