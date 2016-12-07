@@ -10,6 +10,7 @@ Room.prototype.init = function() {
     this.memory.miner_max = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
     this.memory.extensions = [];
     this.memory.extractors = [];
+    this.memory.towers = [];
     this.memory.creeps = {};
     this.memory.creep_id = 0;
   }
