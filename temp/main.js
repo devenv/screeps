@@ -28,18 +28,18 @@ module.exports.loop = function() {
       room.init();
       room.update();
       room.longUpdate();
-    } catch(e) { console.log(e); exception.push(e); }
+    } catch(e) { console.log(e); exceptions.push(e); }
 
     room.towers.forEach(tower => {
       try {
         new Tower(st).act();
-      } catch(e) { console.log(e); exception.push(e); }
+      } catch(e) { console.log(e); exceptions.push(e); }
     });
 
     room.spawns.forEach(spawn => {
       try {
         new Spawner(spawn).act();
-      } catch(e) { console.log(e); exception.push(e); }
+      } catch(e) { console.log(e); exceptions.push(e); }
     });
   });
 
@@ -71,7 +71,7 @@ module.exports.loop = function() {
       }
       creep.memory.stuck++;
       creep.memory.same_pos = creep.memory.same_pos && utils.samePos(creep.memory.last_pos, creep.pos);
-    } catch(e) { console.log(e); exception.push(e); }
+    } catch(e) { console.log(e); exceptions.push(e); }
 
     try {
         if((creep.memory.moved || Math.random() > 0.9) && creep.memory.same_pos || Math.random() < 1 / (config.twitch_threshold * 10)) {
@@ -82,10 +82,10 @@ module.exports.loop = function() {
         creep.memory.stuck = 0;
 
         creep.memory.last_pos = creep.pos;
-    } catch(e) { console.log(e); exception.push(e); }
+    } catch(e) { console.log(e); exceptions.push(e); }
   });
 
-  if(exception !== undefined) {
+  if(exceptions.length > 0) {
     //Memory.stats['errors'] = 1;
     throw exceptions;
   } else {
