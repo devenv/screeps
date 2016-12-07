@@ -24,6 +24,9 @@ Creep.prototype.act = function(actor) {
     this.renew();
     return;
   }
+
+  this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1);
+
   actor.act();
   if(this.carry.energy > 0) {
     if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
@@ -86,7 +89,7 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-  var containers = this.pos.findInRange(FIND_STRUCTURES, 1, {filter: {structureType: STRUCTURE_CONTAINER}})
+  structuresInRange.filter(st => st.structureType === STRUCTURE_CONTAINER)
   .sort((a, b) => a.energy > b.energy ? -1 : 1);
   if(containers !== undefined && containers.length > 0) {
     this.withdraw(containers[0], RESOURCE_ENERGY);
@@ -94,7 +97,7 @@ Creep.prototype.withdrawFromNearby = function() {
 }
 
 Creep.prototype.transferToNearby= function() {
-  var containers = this.pos.findInRange(FIND_STRUCTURES, 1)
+  var containers = structuresInRange
   .filter(st => _.contains(energySinks, st.structureType))
   .sort((a, b) => a.energy > b.energy ? 1 : -1);
   if(containers.length > 0) {
@@ -104,28 +107,30 @@ Creep.prototype.transferToNearby= function() {
 }
 
 Creep.prototype.attackHostiles = function() {
-  var target = this.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
-  if(target !== null) {
-    this.memory.moved = true;
-    this.moveTo(target);
-    this.attack(target);
-    if(Math.random() > 0.9) {
-      this.say('die', true);
+  if(this.room.hostileCreeps && this.room.hostileCreeps.length > 0) {
+    var target = utils.sortByDistance(this.room.hostileCreeps)[0];
+    if(target !== null) {
+      this.memory.moved = true;
+      this.moveTo(target);
+      this.attack(target);
+      if(Math.random() > 0.9) {
+        this.say('die', true);
+      }
+      Game.notify("Hostiles", 1);
+      //Memory.stats[this.room.name + '.creeps.hostiles'] = 1;
+      return true;
     }
-    Game.notify("Hostiles", 1);
-    Memory.stats[this.room.name + '.creeps.hostiles'] = 1;
-    return true;
-  }
-  Memory.stats[this.room.name + '.creeps.hostiles'] = 0;
+  //Memory.stats[this.room.name + '.creeps.hostiles'] = 0;
   return false;
 }
 
 Creep.prototype.attackSpawns = function() {
-  var targets = Game.rooms[this.pos.roomName].findHostileSpawn();
+  var targets = this.room.memory.hostile_spawns;
   if(targets !== undefined && targets.length > 0) {
+    var trg = Game.getObjectById(targets[0]);
     this.memory.moved = true;
-    this.moveTo(targets[0]);
-    this.attack(targets[0]);
+    this.moveTo(trg);
+    this.attack(trg);
     if(Math.random() > 0.9) {
       this.say('destroy', true);
     }
@@ -135,7 +140,7 @@ Creep.prototype.attackSpawns = function() {
 }
 
 Creep.prototype.healFriendly = function() {
-  var wounded = Object.keys(Game.creeps).map(name => Game.creeps[name]).filter(creep => creep.hits < creep.hitsMax);
+  var wounded = _.flatten(_.values(this.room.modernCreeps)).filter(creep => creep.hits < creep.hitsMax);
   if(wounded.length) {
     this.moveTo(wounded[0]);
     this.heal(wounded[0]);

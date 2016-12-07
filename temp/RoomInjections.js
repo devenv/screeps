@@ -25,7 +25,6 @@ Room.prototype.update = function() {
   this.towers = [];
   this.spawns = [];
   this.sources = this.memory.sources.map(source => Game.getObjectById(source));
-  this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
   this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
   this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
   this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
@@ -59,7 +58,9 @@ Room.prototype.longUpdate = function() {
       this.memory.carriers_needed = 1 + this.sources.length + _.min(1, this.memory.towers) + _.min(1, this.memory);
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
-    }
+    } else {
+      var spawns = this.find(FIND_HOSTILE_SPAWNS);
+      this.memory.hostile_spawns = spawns;
   }
 }
 
