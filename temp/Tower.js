@@ -13,14 +13,9 @@ Tower.prototype.act = function() {
     if(wounded.length > 0) {
       this.tower.heal(wounded[0]);
     } else {
-      var broken = Object.keys(Game.structures).map(name => Game.structures[name]).filter(st => st.room.name === this.tower.name && st.hits < st.hitsMax);
-      if(broken.length > 0) {
+      var broken = this.tower.room.brokenStructures;
+      if(broken.length > 0 && this.tower.energy > this.tower.energyCapacity * 0.75) {
         this.tower.repair(broken[0]);
-      } else if(this.tower.energy > this.tower.energyCapacity * 0.75) {
-        var to_repair = this.tower.room.brokenStructures();
-        if(to_repair.length > 0) {
-          this.tower.repair(to_repair[0]);
-        }
       }
     }
   }
