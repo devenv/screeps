@@ -5,7 +5,7 @@ function Tower(tower) {
 };
 
 Tower.prototype.act = function() {
-  var targets = this.tower.room.findHostiles();
+  var targets = this.tower.room.hostileCreeps;
   if(targets.length > 0) {
     this.tower.attack(targets[0]);
   } else {
