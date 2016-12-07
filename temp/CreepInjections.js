@@ -89,7 +89,7 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-  structuresInRange.filter(st => st.structureType === STRUCTURE_CONTAINER)
+  this.structuresInRange.filter(st => st.structureType === STRUCTURE_CONTAINER)
   .sort((a, b) => a.energy > b.energy ? -1 : 1);
   if(containers !== undefined && containers.length > 0) {
     this.withdraw(containers[0], RESOURCE_ENERGY);
@@ -97,7 +97,7 @@ Creep.prototype.withdrawFromNearby = function() {
 }
 
 Creep.prototype.transferToNearby= function() {
-  var containers = structuresInRange
+  var containers = this.structuresInRange
   .filter(st => _.contains(energySinks, st.structureType))
   .sort((a, b) => a.energy > b.energy ? 1 : -1);
   if(containers.length > 0) {
