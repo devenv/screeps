@@ -30,7 +30,7 @@ Room.prototype.update = function() {
   this.controller_container = this.memory.controller_container ? Game.getObjectById(this.memory.controller_container) : undefined;
   this.extensions = this.memory.extensions.map(extension => Game.getObjectById(extension));
   this.extractors = this.memory.extractors.map(extractor => Game.getObjectById(extractor));
-  this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
+  this.towers = this.memory.towers.map(tower => Game.getObjectById(tower));
   this.brokenStructures = this.brokenStructures();
   if(this.controller && this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
