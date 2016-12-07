@@ -128,7 +128,7 @@ Creep.prototype.attackHostiles = function() {
 }
 
 Creep.prototype.attackSpawns = function() {
-  var targets = this.room.memory.hostile_spawns();
+  var targets = this.room.hostile_spawns();
   if(targets !== undefined && targets.length > 0) {
     var trg = Game.getObjectById(targets[0]);
     this.moveTo(trg);
