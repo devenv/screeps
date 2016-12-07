@@ -40,7 +40,7 @@ Builder.prototype.act = function() {
     }
     if(this.creep.memory.site === undefined) {
       if(builders.filter(builder => builder.memory.repair).length < config.repairers) {
-        var to_repair = this.creep.room.brokenStructures();
+        var to_repair = this.creep.room.broken_tructures();
         if(to_repair.length > 0) {
           this.creep.say("repair");
           this.creep.memory.site = to_repair[0].id;

@@ -19,23 +19,23 @@ Carrier.prototype.act = function() {
 
   if(this.creep.memory.target === undefined) {
     var room = this.creep.originRoom();
-    var sources = room.sources.filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
+    var sources = room.sources().filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
     if(sources.length > 0) {
       sources.some(source => {
-        if(room.source_containers.length > 0) {
+        if(room.memory.source_containers.length > 0) {
           this.creep.memory.supplying = false;
           this.creep.memory.owner = source.pos;
-          this.creep.memory.target = room.source_containers[0].pos;
+          this.creep.memory.target = Game.getObjectById(room.memory.source_containers[0]).pos;
           return true;
         }
       });
     }
     if(this.creep.memory.target === undefined) {
       if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
-        if(room.controller_container) {
+        if(room.memory.controller_container) {
           this.creep.memory.supplying = true;
           this.creep.memory.owner = room.controller.pos
-          this.creep.memory.target = room.controller_container.pos;
+          this.creep.memory.target = Game.getObjectById(room.controller_container).pos;
         }
       }
     }
@@ -52,7 +52,7 @@ Carrier.prototype.act = function() {
       }
     }
     if(this.creep.memory.target === undefined) {
-      var towers = room.towers.sort((a, b)=> a.energy > b.energy ? 1 : -1);
+      var towers = room.towers().sort((a, b)=> a.energy > b.energy ? 1 : -1);
       if(towers.length > 0) {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = towers[0].pos;
@@ -68,8 +68,9 @@ Carrier.prototype.act = function() {
       var src;
       if(this.creep.memory.supplying) {
         if(this.creep.memory.src === undefined) {
-          if(this.creep.originRoom().spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
-            src = utils.sortByDistance(this.creep.originRoom().spawns);
+          var spawns = this.creep.originRoom().spawns();
+          if(spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
+            src = utils.sortByDistance(spawns);
           } else {
             src = this.creep.originRoom().getEnergySource(this.creep);
           }

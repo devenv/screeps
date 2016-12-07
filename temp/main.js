@@ -19,7 +19,7 @@ module.exports.loop = function() {
   var exceptions = [];
 
   if(Game.time % config.long_update_freq === 1) {
-    Memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
+    Memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.memory.miner_spots).reduce((s, r)=> s += r, 0);
     Memory.terminal = _.first(_.flatten(_.values(Game.rooms).map(room => room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).map(ter => ter.id))));
     Object.keys(Memory.creeps).forEach(name => {
       if(!Game.creeps[name]) {
@@ -35,13 +35,13 @@ module.exports.loop = function() {
       room.longUpdate();
     } catch(e) { console.log(e); exceptions.push(e); }
 
-    room.towers.forEach(tower => {
+    room.towers().forEach(tower => {
       try {
         new Tower(tower).act();
       } catch(e) { console.log(e); exceptions.push(e); }
     });
 
-    room.spawns.forEach(spawn => {
+    room.spawns().forEach(spawn => {
       try {
         new Spawner(spawn).act();
       } catch(e) { console.log(e); exceptions.push(e); }
