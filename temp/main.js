@@ -37,7 +37,7 @@ module.exports.loop = function() {
 
     room.towers.forEach(tower => {
       try {
-        new Tower(st).act();
+        new Tower(tower).act();
       } catch(e) { console.log(e); exceptions.push(e); }
     });
 
