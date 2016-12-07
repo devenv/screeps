@@ -4,10 +4,8 @@ var dirs = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_
 var energySinks = [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCTURE_EXTENSION]
 
 Creep.prototype.act = function(actor) {
-  if(this.memory.origin_room === undefined) {
-    this.memory.origin_room = this.room.name;
-  }
   this.level = this.memory.level;
+  this.origin_room = Game.rooms[this.memory.origin_room];
 
   this.pickupEnergy();
 
@@ -40,10 +38,10 @@ Creep.prototype.act = function(actor) {
 }
 
 Creep.prototype.renew = function() {
-  var spawn = this.originRoom().spawn();
+  var spawn = utils.sortByDistance(this.origin_room.spawns)[0];
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
-    if(!this.originRoom().hasSpareEnergy || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
+    if(!this.origin_room.hasSpareEnergy || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
       this.memory.mode = undefined;
     }
   } else {
@@ -60,7 +58,7 @@ Creep.prototype.pickupEnergy = function() {
   }
 }
 
-Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level() };
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.origin_room.hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.origin_room.level };
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
@@ -82,10 +80,6 @@ Creep.prototype.goTo = function(pos) {
 Creep.prototype.twitch = function() {
   this.say('twitch');
   this.move(dirs[Math.floor(Math.random() * dirs.length)]);
-}
-
-Creep.prototype.originRoom = function() {
-  return Game.rooms[this.memory.origin_room];
 }
 
 Creep.prototype.withdrawFromNearby = function() {

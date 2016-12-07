@@ -20,7 +20,7 @@ Room.prototype.update = function() {
   this.spawns = [];
   if(this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
-    this.spawn = Game.spawns[this.memory.spawn];
+    this.spawns = this.memory.spawn.map(spawn => Game.spawns[spawn]);
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
     this.creeps = {};
@@ -57,18 +57,20 @@ Room.prototype.longUpdate = function() {
 
 
 Room.prototype.getEnergySink = function(creep) {
-  return _.first(
-    _.concat(this.extensions, this.spawn(), this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : [])
-    .filter(ext => ext.energy < ext.energyCapacity)
-    .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1)
+  return utils.sortByDistance(
+    _.first(
+      _.concat(this.extensions, this.spawn(), this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : [])
+      .filter(ext => ext.energy < ext.energyCapacity)
+    )
   );
 }
 
 Room.prototype.getEnergySource = function(creep) {
-  return _.first(
-    _.concat(this.extensions, this.spawn(), this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : [])
-    .filter(ext => ext.energy > 0)
-    .sort((a, b) => creep.pos.getRangeTo(a) > creep.pos.getRangeTo(b) ? 1 : -1)
+  return utils.sortByDistance(
+    _.first(
+      _.concat(this.extensions, this.spawn(), this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? this.sotrage : [])
+      .filter(ext => ext.energy > 0)
+    )
   );
 }
 
