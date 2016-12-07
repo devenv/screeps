@@ -19,6 +19,7 @@ module.exports.loop = function() {
   var exceptions = [];
 
   if(Game.cpu.ticksLimit < 200) {
+    console.log("no cpu left");
     throw "no cpu left";
   }
 
