@@ -46,30 +46,24 @@ module.exports.loop = function() {
         new Spawner(spawn).act();
       } catch(e) { console.log(e); exceptions.push(e); }
     });
-  });
+    config.roles.forEach(role => {
+      room.creeps[role].map(name => Game.creeps[name]).forEach(creep => {
+        try {
+          switch(role) {
+            case 'miner': creep.act(new Miner(creep)); break;
+            case 'carrier': creep.act(new Carrier(creep)); break;
+            case 'builder': creep.act(new Builder(creep)); break;
+            case 'soldier': creep.act(new Soldier(creep)); break;
+            case 'healer': creep.act(new Healer(creep)); break;
+            case 'ranged': creep.act(new Ranged(creep)); break;
+            case 'scout': creep.act(new Scout(creep)); break;
+            case 'claimer': creep.act(new Claimer(creep)); break;
+            case 'extractor': creep.act(new Extractor(creep)); break;
+          }
+        } catch(e) { console.log(e); exceptions.push(e); }
+      });
+    })
 
-  _.values(Game.creeps).forEach(creep => {
-    try {
-      if(creep.memory.role === 'miner') {
-        creep.act(new Miner(creep));
-      } else if(creep.memory.role === 'carrier') {
-        creep.act(new Carrier(creep));
-      } else if(creep.memory.role === 'builder') {
-        creep.act(new Builder(creep));
-      } else if(creep.memory.role === 'soldier') {
-        creep.act(new Soldier(creep));
-      } else if(creep.memory.role === 'healer') {
-        creep.act(new Healer(creep));
-      } else if(creep.memory.role === 'ranged') {
-        creep.act(new Ranged(creep));
-      } else if(creep.memory.role === 'scout') {
-        creep.act(new Scout(creep));
-      } else if(creep.memory.role === 'claimer') {
-        creep.act(new Claimer(creep));
-      } else if(creep.memory.role === 'extractor') {
-        creep.act(new Extractor(creep));
-      }
-    } catch(e) { console.log(e); exceptions.push(e); }
   });
 
   //Memory.stats['errors'] = exceptions.length;
