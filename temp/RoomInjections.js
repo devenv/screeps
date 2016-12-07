@@ -42,6 +42,7 @@ Room.prototype.update = function() {
 Room.prototype.longUpdate = function() {
   if(Game.time % 100 === 1) {
     Object.keys(this.memory.path_counts).filter(key => this.memory.path_counts[key] <= 1).forEach(key => this.memory.path_counts[key] = undefined);
+    Object.keys(this.memory.paths).filter(key => this.memory.paths[key].length <= 2).forEach(key => this.memory.paths[key] = undefined);
     Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
   }
   if(Game.time % config.long_update_freq === 1) {
