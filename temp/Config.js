@@ -26,5 +26,6 @@ Config.reuse_path_ticks = 20;
 Config.path_max_ops = 500;
 Config.terminal_min_energy = 2000;
 Config.terminal_max_energy = 4000;
+Config.path_freq_threshold = 4;
 
 module.exports = Config;
