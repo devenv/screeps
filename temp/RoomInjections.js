@@ -2,23 +2,47 @@ var config = require('Config');
 var utils = require('Utils');
 var setups = require('UnitSetups');
 
-Room.prototype.level = function() { return _.min([15, this.extensions().length]) };
+Room.prototype.init = function() {
+  if(!this.memory.initialized) {
+    var sources = this.find(FIND_SOURCES);
+    this.memory.sources = this.find(FIND_SOURCES).length;
+    this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}});
+    this.memory.miner_max = sources.map(src => src.pos).map(pos => this.countFreeSpots(pos)).reduce((s, spots) => s += spots);
+    this.memory.towers = 0;
+    this.memory.extensions = {};
+    this.memory.extractor = {};
+    this.memory.creeps = {};
+    this.memory.creep_id = 0;
+  }
+}
 
-Room.prototype.findHostiles = function() { return this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'}) };
+Room.prototype.update = function() {
+  this.level = _.min([15, this.extensions.length]);
+  this.spawn = Game.spawns[this.memory.spawn];
+  this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
-Room.prototype.findHostileSpawn = function() { return this.find(FIND_HOSTILE_SPAWNS) };
+  this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
 
-Room.prototype.extensions = function() { return this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}) };
+  this.creeps = {};
+  config.roles.forEach(role => this.creeps[role] = this.memory.creeps[role].map(name => Game.creeps[name]).filter(creep => creep));
+  config.roles.forEach(role => this.memory.creeps[role] = this.creeps[role].map(creep => creep.name));
+  this.modernCreeps = {};
+  config.roles.forEach(role => this.modernCreeps[role] = this.creeps[role].filter(creep => creep.level >= this.level));
+  this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
+}
 
-Room.prototype.creepsByRole = function(role) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role }) };
-
-Room.prototype.creeps = function(role) { return this.find(FIND_MY_CREEPS) };
-
-Room.prototype.modernCreepsByRole = function(role) { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.role === role}).filter(creep => creep.memory.level >= this.level()) };
-
-Room.prototype.oldCreeps = function() { return this.find(FIND_MY_CREEPS, {filter:  creep => creep.memory.level < this.level() }) };
-
-Room.prototype.sites = function() { return this.find(FIND_CONSTRUCTION_SITES) };
+Room.prototype.longUpdate = function() {
+  if(Game.time % config.long_update_freq === 1) {
+    if(this.controller.my) {
+      this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }});
+      this.memory.miner_cost = setups.cost('miner', _.min([15, _.max([1, this.level])]));
+      this.miners_needed = 1 + this.memory.minerSpots + Game.memory.neighbors_miner_max;
+      this.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}});
+    } else {
+      this.memory.hostile_spawns = this.find(FIND_HOSTILE_SPAWNS);
+    }
+  }
+}
 
 Room.prototype.countFreeSpots = function(pos) {
   var creep = this;
@@ -34,8 +58,6 @@ Room.prototype.countFreeSpots = function(pos) {
   if(check(1, 1)) { count++; }
   return count;
 }
-
-Room.prototype.spawn = function() { return Game.spawns[this.memory.spawn] };
 
 Room.prototype.getEnergySink = function(creep) {
   var extensions = this.extensions();
@@ -67,27 +89,7 @@ Room.prototype.carriersNeeded = function() {
   if(!this.controller.my) {
     return 0;
   }
-  if(!this.memory.sources) {
-    this.memory.sources = this.find(FIND_SOURCES).length;
-  }
-  return this.memory.sources + 4;
-}
-
-Room.prototype.minerSpots = function() {
-  if(this.memory.miner_max === undefined) {
-    var sources = this.find(FIND_SOURCES);
-    var max = Object.keys(sources).map(source => this.countFreeSpots(sources[source].pos)).reduce((s, spots) => s += spots);
-    this.memory.miner_max = max;
-  }
-  return this.memory.miner_max;
-}
-
-Room.prototype.neighborsMinerSpots = function() {
-  if(Game.time % 10 === 0 || this.memory.neighbors_miner_max === undefined) {
-    this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.name === this.name || room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
-    //this.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.name === this.name).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
-  }
-  return this.memory.neighbors_miner_max;
+  return 1 + this.memory.sources + _.min(1, this.memory.towers) + _.min(1, this.memory);
 }
 
 Room.prototype.brokenStructures = function() {
@@ -101,5 +103,4 @@ Room.prototype.brokenStructures = function() {
 }
 
 Room.prototype.hasSpareEnergy = function() {
-  return this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > setups.cost('miner', _.min([15, _.max([1, this.level()])])) * 1.2;
 }

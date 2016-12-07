@@ -2,8 +2,6 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-var roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer', 'extractor'];
-
 function Spawner(room) {
   this.room = room;
   this.spawner = Game.spawns[this.room.memory.spawn];
@@ -47,7 +45,7 @@ Spawner.prototype.renewNearbyCreeps = function() {
 
 Spawner.prototype.spawn = function() {
   if(this.spawner !== undefined && !this.spawner.spawning) {
-    return roles.some(role => {
+    return config.roles.some(role => {
       if(this.shouldSpawn(role)) {
         this.spawnCreep(role);
         return true;
@@ -67,7 +65,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'miner':
       var count = this.countByRole(role, level);
       var carriers = this.countByRole('carrier', level);
-      return count < this.room.neighborsMinerSpots() && (count < 4 || carriers > 0);
+      return count < this.room.memory.minersNeeded() && (count < 4 || carriers > 0);
     case 'carrier': return this.countByRole(role, level) < this.room.carriersNeeded();
     case 'builder': return this.countByRole(role, level) < config.max_builders;
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
@@ -88,6 +86,10 @@ Spawner.prototype.spawnCreep = function(role) {
   if(_.isString(res)) {
     //Memory.stats[this.room.name + '.spawning'] = 1;
     console.log("spawning " + role);
+    if(!this.room.memory.creeps[role]) {
+      this.room.memory.creeps[role] = [];
+    }
+    this.room.memory.creeps[role].push(res);
   } else {
     //Memory.stats[this.room.name + '.spawning'] = 0;
   }

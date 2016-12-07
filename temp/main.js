@@ -16,10 +16,17 @@ var Claimer = require('Claimer');
 var Extractor = require('Extractor');
 var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
+var config = require('config');
 
 module.exports.loop = function() {
   var cpu = Game.cpu.getUsed();
   var exception;
+
+  if(Game.time % config.long_update_freq === 1) {
+    Game.memory.neighbors_miner_max = _.values(Game.rooms).filter(room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
+    Game.memory.terminals = _.flatten(_.values(Game.rooms).map(room => room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}})));
+  }
+
   try {
     new Flags().process();
   } catch(e) { console.log(e); exception = e; }
@@ -28,18 +35,11 @@ module.exports.loop = function() {
 
   cpu = Game.cpu.getUsed();
   _.values(Game.rooms).forEach(room => {
-    try {
-      var spawner = new Spawner(room);
-      if(!spawner.spawning) {
-        if(!spawner.renewNearbyCreeps()) {
-          //Memory.stats[room.name + '.renew'] = 0;
-          spawner.spawn();
-        } else {
-          //Memory.stats[room.name + '.renew'] = 1;
-          //Memory.stats[room.name + '.spawning'] = 0;
-        }
-      }
-    } catch(e) { console.log(e); exception = e; }
+    room.spawns.forEach(spawn => {
+      try {
+        new Spawner(spawn).act();
+      } catch(e) { console.log(e); exception = e; }
+    });
   });
   //Memory.stats['cpu.spawns'] = Game.cpu.getUsed() - cpu;
 

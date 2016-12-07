@@ -7,6 +7,7 @@ Creep.prototype.act = function(actor) {
   if(this.memory.origin_room === undefined) {
     this.memory.origin_room = this.room.name;
   }
+  this.level = this.memory.level;
 
   this.pickupEnergy();
 
