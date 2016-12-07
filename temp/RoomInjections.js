@@ -9,7 +9,7 @@ Room.prototype.init = function() {
     this.memory.sources = sources.map(source => source.id);
     this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}).map(spawn => spawn.id);
     this.memory.source_containers = [];
-    this.memory.broken_tructures = [];
+    this.memory.broken_structures = [];
     this.memory.extensions = [];
     this.memory.extractors = [];
     this.memory.towers = [];
@@ -91,7 +91,7 @@ Room.prototype.idsToObjects = function(type) {
   return this.memory[type].map(id => Game.getObjectById(id));
 }
 
-Room.prototype.broken_structures = function() { return this.idsToObjects('broken_tructures') }
+Room.prototype.broken_structures = function() { return this.idsToObjects('broken_structures') }
 Room.prototype.sources = function() { return this.idsToObjects('sources') }
 Room.prototype.extensions = function() { return this.idsToObjects('extensions') }
 Room.prototype.extractors = function() { return this.idsToObjects('extractors') }
