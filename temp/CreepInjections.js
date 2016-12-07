@@ -69,7 +69,6 @@ Creep.prototype.pickupEnergy = function() {
 Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
 Creep.prototype.goTo = function(pos) {
-  this.memory.moved = true;
   var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
   // if(res === ERR_TIRED) {
   //     this.say('tired');
@@ -112,7 +111,6 @@ Creep.prototype.attackHostiles = function() {
   if(this.room.hostileCreeps && this.room.hostileCreeps.length > 0) {
     var target = utils.sortByDistance(this.room.hostileCreeps)[0];
     if(target !== null) {
-      this.memory.moved = true;
       this.moveTo(target);
       this.attack(target);
       if(Math.random() > 0.9) {
@@ -131,7 +129,6 @@ Creep.prototype.attackSpawns = function() {
   var targets = this.room.memory.hostile_spawns;
   if(targets !== undefined && targets.length > 0) {
     var trg = Game.getObjectById(targets[0]);
-    this.memory.moved = true;
     this.moveTo(trg);
     this.attack(trg);
     if(Math.random() > 0.9) {
