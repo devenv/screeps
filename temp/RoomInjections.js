@@ -9,7 +9,7 @@ Room.prototype.init = function() {
     if(sources === undefined) { sources = []; }
     this.memory.sources = sources.map(source => source.id);
     this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}).map(spawn => spawn.id);
-    this.memory.miner_max = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
+    this.memory.miner_spots = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
     this.memory.extensions = [];
     this.memory.extractors = [];
     this.memory.towers = [];
@@ -54,7 +54,7 @@ Room.prototype.longUpdate = function() {
     if(this.controller.my) {
       this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
       this.memory.miner_cost = setups.cost('miner', _.min([15, _.max([1, this.level])]));
-      this.memory.miners_needed = 1 + this.memory.minerSpots + Memory.neighbors_miner_max;
+      this.memory.miners_needed = 1 + this.memory.miner_spots + Memory.neighbors_miner_max;
       this.memory.carriers_needed = 1 + this.sources.length + _.min(1, this.memory.towers) + _.min(1, this.memory);
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
