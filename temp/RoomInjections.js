@@ -93,7 +93,7 @@ Room.prototype.getPath = function(pos1, pos2) {
 }
 
 Room.prototype.idsToObjects = function(type) {
-  return this.memory[type].map(id => Game.getObjectById(id));
+  return this.memory[type] ? this.memory[type].map(id => Game.getObjectById(id)) : [];
 }
 
 Room.prototype.broken_structures = function() { return this.idsToObjects('broken_structures') }
