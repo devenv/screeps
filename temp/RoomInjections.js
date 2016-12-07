@@ -37,6 +37,7 @@ Room.prototype.update = function() {
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'}).map(creep => creep.name);
+  this.memory.broken_structures = this.getBrokenStructures();
 }
 
 Room.prototype.longUpdate = function() {
@@ -92,12 +93,11 @@ Room.prototype.getEnergySource = function(creep) {
 
 Room.prototype.getBrokenStructures = function() {
   var flags = this.find(FIND_FLAGS, {filter: {name: 'd'}});
-  return this.find(FIND_STRUCTURES, {filter: st => flags.length > 0 && !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
+  return this.find(FIND_STRUCTURES, {filter: st => st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
 }
 
 Room.prototype.getPath = function(pos1, pos2) {
-  if(pos1.getRangeTo(pos2) > config.min_path_length) {
-    var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
+  if(pos1.getRangeTo(pos2) > config.min_path_length) { var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
     if(!this.memory.path_counts[key]) {
       this.memory.path_counts[key] = 0;;
     }
