@@ -99,7 +99,7 @@ Room.prototype.getPath = function(pos1, pos2) {
     this.memory.path_counts[key] = 0;;
   }
   this.memory.path_counts[key]++;
-  if(this.memory.path_counts[key] > config.path_freq_threshold) {
+  if(this.memory.path_counts[key] >= config.path_freq_threshold) {
      if(!this.memory.paths[key]) {
        this.memory.paths[key] = this.findPath(pos1, pos2);
      }
