@@ -15,9 +15,9 @@ Miner.prototype.act = function() {
   }
   if(this.creep.memory.mode === 'mining') {
     if(this.creep.memory.source === undefined) {
-      this.creep.originRoom().find(FIND_SOURCES).some(source => {
+      this.creep.originRoom().sources.some(source => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
-        if (creeps_working < this.creep.originRoom().countFreeSpots(source.pos)) {
+        if (creeps_working < utils.countFreeSpots(source.pos)) {
           this.creep.memory.source = source.id;
           return true;
         }
@@ -25,9 +25,9 @@ Miner.prototype.act = function() {
     }
     if(this.creep.memory.source === undefined) {
       _.values(Game.rooms).filter(room => room.owner === undefined).some(room => {
-        return room.find(FIND_SOURCES).some(source => {
-          var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
-          if (creeps_working < room.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller && room.controller.my).length) {
+        return room.sources.some(source => {
+          var creeps_working = _.values(Game.creeps).filter(creep => creep.level >= this.creep.level && creep.memory.source === source.id).length;
+          if (creeps_working < utils.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller && room.controller.my).length) {
             this.creep.memory.source = source.id;
             return true;
           }
