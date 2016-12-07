@@ -5,8 +5,8 @@ var setups = require('UnitSetups');
 Room.prototype.init = function() {
   if(!this.memory.initialized) {
     var sources = this.find(FIND_SOURCES);
-    this.memory.sources = this.find(FIND_SOURCES).length;
-    this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}});
+    this.memory.sources = sources.map(source => source.id);
+    this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}).map(spawn => spawn.id);
     this.memory.miner_max = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
     this.memory.extensions = [];
     this.memory.extractors = [];
@@ -22,6 +22,7 @@ Room.prototype.init = function() {
 Room.prototype.update = function() {
   this.towers = [];
   this.spawns = [];
+  this.sources = this.memory.sources.map(source => Game.findObjectById(source));
   this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
   this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
   this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
@@ -53,7 +54,7 @@ Room.prototype.longUpdate = function() {
       this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
       this.memory.miner_cost = setups.cost('miner', _.min([15, _.max([1, this.level])]));
       this.memory.miners_needed = 1 + this.memory.minerSpots + Game.memory.neighbors_miner_max;
-      this.memory.carriers_needed = 1 + this.memory.sources + _.min(1, this.memory.towers) + _.min(1, this.memory);
+      this.memory.carriers_needed = 1 + this.sources.length + _.min(1, this.memory.towers) + _.min(1, this.memory);
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
     }
