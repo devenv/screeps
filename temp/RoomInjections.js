@@ -18,7 +18,6 @@ Room.prototype.init = function() {
     this.memory.miner_spots = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
     this.memory.paths = {};
     this.memory.path_counts = {};
-    this.memory.path_sum = 0;
   }
 }
 
@@ -52,9 +51,8 @@ Room.prototype.longUpdate = function() {
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
       this.memory.broken_structures = this.getBrokenStructures();
-      var min = _.min(this.memory.path_counts);
-      Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= min);
-      this.memory.path_sum -= Object.keys(this.memory.path_counts).length * min;
+      Object.keys(this.memory.path_counts).filter(key => this.memory.path_counts[key] <= 2).forEach(key => this.memory.path_counts[key] = undefined);
+      Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 2);
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       if(spawns && spawns.length > 0) {
