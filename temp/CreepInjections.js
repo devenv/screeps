@@ -48,7 +48,7 @@ Creep.prototype.originRoom = function() {
 }
 
 Creep.prototype.renew = function() {
-  var spawn = utils.sortByDistance(this.originRoom().spawns)[0];
+  var spawn = utils.sortByDistance(this.originRoom().spawns())[0];
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
     if(!this.originRoom().hasSpareEnergy || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
@@ -128,7 +128,7 @@ Creep.prototype.attackHostiles = function() {
 }
 
 Creep.prototype.attackSpawns = function() {
-  var targets = this.room.memory.hostile_spawns;
+  var targets = this.room.memory.hostile_spawns();
   if(targets !== undefined && targets.length > 0) {
     var trg = Game.getObjectById(targets[0]);
     this.moveTo(trg);
