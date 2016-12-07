@@ -41,7 +41,7 @@ Room.prototype.update = function() {
     this.modernCreeps = {};
     config.roles.forEach(role => {
       var before = this.memory.creeps[role].length;
-      this.creeps[role] = this.memory.creeps[role].filter(name => Game.creeps[name]).filter(creep => creep)
+      this.creeps[role] = this.memory.creeps[role].map(name => Game.creeps[name]).filter(creep => creep)
       this.modernCreeps[role] = this.creeps[role].filter(creep => creep.memory.level >= this.level);
       if(before !== this.creeps[role].length) {
         this.memory.creeps[role] = this.creeps[role].map(creep => creep.name);
