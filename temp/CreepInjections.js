@@ -7,8 +7,6 @@ var energySinks = [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCT
 Creep.prototype.act = function(actor) {
   this.level = this.memory.level;
 
-  this.pickupEnergy();
-
   if(this.shouldRenew()) {
     this.memory.mode = 'renew';
   }
@@ -26,18 +24,22 @@ Creep.prototype.act = function(actor) {
     return;
   }
 
-  this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
-  this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+  if(Memory.has_cpu) {
+    this.pickupEnergy();
 
-  actor.act();
-  if(this.carry.energy > 0) {
-    if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
-      var trg = creepsInRange
-      .map(creep => Game.creeps[creep])
-      .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
-      if(trg.length > 0) {
-        this.transfer(trg[0], RESOURCE_ENERGY);
-        return
+    this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
+    this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+
+    actor.act();
+    if(this.carry.energy > 0) {
+      if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
+        var trg = creepsInRange
+        .map(creep => Game.creeps[creep])
+        .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
+        if(trg.length > 0) {
+          this.transfer(trg[0], RESOURCE_ENERGY);
+          return
+        }
       }
     }
   }

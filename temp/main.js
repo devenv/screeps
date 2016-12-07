@@ -18,10 +18,7 @@ module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
   var exceptions = [];
 
-  if(Game.cpu.bucket < 1000) {
-    console.log("no cpu left");
-    throw "no cpu left";
-  }
+  Memory.has_cpu = Game.cpu.bucket < 1000;
 
   if(Game.time % config.long_update_freq === 1) {
     Memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.memory.miner_spots).reduce((s, r)=> s += r, 0);
