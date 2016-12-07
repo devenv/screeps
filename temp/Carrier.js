@@ -19,25 +19,23 @@ Carrier.prototype.act = function() {
 
   if(this.creep.memory.target === undefined) {
     var room = this.creep.originRoom();
-    var sources = room.find(FIND_SOURCES).filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
+    var sources = room.sources.filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
     if(sources.length > 0) {
       sources.some(source => {
-        var containers = source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
-        if(containers.length > 0) {
+        if(room.source_containers.length > 0) {
           this.creep.memory.supplying = false;
           this.creep.memory.owner = source.pos;
-          this.creep.memory.target = containers[0].pos;
+          this.creep.memory.target = room.source_containers[0].pos;
           return true;
         }
       });
     }
     if(this.creep.memory.target === undefined) {
       if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
-        var containers = room.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}});
-        if(containers.length > 0) {
+        if(room.source_containers.length > 0) {
           this.creep.memory.supplying = true;
           this.creep.memory.owner = room.controller.pos
-          this.creep.memory.target = containers[0].pos;
+          this.creep.memory.target = room.source_containers[0].pos;
         }
       }
     }
@@ -54,7 +52,7 @@ Carrier.prototype.act = function() {
       }
     }
     if(this.creep.memory.target === undefined) {
-      var towers = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).sort((a, b)=> a.energy > b.energy ? 1 : -1);
+      var towers = room.towers.sort((a, b)=> a.energy > b.energy ? 1 : -1);
       if(towers.length > 0) {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = towers[0].pos;
