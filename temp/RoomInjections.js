@@ -97,8 +97,7 @@ Room.prototype.getPath = function(pos1, pos2) {
     this.memory.path_counts[key] = 0;;
   }
   this.memory.path_counts[key]++;
-  this.memory.path_sum++;
-  if(this.memory.path_counts[key] > this.memory.path_sum / Object.keys(this.memory.path_counts).length * 2) {
+  if(this.memory.path_counts[key] > 10) {
      if(!this.memory.paths[key]) {
        this.memory.paths[key] = this.findPath(pos1, pos2);
      }
