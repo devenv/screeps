@@ -13,11 +13,7 @@ Room.prototype.init = function() {
     this.memory.extensions = [];
     this.memory.extractors = [];
     this.memory.towers = [];
-    this.memory.creeps = {};
     this.memory.creep_id = 0;
-    config.roles.forEach(role => {
-      this.memory.creeps[role] = [];
-    });
     this.memory.initialized = true;
   }
 }
@@ -43,8 +39,8 @@ Room.prototype.update = function() {
       this.creeps[role] = [];
       this.modernCreeps[role] = [];
     });
-    this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep));
-    _.flatten(_.values(this.creeps)).filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep);
+    this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep.name));
+    _.flatten(_.values(this.creeps)).filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep.name);
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
