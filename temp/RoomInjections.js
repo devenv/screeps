@@ -16,6 +16,7 @@ Room.prototype.init = function() {
 }
 
 Room.prototype.update = function() {
+  this.towers = [];
   if(this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
     this.spawn = Game.spawns[this.memory.spawn];
