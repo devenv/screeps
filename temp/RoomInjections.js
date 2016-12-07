@@ -38,9 +38,12 @@ Room.prototype.update = function() {
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
     this.creeps = {};
-    config.roles.forEach(role => this.creeps[role] = []);
-    this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep));
     this.modernCreeps = {};
+    config.roles.forEach(role => {
+      this.creeps[role] = [];
+      this.modernCreeps[role] = [];
+    });
+    this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep));
     _.flatten(_.values(this.creeps)).filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep);
   }
 
