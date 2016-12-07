@@ -85,11 +85,9 @@ module.exports.loop = function() {
     } catch(e) { console.log(e); exceptions.push(e); }
   });
 
+  //Memory.stats['errors'] = exceptions.length;
   if(exceptions.length > 0) {
-    //Memory.stats['errors'] = 1;
-    throw exceptions;
-  } else {
-    //Memory.stats['errors'] = 0;
+    throw exceptions[0];
   }
   //Memory.stats['cpu.bucket'] = Game.cpu.bucket;
   //Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
