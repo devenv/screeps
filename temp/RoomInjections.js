@@ -10,6 +10,7 @@ Room.prototype.init = function() {
     this.memory.sources = sources.map(source => source.id);
     this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}).map(spawn => spawn.id);
     this.memory.miner_spots = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
+    this.memory.source_containers = [];
     this.memory.extensions = [];
     this.memory.extractors = [];
     this.memory.towers = [];
