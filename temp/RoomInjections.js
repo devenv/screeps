@@ -54,6 +54,7 @@ Room.prototype.longUpdate = function() {
       this.memory.broken_structures = this.getBrokenStructures();
       var min = _.min(this.memory.path_counts);
       Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= min);
+      this.memory.path_sum -= Object.keys(this.memory.path_counts).length * min;
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       if(spawns && spawns.length > 0) {
