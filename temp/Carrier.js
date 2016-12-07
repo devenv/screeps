@@ -70,7 +70,7 @@ Carrier.prototype.act = function() {
         if(this.creep.memory.src === undefined) {
           var spawns = this.creep.originRoom().spawns();
           if(spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
-            src = utils.sortByDistance(spawns);
+            src = utils.sortByDistance(spawns)[0];
           } else {
             src = this.creep.originRoom().getEnergySource(this.creep);
           }
