@@ -28,8 +28,8 @@ Room.prototype.update = function() {
   this.sources = this.memory.sources.map(source => Game.getObjectById(source));
   this.source_containers = this.memory.source_containers.map(container => Game.getObjectById(container));
   this.controller_container = this.memory.controller_container ? Game.getObjectById(this.memory.controller_container) : undefined;
-  this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
-  this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
+  this.extensions = this.memory.extensions.map(extension => Game.getObjectById(extension));
+  this.extractors = this.memory.extractors.map(extractor => Game.getObjectById(extractor));
   this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
   this.brokenStructures = this.brokenStructures();
   if(this.controller && this.controller.my) {
@@ -60,7 +60,7 @@ Room.prototype.longUpdate = function() {
       this.find(FIND_MY_CREEPS).forEach(creep => this.memory.creeps[creep.memory.role].push(creep.name));
       this.memory.source_containers = _.flatten(this.sources.map(source => source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}))).map(container => container.id);
       this.memory.controller_container = this.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}).map(container => container.id);
-      this.memory.extensions = this.find(FIND_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
+      this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
       this.memory.miner_cost = setups.cost('miner', _.min([15, _.max([1, this.level])]));
       this.memory.miners_needed = 1 + this.memory.miner_spots + Memory.neighbors_miner_max;
       this.memory.carriers_needed = 1 + this.sources.length + _.min(1, this.memory.towers);
