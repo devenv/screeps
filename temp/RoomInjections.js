@@ -83,6 +83,7 @@ Room.prototype.getEnergySink = function(creep) {
       this.extensions.concat(this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? [this.sotrage] : []))
       .filter(ext => ext)
       .filter(ext => ext.energy < ext.energyCapacity)
+    , creep
     )
   );
 }
@@ -93,6 +94,7 @@ Room.prototype.getEnergySource = function(creep) {
       this.extensions.concat(this.spawns, (this.storage && this.storage.store[RESOURCE_ENERGY] < 1000000 ? [this.sotrage] : []))
       .filter(ext => ext)
       .filter(ext => ext.energy > 0)
+    , creep
     )
   );
 }

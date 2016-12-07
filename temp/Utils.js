@@ -21,7 +21,7 @@ Utils.countFreeSpots = function(pos) {
   return count;
 }
 
-Utils.sortByDistance = function(arr) {
+Utils.sortByDistance = function(arr, creep) {
   if(!arr) {
     return undefined;
   }
