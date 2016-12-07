@@ -18,6 +18,10 @@ module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
   var exceptions = [];
 
+  if(Game.cpu.ticksLimit < 200) {
+    return;
+  }
+
   if(Game.time % config.long_update_freq === 1) {
     Memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.memory.miner_spots).reduce((s, r)=> s += r, 0);
     Memory.terminal = _.first(_.flatten(_.values(Game.rooms).map(room => room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).map(ter => ter.id))));
