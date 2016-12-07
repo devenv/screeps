@@ -1,5 +1,3 @@
-var debug = true;
-
 var config = require('Config');
 var utils = require('Utils');
 var Spawner = require('Spawner');
@@ -18,7 +16,7 @@ var CreepInjections = require('CreepInjections');
 
 module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
-  var exception;
+  var exceptions = [];
 
   if(Game.time % config.long_update_freq === 1) {
     Game.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
@@ -30,18 +28,18 @@ module.exports.loop = function() {
       room.init();
       room.update();
       room.longUpdate();
-    } catch(e) { console.log(e); exception = e; }
+    } catch(e) { console.log(e); exception.push(e); }
 
     room.towers.forEach(tower => {
       try {
         new Tower(st).act();
-      } catch(e) { console.log(e); exception = e; }
+      } catch(e) { console.log(e); exception.push(e); }
     });
 
     room.spawns.forEach(spawn => {
       try {
         new Spawner(spawn).act();
-      } catch(e) { console.log(e); exception = e; }
+      } catch(e) { console.log(e); exception.push(e); }
     });
   });
 
@@ -73,7 +71,7 @@ module.exports.loop = function() {
       }
       creep.memory.stuck++;
       creep.memory.same_pos = creep.memory.same_pos && utils.samePos(creep.memory.last_pos, creep.pos);
-    } catch(e) { console.log(e); exception = e; }
+    } catch(e) { console.log(e); exception.push(e); }
 
     try {
         if((creep.memory.moved || Math.random() > 0.9) && creep.memory.same_pos || Math.random() < 1 / (config.twitch_threshold * 10)) {
@@ -84,12 +82,12 @@ module.exports.loop = function() {
         creep.memory.stuck = 0;
 
         creep.memory.last_pos = creep.pos;
-    } catch(e) { console.log(e); exception = e; }
+    } catch(e) { console.log(e); exception.push(e); }
   });
 
-  if(exception !== undefined && debug) {
+  if(exception !== undefined) {
     //Memory.stats['errors'] = 1;
-    throw exception;
+    throw exceptions;
   } else {
     //Memory.stats['errors'] = 0;
   }
