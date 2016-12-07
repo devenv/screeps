@@ -13,6 +13,9 @@ Room.prototype.init = function() {
     this.memory.towers = [];
     this.memory.creeps = {};
     this.memory.creep_id = 0;
+    config.roles.forEach(role => {
+      this.memory.creeps[role] = [];
+    });
   }
 }
 
@@ -31,7 +34,7 @@ Room.prototype.update = function() {
 
     this.creeps = {};
     config.roles.forEach(role => {
-      var before = this.creeps[role] ? this.creeps[role].length : 0;
+      var before = this.memory.creeps[role].length;
       this.creeps[role] = this.memory.creeps[role].filter(name => Game.creeps[name]).filter(creep => creep)
       this.modernCreeps[role] = this.creeps[role].filter(creep => creep.level >= this.level);
       if(before !== this.creeps[role].length) {
