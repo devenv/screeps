@@ -89,7 +89,7 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-  this.structuresInRange.filter(st => st.structureType === STRUCTURE_CONTAINER)
+  var containers = this.structuresInRange.filter(st => st.structureType === STRUCTURE_CONTAINER)
   .sort((a, b) => a.energy > b.energy ? -1 : 1);
   if(containers !== undefined && containers.length > 0) {
     this.withdraw(containers[0], RESOURCE_ENERGY);
