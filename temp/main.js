@@ -19,7 +19,7 @@ module.exports.loop = function() {
   var exceptions = [];
 
   if(Game.cpu.ticksLimit < 200) {
-    return;
+    throw "no cpu left";
   }
 
   if(Game.time % config.long_update_freq === 1) {
