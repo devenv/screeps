@@ -42,7 +42,7 @@ Carrier.prototype.act = function() {
       }
     }
     if(Memory.terminal !== undefined) {
-      var terminal = Game.getObjectById(Memory.terminal.id);
+      var terminal = Game.getObjectById(Memory.terminal);
       if(terminal.store[RESOURCE_ENERGY] < config.terminal_min_energy) {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = terminal.pos;

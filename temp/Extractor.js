@@ -32,7 +32,7 @@ Extractor.prototype.act = function() {
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
-    var terminal = Game.getObjectById(Memory.terminal.id);
+    var terminal = Game.getObjectById(Memory.terminal);
     if(this.creep.pos.isNearTo(terminal)) {
       Object.keys(this.creep.carry).forEach(key => {
         if(this.creep.carry[key] > 0) {
