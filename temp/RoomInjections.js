@@ -24,7 +24,7 @@ Room.prototype.init = function() {
 Room.prototype.update = function() {
   this.towers = [];
   this.spawns = [];
-  this.sources = this.memory.sources.map(source => Game.findObjectById(source));
+  this.sources = this.memory.sources.map(source => Game.getObjectId(source));
   this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
   this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
   this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
