@@ -18,7 +18,7 @@ module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
   var exceptions = [];
 
-  if(Game.cpu.ticksLimit < 200) {
+  if(Game.cpu.bucket < 1000) {
     console.log("no cpu left");
     throw "no cpu left";
   }
