@@ -18,7 +18,7 @@ Room.prototype.init = function() {
 Room.prototype.update = function() {
   this.towers = [];
   this.spawns = [];
-  if(this.controller.my) {
+  if(this.controller && this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
     this.spawns = this.memory.spawn.map(spawn => Game.spawns[spawn]);
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
