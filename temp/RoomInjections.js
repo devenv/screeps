@@ -15,7 +15,6 @@ Room.prototype.init = function() {
     this.memory.towers = [];
     this.memory.creep_id = 0;
     this.memory.initialized = true;
-    this.memory.paths = {};
   }
 }
 
@@ -41,7 +40,7 @@ Room.prototype.update = function() {
       this.modernCreeps[role] = [];
     });
     this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep.name));
-    _.flatten(_.values(this.creeps)).filter(creep => Game.creeps[creep].memory.level >= this.level).forEach(creep => this.modernCreeps[Game.creeps[creep].memory.role].push(creep));
+    _.flatten(_.values(this.creeps)).filter(creep => Game.creeps[creep].memory.level >= this.level).forEach(creep => this.modernCreeps[Game.creeps[creep].memory.role].push(creep.name));
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
@@ -94,12 +93,4 @@ Room.prototype.getEnergySource = function(creep) {
 Room.prototype.brokenStructures = function() {
   var flags = this.find(FIND_FLAGS, {filter: {name: 'd'}});
   return this.find(FIND_STRUCTURES, {filter: st => flags.length > 0 && !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1);
-}
-
-Room.prototype.getPath = function(pos1, pos2) {
-  var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2y;
-  if(!this.memory.paths[key]) {
-    this.memory.paths[key] = this.findPath(pos1, pos2, {serialize: true});
-  }
-  return this.memory.paths[key];
 }
