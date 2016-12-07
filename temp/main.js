@@ -15,7 +15,6 @@ var Claimer = require('Claimer');
 var Extractor = require('Extractor');
 var RoomInjections = require('RoomInjections');
 var CreepInjections = require('CreepInjections');
-var config = require('config');
 
 module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
