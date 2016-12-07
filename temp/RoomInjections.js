@@ -18,6 +18,11 @@ Room.prototype.init = function() {
 Room.prototype.update = function() {
   this.towers = [];
   this.spawns = [];
+  this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
+  this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
+  this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
+  this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
+  this.brokenStructures = this.brokenStructures();
   if(this.controller && this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
     this.spawns = this.memory.spawn.map(spawn => Game.spawns[spawn]);
@@ -32,11 +37,6 @@ Room.prototype.update = function() {
         this.memory.creeps[role] = this.creeps[role].map(creep => creep.name);
       }
     });
-    this.constructionSites = this.find(FIND_CONSTRUCTION_SITES);
-    this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
-    this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
-    this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
-    this.brokenStructures = this.brokenStructures();
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
