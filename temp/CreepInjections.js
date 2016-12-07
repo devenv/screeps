@@ -68,11 +68,13 @@ Creep.prototype.pickupEnergy = function() {
 
 Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
-Creep.prototype.goTo = function(pos) {
-  var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-  // if(res === ERR_TIRED) {
-  //     this.say('tired');
-  // }
+Creep.prototype.goTo = function(to, from) {
+  var res;
+  if(from) {
+    res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+  } else {
+    res = this.moveByPath(this.room.getPath(from, to));
+  }
   if(res !== 0 && res !== ERR_TIRED) {
     res = this.moveTo(pos);
     if(res !== 0 && res !== ERR_TIRED) {
