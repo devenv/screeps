@@ -27,7 +27,7 @@ Room.prototype.update = function() {
   this.spawns = [];
   this.sources = this.memory.sources.map(source => Game.getObjectById(source));
   this.source_containers = this.memory.source_containers.map(container => Game.getObjectById(container));
-  this.controller_container = this.memory.controller_container ? Game.getObjectId(this.memory.controller_container) : undefined;
+  this.controller_container = this.memory.controller_container ? Game.getObjectById(this.memory.controller_container) : undefined;
   this.extensions = this.memory.extensions.map(extension => Game.getObjectId(extension));
   this.extractors = this.memory.extractors.map(extractor => Game.getObjectId(extractor));
   this.towers = this.memory.towers.map(tower => Game.getObjectId(tower));
