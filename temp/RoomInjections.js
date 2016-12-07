@@ -6,7 +6,7 @@ Room.prototype.init = function() {
   this.memory.initialized = false;
   if(!this.memory.initialized) {
     var sources = this.find(FIND_SOURCES);
-    if(srouces === undefined) { sources = []; }
+    if(sources === undefined) { sources = []; }
     this.memory.sources = sources.map(source => source.id);
     this.memory.spawns = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}).map(spawn => spawn.id);
     this.memory.miner_max = sources.map(src => src.pos).map(pos => utils.countFreeSpots(pos)).reduce((s, spots) => s += spots);
