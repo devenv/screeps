@@ -41,7 +41,7 @@ Room.prototype.update = function() {
     config.roles.forEach(role => this.creeps[role] = []);
     this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep));
     this.modernCreeps = {};
-    this.creeps.filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep);
+    _.flatten(_.values(this.creeps)).filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep);
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
