@@ -92,5 +92,5 @@ Room.prototype.getEnergySource = function(creep) {
 
 Room.prototype.brokenStructures = function() {
   var flags = this.find(FIND_FLAGS, {filter: {name: 'd'}});
-  return this.find(FIND_STRUCTURES, {filter: st => flags.length > 0 && !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1);
+  return this.find(FIND_STRUCTURES, {filter: st => flags.length > 0 && !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
 }
