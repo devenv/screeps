@@ -111,7 +111,7 @@ Creep.prototype.transferToNearby= function() {
 
 Creep.prototype.attackHostiles = function() {
   if(this.room.hostileCreeps && this.room.hostileCreeps.length > 0) {
-    var target = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'})[0];
+    var target = this.room.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'})[0];
     if(target !== null) {
       this.moveTo(target);
       this.attack(target);
