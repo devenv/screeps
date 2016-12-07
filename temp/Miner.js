@@ -15,6 +15,7 @@ Miner.prototype.act = function() {
   }
   if(this.creep.memory.mode === 'mining') {
     if(this.creep.memory.source === undefined) {
+      this.creep.say('source?');
       this.creep.originRoom().sources().some(source => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
         if (creeps_working < utils.countFreeSpots(source.pos)) {

@@ -63,7 +63,6 @@ module.exports.loop = function() {
         } catch(e) { console.log(e); exceptions.push(e); }
       });
     })
-
   });
 
   //Memory.stats['errors'] = exceptions.length;
