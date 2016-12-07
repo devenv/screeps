@@ -21,7 +21,7 @@ module.exports.loop = function() {
   var exception;
 
   if(Game.time % config.long_update_freq === 1) {
-    Game.memory.neighbors_miner_max = _.values(Game.rooms).filter(room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
+    Game.memory.neighbors_miner_max = _.values(Game.rooms).filter(room => room.controller && room.controller.owner === undefined).map(room => room.minerSpots()).reduce((s, r)=> s += r, 0);
     Game.memory.terminals = _.flatten(_.values(Game.rooms).map(room => room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}})));
   }
 
