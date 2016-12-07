@@ -3,7 +3,6 @@ var utils = require('Utils');
 var setups = require('UnitSetups');
 
 Room.prototype.init = function() {
-  this.memory.initialized = false;
   if(!this.memory.initialized) {
     var sources = this.find(FIND_SOURCES);
     if(sources === undefined) { sources = []; }
@@ -19,6 +18,7 @@ Room.prototype.init = function() {
     config.roles.forEach(role => {
       this.memory.creeps[role] = [];
     });
+    this.memory.initialized = true;
   }
 }
 
