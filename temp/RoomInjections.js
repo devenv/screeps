@@ -65,7 +65,6 @@ Room.prototype.longUpdate = function() {
   }
 }
 
-
 Room.prototype.getEnergySink = function(creep) {
   return _.first(
     utils.sortByDistance(

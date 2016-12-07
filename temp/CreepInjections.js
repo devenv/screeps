@@ -120,6 +120,7 @@ Creep.prototype.attackHostiles = function() {
       //Memory.stats[this.room.name + '.creeps.hostiles'] = 1;
       return true;
     }
+  }
   //Memory.stats[this.room.name + '.creeps.hostiles'] = 0;
   return false;
 }
