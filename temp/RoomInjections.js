@@ -40,7 +40,7 @@ Room.prototype.update = function() {
       this.modernCreeps[role] = [];
     });
     this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep.name));
-    _.flatten(_.values(this.creeps)).filter(creep => Game.creeps[creep].memory.level >= this.level).forEach(creep => this.modernCreeps[Game.creeps[creep].memory.role] = creep.name);
+    _.flatten(_.values(this.creeps)).filter(creep => Game.creeps[creep].memory.level >= this.level).forEach(creep => this.modernCreeps[Game.creeps[creep].memory.role].push(creep));
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
