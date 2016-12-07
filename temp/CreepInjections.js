@@ -108,13 +108,15 @@ Creep.prototype.withdrawFromNearby = function() {
 }
 
 Creep.prototype.transferToNearby= function() {
-  var containers = this.structuresInRange
-  .map(st => Game.getObjectById(st))
-  .filter(st => _.contains(energySinks, st.structureType))
-  .sort((a, b) => a.energy > b.energy ? 1 : -1);
-  if(containers.length > 0) {
-    this.transfer(containers[0], RESOURCE_ENERGY);
-    return;
+  if(this.carry.energy > 0) {
+    var containers = this.structuresInRange
+    .map(st => Game.getObjectById(st))
+    .filter(st => _.contains(energySinks, st.structureType))
+    .sort((a, b) => a.energy > b.energy ? 1 : -1);
+    if(containers.length > 0) {
+      this.transfer(containers[0], RESOURCE_ENERGY);
+      return;
+    }
   }
 }
 
