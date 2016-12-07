@@ -67,7 +67,7 @@ Spawner.prototype.spawnCreep = function(role) {
   var res = this.spawn.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level, "origin_room": this.room.name});
   if(_.isString(res)) {
     //Memory.stats[this.room.name + '.spawning'] = 1;
-    console.log(this.room.name + ": spawning " + role);
+    console.log(this.room.name + ": spawning " + role + " - " + res);
     if(!this.room.memory.creeps[role]) {
       this.room.memory.creeps[role] = [];
     }
