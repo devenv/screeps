@@ -40,6 +40,10 @@ Room.prototype.update = function() {
 }
 
 Room.prototype.longUpdate = function() {
+  if(Game.time % 100) {
+    Object.keys(this.memory.path_counts).filter(key => this.memory.path_counts[key] <= 1).forEach(key => this.memory.path_counts[key] = undefined);
+    Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
+  }
   if(Game.time % config.long_update_freq === 1) {
     if(this.controller.my) {
       this.memory.source_containers = _.flatten(this.sources().map(source => source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}))).map(container => container.id);
@@ -51,8 +55,6 @@ Room.prototype.longUpdate = function() {
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
       this.memory.broken_structures = this.getBrokenStructures();
-      Object.keys(this.memory.path_counts).filter(key => this.memory.path_counts[key] <= 1).forEach(key => this.memory.path_counts[key] = undefined);
-      Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       if(spawns && spawns.length > 0) {
