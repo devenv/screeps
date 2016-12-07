@@ -32,7 +32,7 @@ Room.prototype.update = function() {
   this.brokenStructures = this.brokenStructures();
   if(this.controller && this.controller.my) {
     this.level = _.min([15, this.extensions.length]);
-    this.spawns = this.memory.spawns.map(spawn => Game.spawns[spawn]);
+    this.spawns = this.memory.spawns.map(spawn => Game.getObjectById(spawn));
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
     this.creeps = {};
