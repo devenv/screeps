@@ -2,49 +2,34 @@ var utils = require('Utils');
 var config = require('Config');
 var setups = require('UnitSetups');
 
-function Spawner(room) {
-  this.room = room;
-  this.spawner = Game.spawns[this.room.memory.spawn];
-  this.level = this.room.level();
-  if(this.room.memory.spawn === undefined) {
-    this.room.memory.spawn = Object.keys(Game.spawns).filter(spawn => Game.spawns[spawn].room.name === room.name)[0];
-  }
-  if(this.room.memory.creep_id === undefined) {
-    this.room.memory.creep_id = 0;
-  }
+function Spawner(spawn) {
+  this.spawn = spawn;
+  this.creepsInRange = this.spawn.pos.findInRange(FIND_MY_CREEPS, 1);
   //this.showStats();
-  if(Game.time % 100 === 1) {
-    Memory.extractors = this.findAllStructures(STRUCTURE_EXTRACTOR);
-    var terminals = this.findAllStructures(STRUCTURE_TERMINAL);
-    if(terminals.length > 0) {
-      Memory.terminal = terminals[0];
-    }
-  }
 };
 
-Spawner.prototype.findAllStructures = function(structure_type) {
-    return _.values(Game.rooms).map(room => {
-      var structures = room.find(FIND_STRUCTURES, {filter: {structureType: structure_type}});
-      return structures.length > 0 ? structures[0] : null
-    }).filter(structure => structure !== null)
+Spawner.prototype.act = function() {
+  if(!this.spawn.spawning) {
+    if(this.renewNearbyCreeps()) { return }
+    this.spawn();
+  }
 }
 
 Spawner.prototype.renewNearbyCreeps = function() {
-  if(this.spawner) {
-    var creeps = this.spawner.pos.findInRange(FIND_MY_CREEPS, 1).filter(creep => creep.ticksToLive < config.renew_to_ttl).sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1);
-    if(creeps.length > 0) {
-      return creeps.some(creep => {
-        if (this.room.hasSpareEnergy() || creep.ticksToLive < config.critical_ttl || creep.memory.role === 'miner') {
-          return this.spawner.renewCreep(creep) === 0
-        }
-      });
+  return this.creepsInRange
+  .filter(creep => creep.ticksToLive < config.renew_to_ttl)
+  .sort((a, b) => a.ticksToLive > config.critical_ttl ? 1 : -1)
+  .some(creep => {
+    if (this.room.hasSpareEnergy || creep.ticksToLive < config.critical_ttl || creep.memory.role === 'miner') {
+      this.spawn.renewCreep(creep);
+      return true;
     }
-  }
-  return false;
+    return false;
+  });
 }
 
 Spawner.prototype.spawn = function() {
-  if(this.spawner !== undefined && !this.spawner.spawning) {
+  if(!this.spawn.spawning) {
     return config.roles.some(role => {
       if(this.shouldSpawn(role)) {
         this.spawnCreep(role);
@@ -55,17 +40,13 @@ Spawner.prototype.spawn = function() {
   }
 }
 
-Spawner.prototype.countByRole = function(role, level) {
-  return _.values(Game.creeps).filter(creep => creep.memory.origin_room === this.room.name && creep.memory.role === role && creep.memory.level >= level).length;
-}
-
 Spawner.prototype.shouldSpawn = function(role) {
   var level = this.room.level();
   switch(role) {
     case 'miner':
-      var count = this.countByRole(role, level);
-      var carriers = this.countByRole('carrier', level);
-      return count < this.room.memory.minersNeeded() && (count < 4 || carriers > 0);
+      var miners = this.room.modernCreeps[role].length;
+      var carriers = this.room.modernCreeps['carrier'].length;
+      return count < this.room.minersNeeded() && (count < 4 || carriers > 0);
     case 'carrier': return this.countByRole(role, level) < this.room.carriersNeeded();
     case 'builder': return this.countByRole(role, level) < config.max_builders;
     case 'soldier': return this.countByRole(role, level) < config.max_guards;
