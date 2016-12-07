@@ -71,15 +71,15 @@ Creep.prototype.pickupEnergy = function() {
 Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
 Creep.prototype.goTo = function(pos) {
-  //var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-  if(pos && (pos.x || pos.pos.x)) {
-    var res;
-    var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
-    if(path) {
-      res = this.moveByPath(path);
-    } else {
-      res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-    }
+  var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+  //if(pos && (pos.x || pos.pos.x)) {
+    //var res;
+    //var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
+    //if(path) {
+      //res = this.moveByPath(path);
+    //} else {
+      //res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+    //}
     if(res !== 0 && res !== ERR_TIRED) {
       res = this.moveTo(pos);
       if(res !== 0 && res !== ERR_TIRED) {
@@ -89,7 +89,7 @@ Creep.prototype.goTo = function(pos) {
         }
       }
     }
-  }
+  //}
 }
 
 Creep.prototype.twitch = function() {
