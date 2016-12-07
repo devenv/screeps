@@ -74,11 +74,11 @@ Creep.prototype.goTo = function(pos) {
   //var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
   if(pos && (pos.x || pos.pos.x)) {
     var res;
-    if(this.pos.getRangeTo(pos) < 5) {
-      var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-    } else {
-      var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
+    var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
+    if(path) {
       res = this.moveByPath(path);
+    } else {
+      res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
     }
     if(res !== 0 && res !== ERR_TIRED) {
       res = this.moveTo(pos);
