@@ -33,6 +33,7 @@ Room.prototype.update = function() {
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
     this.creeps = {};
+    this.modernCreeps = {};
     config.roles.forEach(role => {
       var before = this.memory.creeps[role].length;
       this.creeps[role] = this.memory.creeps[role].filter(name => Game.creeps[name]).filter(creep => creep)
