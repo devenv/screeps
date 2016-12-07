@@ -43,7 +43,7 @@ Room.prototype.update = function() {
     _.flatten(_.values(this.creeps)).filter(creep => Game.creeps[creep].memory.level >= this.level).forEach(creep => this.modernCreeps[Game.creeps[creep].memory.role].push(creep));
   }
 
-  this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
+  this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'}).map(creep => creep.name);
 }
 
 Room.prototype.longUpdate = function() {
