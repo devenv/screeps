@@ -2,6 +2,7 @@ var config = require('Config');
 
 function Tower(tower) {
   this.tower = tower;
+  this.room = tower.room;
 };
 
 Tower.prototype.act = function() {
