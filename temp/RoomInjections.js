@@ -38,15 +38,10 @@ Room.prototype.update = function() {
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
     this.creeps = {};
+    config.roles.forEach(role => this.creeps[role] = []);
+    this.find(FIND_MY_CREEPS).forEach(creep => this.creeps[creep.memory.role].push(creep));
     this.modernCreeps = {};
-    config.roles.forEach(role => {
-      var before = this.memory.creeps[role].length;
-      this.creeps[role] = this.memory.creeps[role].map(name => Game.creeps[name]).filter(creep => creep)
-      this.modernCreeps[role] = this.creeps[role].filter(creep => creep.memory.level >= this.level);
-      if(before !== this.creeps[role].length) {
-        this.memory.creeps[role] = this.creeps[role].map(creep => creep.name);
-      }
-    });
+    this.creeps.filter(creep => creep.memory.level >= this.level).forEach(creep => this.modernCreeps[creep.memory.role] = creep);
   }
 
   this.hostileCreeps = this.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'});
@@ -55,9 +50,6 @@ Room.prototype.update = function() {
 Room.prototype.longUpdate = function() {
   if(Game.time % config.long_update_freq === 1) {
     if(this.controller.my) {
-      this.memory.creeps = {};
-      config.roles.forEach(role => this.memory.creeps[role] = []);
-      this.find(FIND_MY_CREEPS).forEach(creep => this.memory.creeps[creep.memory.role].push(creep.name));
       this.memory.source_containers = _.flatten(this.sources.map(source => source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}))).map(container => container.id);
       this.memory.controller_container = this.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}).map(container => container.id);
       this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
