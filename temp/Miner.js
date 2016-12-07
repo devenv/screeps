@@ -45,7 +45,7 @@ Miner.prototype.act = function() {
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
-    var src = this.creep.originRoom().getEnergySink(this.creep);
+    var src = this.creep.origin_room.getEnergySink(this.creep);
     if(this.creep.pos.isNearTo(src)) {
       this.creep.transfer(src, RESOURCE_ENERGY);
     } else {

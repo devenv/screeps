@@ -65,7 +65,7 @@ Builder.prototype.act = function() {
     if(this.creep.carry.energy === this.creep.carryCapacity) {
       this.creep.memory.mode = 'build';
     } else {
-      var trg = this.creep.originRoom().getEnergySource(this.creep);
+      var trg = this.creep.origin_room.getEnergySource(this.creep);
       this.creep.goTo(trg);
       //if (trg === this.creep.room.storage || this.creep.room.hasSpareEnergy) {
         this.creep.withdraw(trg, RESOURCE_ENERGY);
