@@ -64,7 +64,7 @@ Spawner.prototype.spawnCreep = function(role) {
   this.room.memory.creep_id = id;
   var count = _.values(Game.creeps).filter(creep => creep.memory.origin_room === this.room.name && creep.memory.role === 'miner').length;
   var level = _.max([1, _.min([this.level, count < 4 ? 1 : 1000])]);
-  var res = this.spawner.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level, "origin_room": this.room.name});
+  var res = this.spawn.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level, "origin_room": this.room.name});
   if(_.isString(res)) {
     //Memory.stats[this.room.name + '.spawning'] = 1;
     console.log("spawning " + role);
@@ -100,15 +100,9 @@ Spawner.prototype.showStats = function() {
   Memory.stats[this.room.name + '.creeps.scouts'] = scouts;
   Memory.stats[this.room.name + '.creeps.extractors'] = extractors;
   Memory.stats[this.room.name + '.creeps.old'] = old_count;
-  if(this.spawner) {
-    Memory.stats[this.room.name + '.energy.spawn'] = this.spawner.energy;
-    Memory.stats[this.room.name + '.energy.towers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(st => st.energy).reduce((s, e) => s += e, 0);
-    Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
-  } else {
-    Memory.stats[this.room.name + '.energy.spawn'] = 0;
-    Memory.stats[this.room.name + '.energy.towers'] = 0;
-    Memory.stats[this.room.name + '.progress.controller'] = 0;
-  }
+  Memory.stats[this.room.name + '.energy.spawn'] = this.spawn.energy;
+  Memory.stats[this.room.name + '.energy.towers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(st => st.energy).reduce((s, e) => s += e, 0);
+  Memory.stats[this.room.name + '.progress.controller'] = this.room.controller.progress / this.room.controller.progressTotal;
 
   Memory.stats[this.room.name + '.energy.room'] = this.room.energyAvailable;
   Memory.stats[this.room.name + '.energy.containers'] = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}).map(st => _.sum(st.store)).reduce((s, e) => s += e, 0);
