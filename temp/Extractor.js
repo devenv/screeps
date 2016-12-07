@@ -16,7 +16,7 @@ Extractor.prototype.act = function() {
     if(this.creep.memory.deposit === undefined) {
       this.creep.originRoom().find(FIND_MINERALS).some(deposit => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.deposit === deposit.id).length;
-        if (creeps_working < this.creep.originRoom().countFreeSpots(deposit.pos)) {
+        if (creeps_working < utils.countFreeSpots(deposit.pos)) {
           this.creep.memory.deposit = deposit.id;
           return true;
         }
