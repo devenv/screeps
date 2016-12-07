@@ -69,24 +69,6 @@ module.exports.loop = function() {
       } else if(creep.memory.role === 'extractor') {
         creep.act(new Extractor(creep));
       }
-      if(creep.memory.stuck === undefined) {
-        creep.memory.stuck = 0;
-        creep.memory.same_pos = true;
-        creep.memory.moved = false;
-      }
-      creep.memory.stuck++;
-      creep.memory.same_pos = creep.memory.same_pos && utils.samePos(creep.memory.last_pos, creep.pos);
-    } catch(e) { console.log(e); exceptions.push(e); }
-
-    try {
-        if((creep.memory.moved || Math.random() > 0.9) && creep.memory.same_pos || Math.random() < 1 / (config.twitch_threshold * 10)) {
-          creep.twitch();
-        }
-        creep.memory.same_pos = true;
-        creep.memory.moved = false;
-        creep.memory.stuck = 0;
-
-        creep.memory.last_pos = creep.pos;
     } catch(e) { console.log(e); exceptions.push(e); }
   });
 
