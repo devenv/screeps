@@ -68,10 +68,6 @@ Spawner.prototype.spawnCreep = function(role) {
   if(_.isString(res)) {
     //Memory.stats[this.room.name + '.spawning'] = 1;
     console.log(this.room.name + ": spawning " + role + " - " + res);
-    if(!this.room.memory.creeps[role]) {
-      this.room.memory.creeps[role] = [];
-    }
-    this.room.memory.creeps[role].push(res);
   } else {
     //Memory.stats[this.room.name + '.spawning'] = 0;
   }
