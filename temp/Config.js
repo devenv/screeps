@@ -2,7 +2,7 @@ var Config = {};
 
 Config.roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer', 'extractor'];
 
-Config.long_update_freq = 10;
+Config.long_update_freq = 2;
 
 Config.controller_upgraders = 1;
 Config.max_builders = 5;

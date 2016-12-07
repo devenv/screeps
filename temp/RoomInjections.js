@@ -61,7 +61,7 @@ Room.prototype.longUpdate = function() {
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       if(spawns && spawns.length > 0) {
-        this.memory.hostile_spawns = spawns.map(spawn => spawn.id);;
+        this.memory.hostile_spawns = spawns.map(spawn => spawn.id);
       } else {
         this.memory.hostile_spawns = undefined;
       }
