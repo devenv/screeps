@@ -48,13 +48,13 @@ Spawner.prototype.shouldSpawn = function(role) {
       var miners = this.room.modernCreeps[role].length;
       var carriers = this.room.modernCreeps['carrier'].length;
       return miners < this.room.memory.miners_needed && (miners < 4 || carriers > 0);
-    case 'carrier': return this.countByRole(role, level) < this.room.memory.carriers_needed;
-    case 'builder': return this.countByRole(role, level) < config.max_builders;
-    case 'soldier': return this.countByRole(role, level) < config.max_guards;
-    case 'ranged': return this.countByRole(role, level) < config.max_ranged;
-    case 'healer': return this.countByRole(role, level) < config.max_healers;
-    case 'scout': return this.countByRole(role, level) < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
-    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.countByRole(role, level) < 1;
+    case 'carrier': return this.room.modernCreeps[role] < this.room.memory.carriers_needed;
+    case 'builder': return this.room.modernCreeps[role] < config.max_builders;
+    case 'soldier': return this.room.modernCreeps[role] < config.max_guards;
+    case 'ranged': return this.room.modernCreeps[role] < config.max_ranged;
+    case 'healer': return this.room.modernCreeps[role] < config.max_healers;
+    case 'scout': return this.room.modernCreeps[role] < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
+    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.room.modernCreeps[role] < 1;
   }
   return false;
 }
