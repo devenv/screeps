@@ -11,7 +11,7 @@ function Spawner(spawn) {
 Spawner.prototype.act = function() {
   if(!this.spawn.spawning) {
     if(this.renewNearbyCreeps()) { return }
-    this.spawn();
+    this.spawn;
   }
 }
 
