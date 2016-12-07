@@ -74,7 +74,7 @@ Creep.prototype.goTo = function(pos) {
   //var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
   if(pos) {
     var path = this.room.getPath(this.pos, pos, {serialize: true});
-    this.moveByPath(path);
+    var res = this.moveByPath(path);
     if(res !== 0 && res !== ERR_TIRED) {
       res = this.moveTo(pos);
       if(res !== 0 && res !== ERR_TIRED) {
