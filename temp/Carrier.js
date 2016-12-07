@@ -18,7 +18,7 @@ Carrier.prototype.act = function() {
   }
 
   if(this.creep.memory.target === undefined) {
-    var room = this.creep.origin_room;
+    var room = this.creep.originRoom();
     var sources = room.find(FIND_SOURCES).filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
     if(sources.length > 0) {
       sources.some(source => {
@@ -70,10 +70,10 @@ Carrier.prototype.act = function() {
       var src;
       if(this.creep.memory.supplying) {
         if(this.creep.memory.src === undefined) {
-          if(this.creep.origin_room.spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
-            src = utils.sortByDistance(this.creep.origin_room.spawns);
+          if(this.creep.originRoom().spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
+            src = utils.sortByDistance(this.creep.originRoom().spawns);
           } else {
-            src = this.creep.origin_room.getEnergySource(this.creep);
+            src = this.creep.originRoom().getEnergySource(this.creep);
           }
           this.creep.memory.src = src.id;
         } else {
@@ -109,7 +109,7 @@ Carrier.prototype.act = function() {
       if(this.creep.memory.supplying) {
         trg = Game.rooms[this.creep.memory.target.roomName].lookForAt(LOOK_STRUCTURES, this.creep.memory.target.x, this.creep.memory.target.y).filter(st => st.structureType === STRUCTURE_CONTAINER || st.structureType === STRUCTURE_TOWER || st.structureType === STRUCTURE_TERMINAL)[0];
       } else {
-        trg = this.creep.origin_room.getEnergySink(this.creep);
+        trg = this.creep.originRoom().getEnergySink(this.creep);
       }
 
       if(this.creep.pos.isNearTo(trg)) {

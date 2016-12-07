@@ -5,7 +5,6 @@ var energySinks = [STRUCTURE_CONTAINER, STRUCTURE_TOWER, STRUCTURE_SPAWN, STRUCT
 
 Creep.prototype.act = function(actor) {
   this.level = this.memory.level;
-  this.origin_room = Game.rooms[this.memory.origin_room];
 
   this.pickupEnergy();
 
@@ -37,11 +36,15 @@ Creep.prototype.act = function(actor) {
   }
 }
 
+Creep.prototype.originRoom = function() {
+  return Game.rooms[this.memory.origin_room];
+}
+
 Creep.prototype.renew = function() {
-  var spawn = utils.sortByDistance(this.origin_room.spawns)[0];
+  var spawn = utils.sortByDistance(this.originRoom().spawns)[0];
   if(this.pos.isNearTo(spawn)) {
     this.transfer(spawn, RESOURCE_ENERGY);
-    if(!this.origin_room.hasSpareEnergy || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
+    if(!this.originRoom().hasSpareEnergy || this.ticksToLive > config.renew_to_ttl || Math.random() < config.stop_renew_prob) {
       this.memory.mode = undefined;
     }
   } else {
@@ -58,7 +61,7 @@ Creep.prototype.pickupEnergy = function() {
   }
 }
 
-Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.origin_room.hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.origin_room.level };
+Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
 Creep.prototype.goTo = function(pos) {
   this.memory.moved = true;
