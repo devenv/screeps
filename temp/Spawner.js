@@ -42,7 +42,7 @@ Spawner.prototype.spawnCreeps = function() {
 }
 
 Spawner.prototype.shouldSpawn = function(role) {
-  var level = this.room.level();
+  var level = this.room.level;
   switch(role) {
     case 'miner':
       var miners = this.room.modernCreeps[role].length;
