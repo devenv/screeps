@@ -18,6 +18,10 @@ module.exports.loop = function() {
   //var cpu = Game.cpu.getUsed();
   var exceptions = [];
 
+  if(Game.cpu.ticksLimit < 200) {
+    console.log('no cpu left');
+    return;
+  }
   Memory.has_cpu = Game.cpu.bucket < 1000;
 
   if(Game.time % config.long_update_freq === 1) {
