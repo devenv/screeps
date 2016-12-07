@@ -54,7 +54,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'ranged': return this.room.modernCreeps[role] < config.max_ranged;
     case 'healer': return this.room.modernCreeps[role] < config.max_healers;
     case 'scout': return this.room.modernCreeps[role] < _.values(Game.flags).filter(flag => flag.name.indexOf('scout') !== -1).length;
-    case 'extractor': return Memory.terminal && Memory.extractors.length > 0 && this.room.modernCreeps[role] < 1;
+    case 'extractor': return Memory.terminal && this.room.extractors.length > 0 && this.room.modernCreeps[role] < 1;
   }
   return false;
 }
