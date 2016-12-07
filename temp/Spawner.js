@@ -11,7 +11,7 @@ function Spawner(spawn) {
 Spawner.prototype.act = function() {
   if(!this.spawn.spawning) {
     if(this.renewNearbyCreeps()) { return }
-    this.spawn;
+    this.spawnCreeps();
   }
 }
 
@@ -28,7 +28,7 @@ Spawner.prototype.renewNearbyCreeps = function() {
   });
 }
 
-Spawner.prototype.spawn = function() {
+Spawner.prototype.spawnCreeps = function() {
   if(!this.spawn.spawning) {
     return config.roles.some(role => {
       if(this.shouldSpawn(role)) {
