@@ -42,7 +42,7 @@ Room.prototype.update = function() {
 Room.prototype.longUpdate = function() {
   if(Game.time % 100 === 1) {
     Object.keys(this.memory.path_counts).filter(key => this.memory.path_counts[key] <= 1).forEach(key => this.memory.path_counts[key] = undefined);
-    Object.keys(this.memory.paths).filter(key => this.memory.paths[key].length <= 2).forEach(key => this.memory.paths[key] = undefined);
+    Object.keys(this.memory.paths).filter(key => this.memory.paths[key].length <= config.min_path_length).forEach(key => this.memory.paths[key] = undefined);
     Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
   }
   if(Game.time % config.long_update_freq === 1) {
@@ -95,16 +95,18 @@ Room.prototype.getBrokenStructures = function() {
 }
 
 Room.prototype.getPath = function(pos1, pos2) {
-  var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
-  if(!this.memory.path_counts[key]) {
-    this.memory.path_counts[key] = 0;;
-  }
-  this.memory.path_counts[key]++;
-  if(this.memory.path_counts[key] >= config.path_freq_threshold) {
-     if(!this.memory.paths[key]) {
-       this.memory.paths[key] = this.findPath(pos1, pos2);
-     }
-     return this.memory.paths[key];
+  if(pos1.getRangeTo(pos2) > config.min_path_length) {
+    var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
+    if(!this.memory.path_counts[key]) {
+      this.memory.path_counts[key] = 0;;
+    }
+    this.memory.path_counts[key]++;
+    if(this.memory.path_counts[key] >= config.path_freq_threshold) {
+      if(!this.memory.paths[key]) {
+        this.memory.paths[key] = this.findPath(pos1, pos2);
+      }
+      return this.memory.paths[key];
+    }
   }
   return undefined;
 }
