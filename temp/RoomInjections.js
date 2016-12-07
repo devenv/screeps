@@ -87,6 +87,11 @@ Room.prototype.getBrokenStructures = function() {
   return this.find(FIND_STRUCTURES, {filter: st => flags.length > 0 && !utils.samePos(st.pos, flags[0].pos) && st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
 }
 
+Room.prototype.getPath = function(pos1, pos2) {
+  //var key = pos1.x + ":" + pos1.y + "->" + pos2.x + ":" + pos2.y;
+  //if(this.memory.paths
+}
+
 Room.prototype.idsToObjects = function(type) {
   return this.memory[type].map(id => Game.getObjectById(id));
 }
