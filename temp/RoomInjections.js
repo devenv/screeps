@@ -61,6 +61,7 @@ Room.prototype.longUpdate = function() {
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       this.memory.hostile_spawns = spawns;
+    }
   }
 }
 
