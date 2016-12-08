@@ -57,7 +57,6 @@ Room.prototype.longUpdate = function() {
       this.memory.carriers_needed = 1 + this.sources().length + _.min([1, this.memory.towers.length]);
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
-      this.memory.broken_structures = this.getBrokenStructures();
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
       if(spawns && spawns.length > 0) {
@@ -93,7 +92,7 @@ Room.prototype.getEnergySource = function(creep) {
 
 Room.prototype.getBrokenStructures = function() {
   var flags = this.find(FIND_FLAGS, {filter: {name: 'd'}});
-  return this.find(FIND_STRUCTURES, {filter: st => st.hits < config.min_repair && st.hits / st.hitsMax < config.structures_repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
+  return this.find(FIND_STRUCTURES, {filter: st => t.hits / st.hitsMax < config.repair_threshold }).sort((a, b)=> a.hits > b.hits ? 1 : -1).map(st => st.id);
 }
 
 Room.prototype.getPath = function(pos1, pos2) {
