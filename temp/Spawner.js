@@ -64,7 +64,7 @@ Spawner.prototype.spawnCreep = function(role) {
   this.room.memory.creep_id = id;
   var count = _.values(Game.creeps).filter(creep => creep.memory.origin_room === this.room.name && creep.memory.role === 'miner').length;
   var level = _.max([1, _.min([this.room.level, count < 4 ? 1 : 1000])]);
-  var res = this.spawn.createCreep(setups[role][level], role + "-" + this.room.name + "-" + id, {"role": role, "level": level, "origin_room": this.room.name});
+  var res = this.spawn.createCreep(setups[role][level], role + "-" + level + "-" + this.room.name + "-" + id, {"role": role, "level": level, "origin_room": this.room.name});
   if(_.isString(res)) {
     //Memory.stats[this.room.name + '.spawning'] = 1;
     console.log(this.room.name + ": spawning " + role + " - " + res);
