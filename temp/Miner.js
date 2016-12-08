@@ -23,17 +23,17 @@ Miner.prototype.act = function() {
           return true;
         }
       });
-    }
-    if(this.creep.memory.source === undefined) {
-      _.values(Game.rooms).filter(room => room.owner === undefined).some(room => {
-        return room.sources().some(source => {
-          var creeps_working = _.values(Game.creeps).filter(creep => creep.level >= this.creep.level && creep.memory.source === source.id).length;
-          if (creeps_working < utils.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller && room.controller.my).length) {
-            this.creep.memory.source = source.id;
-            return true;
-          }
+      if(this.creep.memory.source === undefined) {
+        _.values(Game.rooms).filter(room => room.owner === undefined).some(room => {
+          return room.sources().some(source => {
+            var creeps_working = _.values(Game.creeps).filter(creep => creep.level >= this.creep.level && creep.memory.source === source.id).length;
+            if (creeps_working < utils.countFreeSpots(source.pos) * _.values(Game.rooms).filter(room => room.controller && room.controller.my).length) {
+              this.creep.memory.source = source.id;
+              return true;
+            }
+          });
         });
-      });
+      }
     }
 
     if(this.creep.memory.source !== undefined) {
