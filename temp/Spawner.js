@@ -47,7 +47,7 @@ Spawner.prototype.shouldSpawn = function(role) {
     case 'miner':
       var miners = this.room.modernCreeps[role].length;
       var carriers = this.room.modernCreeps['carrier'].length;
-      return miners < this.room.memory.miners_needed && (miners < 4 || carriers > 0);
+      return miners < this.room.memory.miners_needed && (miners < 1 || carriers > 0);
     case 'carrier': return this.room.modernCreeps[role].length < this.room.memory.carriers_needed;
     case 'builder': return this.room.modernCreeps[role].length < config.max_builders;
     case 'soldier': return this.room.modernCreeps[role].length < config.max_guards;
