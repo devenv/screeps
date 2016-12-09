@@ -37,7 +37,7 @@ Carrier.prototype.act = function() {
           if(container) {
             this.creep.memory.supplying = true;
             this.creep.memory.owner = room.controller.pos
-            this.creep.memory.target = pos;
+            this.creep.memory.target = container.pos;
           }
         }
       }
