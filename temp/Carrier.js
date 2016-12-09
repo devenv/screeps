@@ -82,12 +82,12 @@ Carrier.prototype.act = function() {
           src = Game.getObjectById(this.creep.memory.src);
         }
         if(this.creep.pos.isNearTo(src)) {
-          //if (src === this.creep.room.storage || this.creep.room.hasSpareEnergy || !this.creep.memory.supplying) {
+          if (src === this.creep.room.storage || this.creep.room.hasSpareEnergy || !this.creep.memory.supplying) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
             this.creep.memory.src = undefined;
-          //} else {
-            //this.creep.say('no energy');
-          //}
+          } else {
+            this.creep.say('no energy');
+          }
           if(this.creep.carry.energy >= this.creep.carryCapacity) {
             this.creep.memory.mode = 'unload';
           }
