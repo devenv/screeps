@@ -33,9 +33,12 @@ Carrier.prototype.act = function() {
     if(this.creep.memory.target === undefined) {
       if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
         if(room.memory.controller_container) {
-          this.creep.memory.supplying = true;
-          this.creep.memory.owner = room.controller.pos
-          this.creep.memory.target = Game.getObjectById(room.memory.controller_container).pos;
+          var container = Game.getObjectById(room.memory.controller_container);
+          if(container) {
+            this.creep.memory.supplying = true;
+            this.creep.memory.owner = room.controller.pos
+            this.creep.memory.target = pos;
+          }
         }
       }
     }
