@@ -17,7 +17,7 @@ Builder.prototype.act = function() {
     this.creep.memory.controller = false;
     this.creep.memory.repair = false;
   }
-  if(!this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
+  if(Memory.has_cpu && !this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
     this.creep.memory.site = undefined;
     var builders = this.creep.room.modernCreeps['builder'].map(name => Game.creeps[name]);
     if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
