@@ -38,16 +38,16 @@ Miner.prototype.act = function() {
     }
 
     if(this.creep.memory.source !== undefined) {
-      if(this.creep.carry.energy >= this.creep.carryCapacity) {
-        this.creep.memory.sleep = config.miner_sleep;
-        return;
-      }
       var source = Game.getObjectById(this.creep.memory.source);
       if(this.creep.pos.isNearTo(source)) {
         this.creep.harvest(source);
         this.room.source_containers().forEach(container => this.creep.transfer(container, RESOURCE_ENERGY));
       } else {
         this.creep.goTo(source);
+      }
+      if(this.creep.carry.energy >= this.creep.carryCapacity) {
+        this.creep.memory.sleep = config.miner_sleep;
+        return;
       }
     }
   } else if (this.creep.memory.mode === 'unload') {
