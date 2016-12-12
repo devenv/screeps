@@ -74,7 +74,7 @@ Creep.prototype.pickupEnergy = function() {
 Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
 Creep.prototype.goTo = function(pos) {
-  if(Memory.has_cpu) {
+  if(Memory.has_cpu && this.memory.mode !== 'renew') {
     var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
     //if(pos && (pos.x || pos.pos.x)) {
     //var res;
