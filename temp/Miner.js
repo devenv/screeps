@@ -14,7 +14,7 @@ Miner.prototype.act = function() {
     this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'mining') {
-    if(this.creep.memory.source === undefined) {
+    if(Memory.has_cpu && this.creep.memory.source === undefined) {
       this.creep.say('source?');
       this.creep.originRoom().sources().some(source => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
