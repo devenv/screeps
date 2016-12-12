@@ -99,7 +99,7 @@ Carrier.prototype.act = function() {
         src = Game.rooms[this.creep.memory.target.roomName].getPositionAt(this.creep.memory.target.x, this.creep.memory.target.y);
 
         if(this.creep.pos.isNearTo(src)) {
-          this.creep.withdrawFromNearby();
+          this.creep.withdraw(src, RESOURCE_ENERGY);
         } else {
           this.creep.goTo(src);
         }
