@@ -18,7 +18,7 @@ Builder.prototype.act = function() {
     this.creep.memory.controller = false;
     this.creep.memory.repair = false;
   }
-  if(Memory.has_cpu && !this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
+  if(!this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
     this.creep.memory.site = undefined;
     var builders = this.room.modernCreeps['builder'].map(name => Game.creeps[name]);
     if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
@@ -27,7 +27,7 @@ Builder.prototype.act = function() {
       this.creep.memory.site = this.room.controller;
       this.creep.say("controller");
     }
-    if(this.creep.memory.site === undefined) {
+    if(Memory.has_cpu && this.creep.memory.site === undefined) {
       if(builders.filter(builder => !builder.memory.controller && !builder.memory.repair).length <= config.builders) {
         var sites = _.shuffle(Object.keys(Game.constructionSites));
         if(sites.length > 0) {
@@ -39,7 +39,7 @@ Builder.prototype.act = function() {
         }
       }
     }
-    if(this.creep.memory.site === undefined) {
+    if(Memory.has_cpu && this.creep.memory.site === undefined) {
       if(builders.filter(builder => builder.memory.repair).length < config.repairers) {
         var to_repair = this.room.broken_structures();
         if(to_repair.length > 0) {
@@ -51,10 +51,14 @@ Builder.prototype.act = function() {
       }
     }
     if(this.creep.memory.site === undefined) {
-      this.creep.memory.controller = true;
-      this.creep.memory.repair = false;
-      this.creep.memory.site = this.room.controller;
-      this.creep.say("idle->ctrlr");
+      if(Game.has_cpu) {
+        this.creep.memory.controller = true;
+        this.creep.memory.repair = false;
+        this.creep.memory.site = this.room.controller;
+        this.creep.say("idle->ctrlr");
+      } else {
+        this.memory.sleep = conffig.builder_sleep;
+      }
     }
   }
 
@@ -73,7 +77,7 @@ Builder.prototype.act = function() {
     }
   } else if(this.creep.memory.mode === 'build') {
     if(this.creep.memory.controller) {
-      this.withdraw(this.room.controller_container, RESOURCE_ENERGY);
+      this.creep.withdraw(this.room.controller_container, RESOURCE_ENERGY);
       if(this.creep.pos.isNearTo(this.room.controller)) {
         if(this.creep.carry.energy > 0) {
           this.creep.upgradeController(this.room.controller);
