@@ -31,7 +31,7 @@ Creep.prototype.act = function(actor) {
 
   actor.act();
 
-  if(this.carry.energy > 0) {
+  if(Memory.has_cpu && this.carry.energy > 0) {
     if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
       var trg = creepsInRange
       .map(creep => Game.creeps[creep])
