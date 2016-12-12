@@ -26,7 +26,7 @@ Config.repair_threshold = 0.9;
 Config.terminal_min_energy = 2000;
 Config.terminal_max_energy = 4000;
 
-Config.reuse_path_ticks = 50;
+Config.reuse_path_ticks = 20;
 Config.path_max_ops = 200;
 Config.path_freq_threshold = 2;
 Config.min_path_length = 3;
