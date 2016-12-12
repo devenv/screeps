@@ -32,9 +32,6 @@ Creep.prototype.act = function(actor) {
   if(!Memory.cpu_critical && (Memory.has_cpu || this.memory.role === 'miner' || this.memory.role === 'carrier')) {
     this.pickupEnergy();
 
-    this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
-    this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
-
     actor.act();
 
     if(this.carry.energy > 0) {
@@ -105,35 +102,6 @@ Creep.prototype.goTo = function(pos) {
 Creep.prototype.twitch = function() {
   this.say('twitch');
   this.move(dirs[Math.floor(Math.random() * dirs.length)]);
-}
-
-Creep.prototype.withdrawFromNearby = function() {
-  if(this.carry.energy < this.carryCapacity) {
-    if(this.structuresInRange) {
-      var containers = this.structuresInRange
-      .map(st => Game.getObjectById(st))
-      .filter(st => st.structureType === STRUCTURE_CONTAINER)
-      .sort((a, b) => a.energy > b.energy ? -1 : 1);
-      if(containers !== undefined && containers.length > 0) {
-        this.withdraw(containers[0], RESOURCE_ENERGY);
-      }
-    }
-  }
-}
-
-Creep.prototype.transferToNearby= function() {
-  if(this.carry.energy > 0) {
-    if(this.structuresInRange) {
-      var containers = this.structuresInRange
-      .map(st => Game.getObjectById(st))
-      .filter(st => _.contains(energySinks, st.structureType))
-      .sort((a, b) => a.energy > b.energy ? 1 : -1);
-      if(containers.length > 0) {
-        this.transfer(containers[0], RESOURCE_ENERGY);
-        return;
-      }
-    }
-  }
 }
 
 Creep.prototype.attackHostiles = function() {
