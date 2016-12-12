@@ -22,7 +22,7 @@ Carrier.prototype.act = function() {
     var containers = this.room.source_containers.filter(container => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === container));
     if(containers.length > 0) {
       this.creep.memory.supplying = false;
-      this.creep.memory.target = this.room.memory.source_containers[0];
+      this.creep.memory.target = containers[0];
     }
     if(Memory.has_cpu && this.creep.memory.target === undefined) {
       if(this.room.controller_container && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === this.room.controller_container)) {
