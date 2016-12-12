@@ -45,7 +45,7 @@ Miner.prototype.act = function() {
       var source = Game.getObjectById(this.creep.memory.source);
       if(this.creep.pos.isNearTo(source)) {
         this.creep.harvest(source);
-        this.room.source_containers.forEach(container => this.transfer(container, RESOURCE_ENERGY));
+        this.room.source_containers().forEach(container => this.transfer(container, RESOURCE_ENERGY));
       } else {
         this.creep.goTo(source);
       }
