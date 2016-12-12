@@ -29,7 +29,7 @@ Creep.prototype.act = function(actor) {
     return
   }
 
-  if(!Memory.cpu_critical && (Memory.has_cpu || this.memory.role === 'miner' || this.memory.role === 'carrier')) {
+  if(!Memory.cpu_critical) {
     this.pickupEnergy();
 
     actor.act();
