@@ -24,13 +24,11 @@ Creep.prototype.act = function(actor) {
     return;
   }
 
-  if(!Memory.cpu_critical) {
+  if(!Memory.cpu_critical && (this.memory.role === 'miner' || this.memory.role === 'carrier')) {
     this.pickupEnergy();
 
-    if(Memory.has_cpu) {
-      this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
-      this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
-    }
+    this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
+    this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
 
     actor.act();
 
@@ -106,23 +104,13 @@ Creep.prototype.twitch = function() {
 
 Creep.prototype.withdrawFromNearby = function() {
   if(this.carry.energy < this.carryCapacity) {
-    var src;
-    if(this.memory.from_nearby) {
-      src = Game.getObjectById(this.memory.from_nearby);
-      if(this.withdraw(src, RESOURCE_ENERGY) !== 0) {
-        this.memory.from_nearby = undefined;
-        src = undefined;
-      }
-    }
-    if(!src && this.structuresInRange) {
+    if(this.structuresInRange) {
       var containers = this.structuresInRange
       .map(st => Game.getObjectById(st))
       .filter(st => st.structureType === STRUCTURE_CONTAINER)
       .sort((a, b) => a.energy > b.energy ? -1 : 1);
       if(containers !== undefined && containers.length > 0) {
-        src = containers[0];
-        this.memory.from_nearby = src.id;
-        this.withdraw(src, RESOURCE_ENERGY);
+        this.withdraw(containers[0], RESOURCE_ENERGY);
       }
     }
   }
@@ -130,23 +118,13 @@ Creep.prototype.withdrawFromNearby = function() {
 
 Creep.prototype.transferToNearby= function() {
   if(this.carry.energy > 0) {
-    var trg;
-    if(this.memory.to_nearby) {
-      trg = Game.getObjectById(this.memory.to_nearby);
-      if(this.transfer(trg, RESOURCE_ENERGY) !== 0) {
-        this.memory.to_nearby = undefined;
-        trg = undefined;
-      }
-    }
-    if(!trg && this.structuresInRange) {
+    if(this.structuresInRange) {
       var containers = this.structuresInRange
       .map(st => Game.getObjectById(st))
       .filter(st => _.contains(energySinks, st.structureType))
       .sort((a, b) => a.energy > b.energy ? 1 : -1);
       if(containers.length > 0) {
-        trg = containers[0];
-        this.memory.to_nearby = trg.id;
-        this.transfer(trg, RESOURCE_ENERGY);
+        this.transfer(containers[0], RESOURCE_ENERGY);
         return;
       }
     }
