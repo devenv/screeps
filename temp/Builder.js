@@ -56,13 +56,11 @@ Builder.prototype.act = function() {
         this.creep.memory.repair = false;
         this.creep.memory.site = this.room.controller;
         this.creep.say("idle->ctrlr");
-      } else {
-        this.memory.sleep = config.builder_sleep;
       }
     }
   }
 
-  if(this.creep.carry.energy === 0) {
+  if(Memory.has_cpu && this.creep.carry.energy === 0) {
     this.creep.memory.mode = 'load';
   }
   if(this.creep.memory.mode === 'load') {
