@@ -16,7 +16,7 @@ Tower.prototype.act = function() {
       this.tower.heal(wounded[0]);
     } else {
       var broken = this.tower.room.broken_structures();
-      if(broken.length > 0 && (broken[0].ticksToLive < 100 || this.tower.energy > this.tower.energyCapacity * 0.75)) {
+      if(broken.length > 0 && (broken[0].hits < 100 || this.tower.energy > this.tower.energyCapacity * 0.75)) {
         this.tower.repair(broken[0]);
       }
     }
