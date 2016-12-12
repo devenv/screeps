@@ -3,6 +3,7 @@ var config = require('Config');
 
 function Builder(creep) {
   this.creep = creep;
+  this.room = creep.room;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'build';
   }
@@ -19,11 +20,11 @@ Builder.prototype.act = function() {
   }
   if(Memory.has_cpu && !this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
     this.creep.memory.site = undefined;
-    var builders = this.creep.room.modernCreeps['builder'].map(name => Game.creeps[name]);
+    var builders = this.room.modernCreeps['builder'].map(name => Game.creeps[name]);
     if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
       this.creep.memory.controller = true;
       this.creep.memory.repair = false;
-      this.creep.memory.site = this.creep.room.controller;
+      this.creep.memory.site = this.room.controller;
       this.creep.say("controller");
     }
     if(this.creep.memory.site === undefined) {
@@ -40,7 +41,7 @@ Builder.prototype.act = function() {
     }
     if(this.creep.memory.site === undefined) {
       if(builders.filter(builder => builder.memory.repair).length < config.repairers) {
-        var to_repair = this.creep.room.broken_structures();
+        var to_repair = this.room.broken_structures();
         if(to_repair.length > 0) {
           this.creep.say("repair");
           this.creep.memory.site = to_repair[0].id;
@@ -52,12 +53,11 @@ Builder.prototype.act = function() {
     if(this.creep.memory.site === undefined) {
       this.creep.memory.controller = true;
       this.creep.memory.repair = false;
-      this.creep.memory.site = this.creep.room.controller;
+      this.creep.memory.site = this.room.controller;
       this.creep.say("idle->ctrlr");
     }
   }
 
-  this.creep.withdrawFromNearby();
   if(this.creep.carry.energy === 0) {
     this.creep.memory.mode = 'load';
   }
@@ -67,18 +67,19 @@ Builder.prototype.act = function() {
     } else {
       var trg = this.creep.originRoom().getEnergySource(this.creep);
       this.creep.goTo(trg);
-      //if (trg === this.creep.room.storage || this.creep.room.hasSpareEnergy) {
+      //if (trg === this.room.storage || this.room.hasSpareEnergy) {
         this.creep.withdraw(trg, RESOURCE_ENERGY);
       //}
     }
   } else if(this.creep.memory.mode === 'build') {
     if(this.creep.memory.controller) {
-      if(this.creep.pos.isNearTo(this.creep.room.controller)) {
+      this.withdraw(this.room.controller_container, RESOURCE_ENERGY);
+      if(this.creep.pos.isNearTo(this.room.controller)) {
         if(this.creep.carry.energy > 0) {
-          this.creep.upgradeController(this.creep.room.controller);
+          this.creep.upgradeController(this.room.controller);
         }
       } else {
-        this.creep.goTo(this.creep.room.controller.pos);
+        this.creep.goTo(this.room.controller.pos);
       }
     } else if(this.creep.memory.repair) {
       var structure = Game.structures[this.creep.memory.site];

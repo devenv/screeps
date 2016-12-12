@@ -3,6 +3,7 @@ var config = require('Config');
 
 function Carrier(creep) {
   this.creep = creep;
+  this.room = creep.room;
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'load';
   }
@@ -83,7 +84,7 @@ Carrier.prototype.act = function() {
           src = Game.getObjectById(this.creep.memory.src);
         }
         if(this.creep.pos.isNearTo(src)) {
-          if (src === this.creep.room.storage || this.creep.room.hasSpareEnergy || !this.creep.memory.supplying) {
+          if (src === this.room.storage || this.room.hasSpareEnergy || !this.creep.memory.supplying) {
             this.creep.withdraw(src, RESOURCE_ENERGY);
             this.creep.memory.src = undefined;
           } else {
