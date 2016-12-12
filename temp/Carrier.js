@@ -3,7 +3,7 @@ var config = require('Config');
 
 function Carrier(creep) {
   this.creep = creep;
-  this.room = creep.room;
+  this.room = creep.originRoom();
   if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'load';
   }
@@ -20,25 +20,24 @@ Carrier.prototype.act = function() {
 
   if(this.creep.memory.target === undefined) {
     this.creep.say("?");
-    var room = this.creep.originRoom();
-    var sources = room.sources().filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
+    var sources = this.room.sources().filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
     if(sources.length > 0) {
       sources.some(source => {
-        if(room.memory.source_containers.length > 0) {
+        if(this.room.memory.source_containers.length > 0) {
           this.creep.memory.supplying = false;
           this.creep.memory.owner = source.pos;
-          this.creep.memory.target = Game.getObjectById(room.memory.source_containers[0]).pos;
+          this.creep.memory.target = Game.getObjectById(this.room.memory.source_containers[0]).pos;
           return true;
         }
       });
     }
     if(Memory.has_cpu && this.creep.memory.target === undefined) {
-      if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
-        if(room.memory.controller_container) {
-          var container = Game.getObjectById(room.memory.controller_container);
+      if(this.room.controller && this.room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, this.room.controller.pos))) {
+        if(this.room.memory.controller_container) {
+          var container = Game.getObjectById(this.room.memory.controller_container);
           if(container) {
             this.creep.memory.supplying = true;
-            this.creep.memory.owner = room.controller.pos
+            this.creep.memory.owner = this.room.controller.pos
             this.creep.memory.target = container.pos;
           }
         }
@@ -57,7 +56,7 @@ Carrier.prototype.act = function() {
       }
     }
     if(Memory.has_cpu && this.creep.memory.target === undefined) {
-      var towers = room.towers().sort((a, b)=> a.energy > b.energy ? 1 : -1);
+      var towers = this.room.towers().sort((a, b)=> a.energy > b.energy ? 1 : -1);
       if(towers.length > 0) {
         this.creep.memory.supplying = true;
         this.creep.memory.owner = towers[0].pos;
@@ -73,11 +72,11 @@ Carrier.prototype.act = function() {
       var src;
       if(this.creep.memory.supplying) {
         if(this.creep.memory.src === undefined) {
-          var spawns = this.creep.originRoom().spawns();
+          var spawns = this.room.spawns();
           if(spawns.some(spawn => spawn.energy > spawn.energyCapacity / 2)) {
             src = utils.sortByDistance(spawns)[0];
           } else {
-            src = this.creep.originRoom().getEnergySource(this.creep);
+            src = this.room.getEnergySource(this.creep);
           }
           this.creep.memory.src = src.id;
         } else {
@@ -113,7 +112,7 @@ Carrier.prototype.act = function() {
       if(this.creep.memory.supplying) {
         trg = Game.rooms[this.creep.memory.target.roomName].lookForAt(LOOK_STRUCTURES, this.creep.memory.target.x, this.creep.memory.target.y).filter(st => st.structureType === STRUCTURE_CONTAINER || st.structureType === STRUCTURE_TOWER || st.structureType === STRUCTURE_TERMINAL)[0];
       } else {
-        trg = this.creep.originRoom().getEnergySink(this.creep);
+        trg = this.room.getEnergySink(this.creep);
       }
 
       if(this.creep.pos.isNearTo(trg)) {
