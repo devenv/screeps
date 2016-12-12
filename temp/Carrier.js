@@ -18,6 +18,7 @@ Carrier.prototype.act = function() {
   }
 
   if(Memory.has_cpu && this.creep.memory.target === undefined) {
+    this.creep.say("?");
     var room = this.creep.originRoom();
     var sources = room.sources().filter(source => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, source.pos)));
     if(sources.length > 0) {
