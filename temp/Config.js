@@ -26,5 +26,7 @@ Config.terminal_min_energy = 2000;
 Config.terminal_max_energy = 4000;
 Config.path_freq_threshold = 2;
 Config.min_path_length = 3;
+Config.low_cpu = 2000;
+Config.critical_cpu = 300;
 
 module.exports = Config;
