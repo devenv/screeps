@@ -8,7 +8,6 @@ function Miner(creep) {
 
 Miner.prototype.act = function() {
   if(this.creep.memory.mode === undefined || this.creep.carry.energy === 0) {
-    this.creep.memory.source = undefined;
     this.creep.memory.mode = 'mining';
   }
   if(this.creep.carry.energy >= this.creep.carryCapacity) {
