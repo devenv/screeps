@@ -85,13 +85,13 @@ Carrier.prototype.act = function() {
 
         if(this.creep.pos.isNearTo(src)) {
           this.creep.withdraw(src, RESOURCE_ENERGY);
+          if(this.creep.carry.energy >= this.creep.carryCapacity) {
+            this.creep.memory.mode = 'unload';
+          } else {
+            this.creep.memory.sleep = config.carrier_sleep;
+          }
         } else {
           this.creep.goTo(src);
-        }
-        if(this.creep.carry.energy >= this.creep.carryCapacity) {
-          this.creep.memory.mode = 'unload';
-        } else {
-          this.creep.memory.sleep = config.carrier_sleep;
         }
       }
     } else if (this.creep.memory.mode === 'unload') {
