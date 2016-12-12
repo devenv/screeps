@@ -47,7 +47,7 @@ Room.prototype.longUpdate = function() {
     Object.keys(this.memory.paths).filter(key => !this.memory.path_counts[key]).forEach(key => this.memory.paths[key] = undefined);
     Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
   }
-  if(Game.time % config.long_update_freq === 1) {
+  if(Memory.has_cpu && Game.time % config.long_update_freq === 1) {
     if(this.controller.my) {
       this.memory.source_containers = _.flatten(this.sources().map(source => source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}))).map(container => container.id);
       this.memory.controller_container = this.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}).map(container => container.id);
