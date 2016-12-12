@@ -123,7 +123,7 @@ Carrier.prototype.act = function() {
         }
         this.creep.goTo(trg);
       }
-      if(this.creep.carry.energy === 0) {
+      if(this.creep.memory.supplying && this.creep.carry.energy === 0) {
         this.creep.memory.supplying = undefined;
         this.creep.memory.owner = undefined;
         this.creep.memory.target = undefined;
