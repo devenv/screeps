@@ -30,7 +30,7 @@ Carrier.prototype.act = function() {
         }
       });
     }
-    if(this.creep.memory.target === undefined) {
+    if(Memory.has_cpu && this.creep.memory.target === undefined) {
       if(room.controller && room.controller.my && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && utils.samePos(creep.memory.owner, room.controller.pos))) {
         if(room.memory.controller_container) {
           var container = Game.getObjectById(room.memory.controller_container);
@@ -42,7 +42,7 @@ Carrier.prototype.act = function() {
         }
       }
     }
-    if(Memory.terminal !== undefined) {
+    if(Memory.has_cpu && Memory.terminal !== undefined) {
       var terminal = Game.getObjectById(Memory.terminal);
       if(terminal.store[RESOURCE_ENERGY] < config.terminal_min_energy) {
         this.creep.memory.supplying = true;
@@ -54,7 +54,7 @@ Carrier.prototype.act = function() {
         this.creep.memory.target = terminal.pos;
       }
     }
-    if(this.creep.memory.target === undefined) {
+    if(Memory.has_cpu && this.creep.memory.target === undefined) {
       var towers = room.towers().sort((a, b)=> a.energy > b.energy ? 1 : -1);
       if(towers.length > 0) {
         this.creep.memory.supplying = true;

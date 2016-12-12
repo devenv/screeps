@@ -13,7 +13,7 @@ Extractor.prototype.act = function() {
     this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'extracting') {
-    if(this.creep.memory.deposit === undefined) {
+    if(Memory.has_cpu && this.creep.memory.deposit === undefined) {
       this.creep.originRoom().find(FIND_MINERALS).some(deposit => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.deposit === deposit.id).length;
         if (creeps_working < utils.countFreeSpots(deposit.pos)) {
@@ -23,7 +23,7 @@ Extractor.prototype.act = function() {
       });
     }
 
-    if(this.creep.memory.deposit !== undefined) {
+    if(Memory.has_cpu && this.creep.memory.deposit !== undefined) {
       var deposit = Game.getObjectById(this.creep.memory.deposit);
       if(this.creep.pos.isNearTo(deposit)) {
         this.creep.harvest(deposit);
