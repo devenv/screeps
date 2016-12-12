@@ -103,17 +103,19 @@ Creep.prototype.twitch = function() {
 }
 
 Creep.prototype.withdrawFromNearby = function() {
-  var containers = this.structuresInRange
-  .map(st => Game.getObjectById(st))
-  .filter(st => st.structureType === STRUCTURE_CONTAINER)
-  .sort((a, b) => a.energy > b.energy ? -1 : 1);
-  if(containers !== undefined && containers.length > 0) {
-    this.withdraw(containers[0], RESOURCE_ENERGY);
+  if(Memory.has_cpu && this.carry.energy < this.carryCapacity) {
+    var containers = this.structuresInRange
+    .map(st => Game.getObjectById(st))
+    .filter(st => st.structureType === STRUCTURE_CONTAINER)
+    .sort((a, b) => a.energy > b.energy ? -1 : 1);
+    if(containers !== undefined && containers.length > 0) {
+      this.withdraw(containers[0], RESOURCE_ENERGY);
+    }
   }
 }
 
 Creep.prototype.transferToNearby= function() {
-  if(this.carry.energy > 0) {
+  if(Memory.has_cpu && this.carry.energy > 0) {
     var containers = this.structuresInRange
     .map(st => Game.getObjectById(st))
     .filter(st => _.contains(energySinks, st.structureType))
