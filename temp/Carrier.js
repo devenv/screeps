@@ -26,7 +26,7 @@ Carrier.prototype.act = function() {
         if(this.room.memory.source_containers.length > 0) {
           this.creep.memory.supplying = false;
           this.creep.memory.owner = source.pos;
-          this.creep.memory.target = Game.getObjectById(this.room.memory.source_containers[0]).pos;
+          this.creep.memory.target = this.room.memory.source_containers[0];
           return true;
         }
       });
@@ -96,7 +96,7 @@ Carrier.prototype.act = function() {
           this.creep.goTo(src);
         }
       } else {
-        src = Game.rooms[this.creep.memory.target.roomName].getPositionAt(this.creep.memory.target.x, this.creep.memory.target.y);
+        src = Game.getObjectById(this.creep.memory.target);
 
         if(this.creep.pos.isNearTo(src)) {
           this.creep.withdraw(src, RESOURCE_ENERGY);
