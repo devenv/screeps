@@ -24,7 +24,7 @@ Creep.prototype.act = function(actor) {
     return;
   }
 
-  if(!Memory.cpu_critical && (this.memory.role === 'miner' || this.memory.role === 'carrier')) {
+  if(!Memory.cpu_critical && (Memory.has_cpu || this.memory.role === 'miner' || this.memory.role === 'carrier')) {
     this.pickupEnergy();
 
     this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
