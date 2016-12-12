@@ -42,6 +42,11 @@ Creep.prototype.act = function(actor) {
         }
       }
     }
+  } else {
+    if(this.memory.role === 'miner') {
+      var source = Game.getObjectById(this.memory.source);
+      this.harvest(source);
+    }
   }
 }
 
