@@ -37,6 +37,10 @@ Miner.prototype.act = function() {
     }
 
     if(this.creep.memory.source !== undefined) {
+      if(this.carry.energy >= this.carryCapacity) {
+        this.memory.sleep = config.miner_sleep;
+        return;
+      }
       var source = Game.getObjectById(this.creep.memory.source);
       if(this.creep.pos.isNearTo(source)) {
         this.creep.harvest(source);

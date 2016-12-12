@@ -24,6 +24,11 @@ Creep.prototype.act = function(actor) {
     return;
   }
 
+  if(this.memory.sleep > 0) {
+    this.memory.sleep--;
+    return
+  }
+
   if(!Memory.cpu_critical && (Memory.has_cpu || this.memory.role === 'miner' || this.memory.role === 'carrier')) {
     this.pickupEnergy();
 
