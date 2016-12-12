@@ -89,6 +89,8 @@ Carrier.prototype.act = function() {
         }
         if(this.creep.carry.energy >= this.creep.carryCapacity) {
           this.creep.memory.mode = 'unload';
+        } else {
+          this.memory.sleep = config.carrier_sleep;
         }
       }
     } else if (this.creep.memory.mode === 'unload') {
