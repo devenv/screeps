@@ -75,7 +75,7 @@ Builder.prototype.act = function() {
     }
   } else if(this.creep.memory.mode === 'build') {
     if(this.creep.memory.controller) {
-      this.creep.withdraw(Game.getObjectById(this.room.controller_container, RESOURCE_ENERGY));
+      this.creep.withdraw(Game.getObjectById(this.room.memory.controller_container, RESOURCE_ENERGY));
       if(this.creep.pos.isNearTo(this.room.controller)) {
         if(this.creep.carry.energy > 0) {
           this.creep.upgradeController(this.room.controller);
