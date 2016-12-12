@@ -57,7 +57,7 @@ Builder.prototype.act = function() {
         this.creep.memory.site = this.room.controller;
         this.creep.say("idle->ctrlr");
       } else {
-        this.memory.sleep = conffig.builder_sleep;
+        this.memory.sleep = config.builder_sleep;
       }
     }
   }
