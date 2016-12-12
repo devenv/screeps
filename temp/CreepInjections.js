@@ -26,8 +26,10 @@ Creep.prototype.act = function(actor) {
 
   this.pickupEnergy();
 
-  this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
-  this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+  if(Memory.has_cpu) {
+    this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
+    this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+  }
 
   actor.act();
 
