@@ -31,16 +31,18 @@ Creep.prototype.act = function(actor) {
     this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
   }
 
-  actor.act();
+  if(!Memory.cpu_critical) {
+    actor.act();
 
-  if(Memory.has_cpu && this.carry.energy > 0) {
-    if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
-      var trg = creepsInRange
-      .map(creep => Game.creeps[creep])
-      .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
-      if(trg.length > 0) {
-        this.transfer(trg[0], RESOURCE_ENERGY);
-        return
+    if(Memory.has_cpu && this.carry.energy > 0) {
+      if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
+        var trg = creepsInRange
+        .map(creep => Game.creeps[creep])
+        .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
+        if(trg.length > 0) {
+          this.transfer(trg[0], RESOURCE_ENERGY);
+          return
+        }
       }
     }
   }
@@ -74,21 +76,23 @@ Creep.prototype.pickupEnergy = function() {
 Creep.prototype.shouldRenew = function() { return !this.body.some(part => part.type === CLAIM) && this.originRoom().hasSpareEnergy && this.ticksToLive < config.renew_ttl && this.memory.level >= this.originRoom().level };
 
 Creep.prototype.goTo = function(pos) {
-  var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-  //if(pos && (pos.x || pos.pos.x)) {
-  //var res;
-  //var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
-  //if(path) {
-  //res = this.moveByPath(path);
-  //} else {
-  //res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
-  //}
-  if(res !== 0 && res !== ERR_TIRED) {
-    res = this.moveTo(pos);
+  if(!Memory.cpu_critical) {
+    var res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+    //if(pos && (pos.x || pos.pos.x)) {
+    //var res;
+    //var path = this.room.getPath(this.pos, pos.x ? pos : pos.pos, {serialize: true});
+    //if(path) {
+    //res = this.moveByPath(path);
+    //} else {
+    //res = this.moveTo(pos, {reusePath: config.reuse_path_ticks, maxOps: config.path_max_ops});
+    //}
     if(res !== 0 && res !== ERR_TIRED) {
-      this.say('stuck:' + res);
-      if(Math.random() < 0.1) {
-        this.twitch();
+      res = this.moveTo(pos);
+      if(res !== 0 && res !== ERR_TIRED) {
+        this.say('stuck:' + res);
+        if(Math.random() < 0.1) {
+          this.twitch();
+        }
       }
     }
   }
