@@ -87,8 +87,6 @@ Carrier.prototype.act = function() {
           this.creep.withdraw(src, RESOURCE_ENERGY);
           if(this.creep.carry.energy >= this.creep.carryCapacity) {
             this.creep.memory.mode = 'unload';
-          } else {
-            this.creep.memory.sleep = config.carrier_sleep;
           }
         } else {
           this.creep.goTo(src);
