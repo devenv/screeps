@@ -104,12 +104,24 @@ Creep.prototype.twitch = function() {
 
 Creep.prototype.withdrawFromNearby = function() {
   if(this.carry.energy < this.carryCapacity) {
-    var containers = this.structuresInRange
-    .map(st => Game.getObjectById(st))
-    .filter(st => st.structureType === STRUCTURE_CONTAINER)
-    .sort((a, b) => a.energy > b.energy ? -1 : 1);
-    if(containers !== undefined && containers.length > 0) {
-      this.withdraw(containers[0], RESOURCE_ENERGY);
+    var sre;
+    if(this.memory.from_nearby) {
+      src = Game.getObjectById(this.memory.from_nearby);
+      if(this.withdraw(src, RESOURCE_ENERGY) !== 0) {
+        this.memory.from_nearby = undefined;
+        src = undefined;
+      }
+    }
+    if(!src) {
+      var containers = this.structuresInRange
+      .map(st => Game.getObjectById(st))
+      .filter(st => st.structureType === STRUCTURE_CONTAINER)
+      .sort((a, b) => a.energy > b.energy ? -1 : 1);
+      if(containers !== undefined && containers.length > 0) {
+        src = containers[0];
+        this.memory.from_nearby = src.id;
+        this.withdraw(src, RESOURCE_ENERGY);
+      }
     }
   }
 }
