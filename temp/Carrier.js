@@ -131,6 +131,8 @@ Carrier.prototype.act = function() {
         this.creep.memory.mode = 'load';
       }
     }
+  } else {
+    this.memory.sleep = config.carrier_sleep;
   }
 }
 
