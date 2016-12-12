@@ -22,6 +22,7 @@ Config.stop_renew_prob = 0.005;
 Config.min_energy_per_level = 200;
 
 Config.repair_threshold = 0.9;
+Config.critical_repair_threshold = 0.25;
 
 Config.terminal_min_energy = 2000;
 Config.terminal_max_energy = 4000;
