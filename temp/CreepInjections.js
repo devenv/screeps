@@ -104,7 +104,7 @@ Creep.prototype.twitch = function() {
 
 Creep.prototype.withdrawFromNearby = function() {
   if(this.carry.energy < this.carryCapacity) {
-    var sre;
+    var src;
     if(this.memory.from_nearby) {
       src = Game.getObjectById(this.memory.from_nearby);
       if(this.withdraw(src, RESOURCE_ENERGY) !== 0) {
