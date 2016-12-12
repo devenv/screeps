@@ -19,7 +19,7 @@ Carrier.prototype.act = function() {
 
   if(this.creep.memory.target === undefined) {
     this.creep.say("?");
-    var containers = this.room.source_containers().filter(container => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === container.id));
+    var containers = this.room.source_containers.filter(container => !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === container));
     if(containers.length > 0) {
       this.creep.memory.supplying = false;
       this.creep.memory.target = this.room.memory.source_containers[0];
