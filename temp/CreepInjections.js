@@ -27,8 +27,10 @@ Creep.prototype.act = function(actor) {
   if(!Memory.cpu_critical) {
     this.pickupEnergy();
 
-    this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
-    this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+    if(Memory.has_cpu) {
+      this.structuresInRange = this.pos.findInRange(FIND_STRUCTURES, 1).map(st => st.id);
+      this.creepsInRange = this.pos.findInRange(FIND_MY_CREEPS, 1).map(creep => creep.name);
+    }
 
     actor.act();
 
@@ -112,7 +114,7 @@ Creep.prototype.withdrawFromNearby = function() {
         src = undefined;
       }
     }
-    if(!src) {
+    if(!src && this.structuresInRange) {
       var containers = this.structuresInRange
       .map(st => Game.getObjectById(st))
       .filter(st => st.structureType === STRUCTURE_CONTAINER)
@@ -136,7 +138,7 @@ Creep.prototype.transferToNearby= function() {
         trg = undefined;
       }
     }
-    if(!trg) {
+    if(!trg && this.structuresInRange) {
       var containers = this.structuresInRange
       .map(st => Game.getObjectById(st))
       .filter(st => _.contains(energySinks, st.structureType))
