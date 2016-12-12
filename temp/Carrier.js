@@ -132,7 +132,7 @@ Carrier.prototype.act = function() {
       }
     }
   } else {
-    this.memory.sleep = config.carrier_sleep;
+    this.creep.memory.sleep = config.carrier_sleep;
   }
 }
 
