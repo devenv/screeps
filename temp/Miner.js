@@ -23,7 +23,7 @@ Miner.prototype.act = function() {
           return true;
         }
       });
-      if(this.creep.memory.source === undefined) {
+      if(Memory.has_cpu && this.creep.memory.source === undefined) {
         _.values(Game.rooms).filter(room => room.controller && !room.controller.my).some(room => {
           return room.sources().some(source => {
             var creeps_working = _.values(Game.creeps).filter(creep => creep.level >= this.creep.level && creep.memory.source === source.id).length;
