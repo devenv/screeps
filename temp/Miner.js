@@ -15,7 +15,7 @@ Miner.prototype.act = function() {
     this.creep.memory.mode = 'unload';
   }
   if(this.creep.memory.mode === 'mining') {
-    if(Memory.has_cpu && this.creep.memory.source === undefined) {
+    if(this.creep.memory.source === undefined) {
       this.creep.say('source?');
       this.creep.originRoom().sources().some(source => {
         var creeps_working = _.values(Game.creeps).filter(creep => creep.memory.level >= this.creep.memory.level && creep.memory.source === source.id).length;
@@ -24,7 +24,7 @@ Miner.prototype.act = function() {
           return true;
         }
       });
-      if(Memory.has_cpu && this.creep.memory.source === undefined) {
+      if(this.creep.memory.source === undefined) {
         _.values(Game.rooms).filter(room => room.controller && !room.controller.my).some(room => {
           return room.sources().some(source => {
             var creeps_working = _.values(Game.creeps).filter(creep => creep.level >= this.creep.level && creep.memory.source === source.id).length;
