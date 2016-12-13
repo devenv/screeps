@@ -45,8 +45,8 @@ Spawner.prototype.shouldSpawn = function(role) {
   var level = this.room.level;
   switch(role) {
     case 'miner':
-      var miners = this.room.modernCreeps[role].length;
-      var carriers = this.room.modernCreeps['carrier'].length;
+      var miners = this.room.creeps[role].length;
+      var carriers = this.room.creeps['carrier'].length;
       return miners < this.room.memory.miners_needed && (miners < 1 || carriers > 0);
     case 'carrier': return this.room.modernCreeps[role].length < this.room.memory.carriers_needed;
     case 'builder': return this.room.modernCreeps[role].length < config.max_builders;
