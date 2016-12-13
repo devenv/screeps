@@ -1,4 +1,5 @@
 var utils = require('Utils');
+var config = require('Config');
 
 function Scout(creep) {
   this.creep = creep;
