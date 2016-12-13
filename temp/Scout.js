@@ -26,6 +26,8 @@ Scout.prototype.act = function() {
         this.creep.moveTo(this.creep.memory.target.x, this.creep.memory.target.y);
       }
     }
+  } else {
+    this.creep.memory.sleep = config.scout_sleep;
   }
 }
 

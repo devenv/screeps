@@ -39,5 +39,6 @@ Config.critical_cpu = 300;
 Config.miner_sleep = 20;
 Config.carrier_sleep = 20;
 Config.builder_sleep = 20;
+Config.scout_sleep = 50;
 
 module.exports = Config;
