@@ -25,7 +25,7 @@ Carrier.prototype.act = function() {
       this.creep.memory.target = containers[0];
     }
     if(Memory.has_cpu && this.creep.memory.target === undefined) {
-      if(this.room.controller_container && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === this.room.controller_container)) {
+      if(this.room.memory.controller_container && !_.values(Game.creeps).some(creep => creep.memory.role === 'carrier' && creep.memory.target === this.room.memory.controller_container)) {
         this.creep.memory.supplying = true;
         this.creep.memory.target = this.room.memory.controller_container;
       }
