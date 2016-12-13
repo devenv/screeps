@@ -42,5 +42,6 @@ Config.builder_sleep = 20;
 Config.scout_sleep = 50;
 Config.soldier_sleep = 50;
 Config.ranged_sleep = 50;
+Config.healer_sleep = 50;
 
 module.exports = Config;
