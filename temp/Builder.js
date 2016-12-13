@@ -60,7 +60,7 @@ Builder.prototype.act = function() {
     }
   }
 
-  if(Memory.has_cpu && this.creep.carry.energy === 0) {
+  if(Memory.has_cpu && this.creep.carry.energy === 0 && !this.creep.memory.controller) {
     this.creep.memory.mode = 'load';
   }
   if(this.creep.memory.mode === 'load') {
