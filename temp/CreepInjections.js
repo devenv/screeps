@@ -90,6 +90,7 @@ Creep.prototype.goTo = function(pos) {
       res = this.moveTo(pos);
       if(res !== 0 && res !== ERR_TIRED) {
         this.say('stuck:' + res);
+        this.memory.sleep = 10;
         if(Math.random() < 0.1) {
           this.twitch();
         }
