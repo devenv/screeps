@@ -32,8 +32,9 @@ Ranged.prototype.act = function() {
       }
       if(this.creep.pos.getRangeTo(target) > 1) {
         this.creep.moveTo(target);
+      } else {
+        this.creep.memory.sleep = config.ranged_sleep;
       }
-
     }
   }
 }
