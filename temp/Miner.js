@@ -49,6 +49,8 @@ Miner.prototype.act = function() {
         this.creep.memory.sleep = config.miner_sleep;
         return;
       }
+    } else {
+      this.creep.memory.sleep = config.miner_sleep;
     }
   } else if (this.creep.memory.mode === 'unload') {
     var src = this.creep.originRoom().getEnergySink(this.creep);
