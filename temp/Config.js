@@ -5,10 +5,10 @@ Config.roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'he
 Config.long_update_freq = 50;
 
 Config.controller_upgraders = 1;
-Config.max_builders = 5;
+Config.max_builders = 4;
 Config.builders = 2;
 Config.repairers = 1;
-Config.max_scouts = 1;
+Config.max_scouts = 0;
 Config.max_guards = 1;
 Config.max_ranged = 1;
 Config.max_healers = 0;
@@ -36,8 +36,8 @@ Config.twitch_threshold = 10;
 Config.low_cpu = 2000;
 Config.critical_cpu = 300;
 
-Config.miner_sleep = 10;
-Config.carrier_sleep = 10;
-Config.builder_sleep = 10;
+Config.miner_sleep = 20;
+Config.carrier_sleep = 20;
+Config.builder_sleep = 20;
 
 module.exports = Config;
