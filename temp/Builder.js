@@ -51,7 +51,7 @@ Builder.prototype.act = function() {
       }
     }
     if(this.creep.memory.site === undefined) {
-      if(Game.has_cpu) {
+      if(Memory.has_cpu) {
         this.creep.memory.controller = true;
         this.creep.memory.repair = false;
         this.creep.memory.site = this.room.controller;
