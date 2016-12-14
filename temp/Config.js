@@ -5,8 +5,8 @@ Config.roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'he
 Config.long_update_freq = 50;
 
 Config.controller_upgraders = 1;
-Config.max_builders = 4;
-Config.builders = 2;
+Config.max_builders = 3;
+Config.builders = 1;
 Config.repairers = 1;
 Config.max_scouts = 0;
 Config.max_guards = 1;
