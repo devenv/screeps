@@ -57,6 +57,9 @@ module.exports.loop = function() {
       } catch(e) { console.log(e); exceptions.push(e); }
     });
     config.roles.forEach(role => {
+      if(room.creeps === undefined) {
+          return;
+      }
       room.creeps[role].map(name => Game.creeps[name]).forEach(creep => {
         try {
           switch(role) {
@@ -83,3 +86,4 @@ module.exports.loop = function() {
   //Memory.stats['cpu.tick_limit'] = Game.cpu.tickLimit;
   //Memory.stats['cpu.used'] = Game.cpu.getUsed();
 }
+

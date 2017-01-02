@@ -48,7 +48,7 @@ Room.prototype.longUpdate = function() {
     //Object.keys(this.memory.path_counts).forEach(key => this.memory.path_counts[key] -= 1);
   //}
   if(!Memory.critical_cpu && Game.time % config.long_update_freq === 1) {
-    if(this.controller.my) {
+    if(this.controller && this.controller.my) {
       this.memory.source_containers = _.flatten(this.sources().map(source => source.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}))).map(container => container.id);
       this.memory.controller_container = this.controller.pos.findInRange(FIND_STRUCTURES, 3, {filter: {structureType: STRUCTURE_CONTAINER}}).map(container => container.id);
       this.memory.extensions = this.find(FIND_MY_STRUCTURES, {filter: { structureType: STRUCTURE_EXTENSION }}).map(ext => ext.id);
@@ -122,4 +122,5 @@ Room.prototype.source_containers = function() { return this.idsToObjects('source
 Room.prototype.towers = function() { return this.idsToObjects('towers') }
 Room.prototype.spawns = function() { return this.idsToObjects('spawns') }
 Room.prototype.hostile_spawns = function() { return this.idsToObjects('hostile_spawns') }
+
 
