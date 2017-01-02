@@ -38,7 +38,9 @@ module.exports.loop = function() {
     });
   }
 
-  _.values(Game.rooms).forEach(room => {
+  _.values(Game.rooms)
+  .filter(room => room.controller)
+  .forEach(room => {
     try {
       room.init();
       room.update();
