@@ -1,6 +1,6 @@
 var Config = {};
 
-Config.roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer', 'extractor'];
+Config.roles = ['miner', 'carrier', 'builder', 'scout', 'soldier', 'ranged', 'healer', 'extractor', 'claimer'];
 
 Config.long_update_freq = 50;
 
