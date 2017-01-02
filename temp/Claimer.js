@@ -11,7 +11,7 @@ Claimer.prototype.act = function() {
     _.values(Game.flags).some(flag => {
       if(flag.name === 'claim') {
         this.creep.memory.target = flag.pos;
-        flag.remove();
+        //flag.remove();
         return true;
       }
     });
