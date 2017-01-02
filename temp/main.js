@@ -39,13 +39,16 @@ module.exports.loop = function() {
   }
 
   _.values(Game.rooms)
-  .filter(room => room.controller)
   .forEach(room => {
     try {
       room.init();
       room.update();
       room.longUpdate();
     } catch(e) { console.log(e); exceptions.push(e); }
+
+    if(!room.creeps || !room.controller) {
+      return;
+    }
 
     room.towers().forEach(tower => {
       try {
