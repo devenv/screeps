@@ -46,7 +46,7 @@ module.exports.loop = function() {
       room.longUpdate();
     } catch(e) { console.log(e); exceptions.push(e); }
 
-    if(room.creeps && room.controller) {
+    if(room.controller) {
       room.towers().forEach(tower => {
         try {
           new Tower(tower).act();

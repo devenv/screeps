@@ -22,12 +22,12 @@ Room.prototype.init = function() {
 }
 
 Room.prototype.update = function() {
+  this.creeps = {};
+  this.modernCreeps = {};
   if(this.creeps && this.controller && this.controller.my) {
     this.level = _.min([15, this.memory.extensions.length]);
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
-    this.creeps = {};
-    this.modernCreeps = {};
     config.roles.forEach(role => {
       this.creeps[role] = [];
       this.modernCreeps[role] = [];
