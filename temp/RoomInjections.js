@@ -22,7 +22,7 @@ Room.prototype.init = function() {
 }
 
 Room.prototype.update = function() {
-  if(this.controller && this.controller.my) {
+  if(this.creeps && this.controller && this.controller.my) {
     this.level = _.min([15, this.memory.extensions.length]);
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
