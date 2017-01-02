@@ -46,24 +46,22 @@ module.exports.loop = function() {
       room.longUpdate();
     } catch(e) { console.log(e); exceptions.push(e); }
 
-    if(!room.creeps || !room.controller) {
-      return;
+    if(room.creeps && room.controller) {
+      room.towers().forEach(tower => {
+        try {
+          new Tower(tower).act();
+        } catch(e) { console.log(e); exceptions.push(e); }
+      });
+
+      room.spawns().forEach(spawn => {
+        try {
+          new Spawner(spawn).act();
+        } catch(e) { console.log(e); exceptions.push(e); }
+      });
     }
-
-    room.towers().forEach(tower => {
-      try {
-        new Tower(tower).act();
-      } catch(e) { console.log(e); exceptions.push(e); }
-    });
-
-    room.spawns().forEach(spawn => {
-      try {
-        new Spawner(spawn).act();
-      } catch(e) { console.log(e); exceptions.push(e); }
-    });
     config.roles.forEach(role => {
       if(room.creeps === undefined) {
-          return;
+        return;
       }
       room.creeps[role].map(name => Game.creeps[name]).forEach(creep => {
         try {
