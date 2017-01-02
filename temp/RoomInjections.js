@@ -24,14 +24,14 @@ Room.prototype.init = function() {
 Room.prototype.update = function() {
   this.creeps = {};
   this.modernCreeps = {};
-  if(this.creeps && this.controller && this.controller.my) {
+  config.roles.forEach(role => {
+    this.creeps[role] = [];
+    this.modernCreeps[role] = [];
+  });
+  if(this.controller && this.controller.my) {
     this.level = _.min([15, this.memory.extensions.length]);
     this.hasSpareEnergy =  this.energyAvailable > this.energyCapacityAvailable * 0.8 || this.energyAvailable > this.memory.miner_cost * 1.2;
 
-    config.roles.forEach(role => {
-      this.creeps[role] = [];
-      this.modernCreeps[role] = [];
-    });
     _.values(Game.creeps).filter(cr => cr.memory.origin_room === this.name).forEach(creep => this.creeps[creep.memory.role].push(creep.name));
     _.flatten(_.values(this.creeps)).filter(name => Game.creeps[name].memory.level >= this.level).forEach(name => this.modernCreeps[Game.creeps[name].memory.role].push(name));
   }

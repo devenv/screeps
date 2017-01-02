@@ -60,9 +60,6 @@ module.exports.loop = function() {
       });
     }
     config.roles.forEach(role => {
-      if(room.creeps === undefined) {
-        return;
-      }
       room.creeps[role].map(name => Game.creeps[name]).forEach(creep => {
         try {
           switch(role) {
