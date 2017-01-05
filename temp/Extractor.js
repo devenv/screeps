@@ -6,7 +6,7 @@ function Extractor(creep) {
 }
 
 Extractor.prototype.act = function() {
-  if(this.creep.memory.mode === undefined || this.creep.carry.energy === 0) {
+  if(this.creep.memory.mode === undefined) {
     this.creep.memory.mode = 'extracting';
   }
   if(this.creep.memory.mode === 'extracting') {
@@ -37,6 +37,7 @@ Extractor.prototype.act = function() {
       Object.keys(this.creep.carry).forEach(key => {
         if(this.creep.carry[key] > 0) {
           this.creep.transfer(terminal, key);
+          this.creep.memory.mode = 'extracting';
         }
       });
     } else {
