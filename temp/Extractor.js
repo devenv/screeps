@@ -9,9 +9,6 @@ Extractor.prototype.act = function() {
   if(this.creep.memory.mode === undefined || this.creep.carry.energy === 0) {
     this.creep.memory.mode = 'extracting';
   }
-  if(_.sum(_.values(this.creep.carry)) >= this.creep.carryCapacity) {
-    this.creep.memory.mode = 'unload';
-  }
   if(this.creep.memory.mode === 'extracting') {
     if(Memory.has_cpu && this.creep.memory.deposit === undefined) {
       this.creep.originRoom().find(FIND_MINERALS).some(deposit => {
@@ -24,6 +21,9 @@ Extractor.prototype.act = function() {
     }
 
     if(Memory.has_cpu && this.creep.memory.deposit !== undefined) {
+      if(_.sum(_.values(this.creep.carry)) >= this.creep.carryCapacity) {
+        this.creep.memory.mode = 'unload';
+      }
       var deposit = Game.getObjectById(this.creep.memory.deposit);
       if(this.creep.pos.isNearTo(deposit)) {
         this.creep.harvest(deposit);
