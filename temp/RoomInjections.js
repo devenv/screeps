@@ -55,6 +55,7 @@ Room.prototype.longUpdate = function() {
       this.memory.miners_needed = this.memory.miner_spots;
       this.memory.carriers_needed = 1 + this.sources().length + _.min([1, this.memory.towers.length]);
       this.memory.extractors = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_EXTRACTOR}}).map(ext => ext.id);
+      this.memory.terminals = this.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}}).map(ter => ter.id);
       this.memory.towers = this.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}}).map(ext => ext.id);
     } else {
       var spawns = this.find(FIND_HOSTILE_SPAWNS);
