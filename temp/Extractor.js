@@ -37,11 +37,13 @@ Extractor.prototype.act = function() {
       Object.keys(this.creep.carry).forEach(key => {
         if(this.creep.carry[key] > 0) {
           this.creep.transfer(terminal, key);
-          this.creep.memory.mode = 'extracting';
         }
       });
     } else {
       this.creep.goTo(terminal);
+    }
+    if (_.sum(_.values(this.creep.carry)) === 0) {
+      this.creep.memory.mode = 'extracting';
     }
   }
 }
