@@ -20,7 +20,7 @@ Extractor.prototype.act = function() {
       });
     }
 
-    if(Memory.has_cpu && this.creep.memory.deposit !== undefined) {
+    if(this.creep.memory.deposit !== undefined) {
       if(_.sum(_.values(this.creep.carry)) >= this.creep.carryCapacity) {
         this.creep.memory.mode = 'unload';
       }
