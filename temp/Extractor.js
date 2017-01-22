@@ -23,6 +23,7 @@ Extractor.prototype.act = function() {
     if(this.creep.memory.deposit !== undefined) {
       if(_.sum(_.values(this.creep.carry)) >= this.creep.carryCapacity) {
         this.creep.memory.mode = 'unload';
+        return true;
       }
       var deposit = Game.getObjectById(this.creep.memory.deposit);
       if(this.creep.pos.isNearTo(deposit)) {
