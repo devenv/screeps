@@ -21,7 +21,8 @@ Builder.prototype.act = function() {
   if(!this.creep.memory.repair && !this.creep.memory.controller && (this.creep.memory.site === undefined || (!Game.constructionSites[this.creep.memory.site] && !Game.getObjectById(this.creep.memory.site)))) {
     this.creep.memory.site = undefined;
     var builders = this.room.modernCreeps['builder'].map(name => Game.creeps[name]);
-    if(builders.filter(builder => builder.memory.controller).length < config.controller_upgraders) {
+    var count = builders.filter(builder => builder.memory.controller).length
+    if(count < config.controller_upgraders && this.creep.room.controller.level < 8 || count < 1) {
       this.creep.memory.controller = true;
       this.creep.memory.repair = false;
       this.creep.memory.site = this.room.controller;
