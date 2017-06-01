@@ -35,10 +35,9 @@ Creep.prototype.act = function(actor) {
     actor.act();
 
     if(this.carry.energy > 0) {
-      if(_.include(['unload', 'mining'], this.memory.mode && this.memory.role !== 'carrier')) {
-        var trg = creepsInRange
-        .map(creep => Game.creeps[creep])
-        .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
+      if(_.include(['unload', 'mining'], this.memory.mode) && this.memory.role !== 'carrier') {
+        var trg = this.pos.findInRange(FIND_MY_CREEPS, 1)
+          .filter(cr => _.include(['load', 'build'], cr.memory.mode) && cr.carry.energy < cr.carryCapacity);
         if(trg.length > 0) {
           this.transfer(trg[0], RESOURCE_ENERGY);
           return
