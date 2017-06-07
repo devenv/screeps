@@ -12,14 +12,18 @@ module.exports = {
     },
 
     claimer1: function() {
-      console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][1], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100}));
+      var spawn = _.values(Game.spawns)[0];
+      console.log(spawn.createCreep(setups['claimer'][1], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100, "origin_room": spawn.room.name}));
     },
 
     claimer2: function() {
-      console.log(_.values(Game.spawns)[0].createCreep(setups['claimer'][2], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100}));
+      var spawn = _.values(Game.spawns)[0];
+      console.log(spawn.createCreep(setups['claimer'][2], 'claimer' + _.floor(Math.random() * 1000), {"role": 'claimer', "level": 100, "origin_room": spawn.room.name}));
     },
 
     scout: function() {
-      console.log(_.values(Game.spawns)[0].createCreep(setups['scout'][1], 'scout' + _.floor(Math.random() * 1000), {"role": 'scout', "level": 100}));
+      var spawn = _.values(Game.spawns)[0];
+      console.log(spawn.createCreep(setups['scout'][1], 'scout' + _.floor(Math.random() * 1000), {"role": 'scout', "level": 100, "origin_room": spawn.room.name}));
     }
 };
+

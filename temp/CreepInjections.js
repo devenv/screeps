@@ -148,3 +148,4 @@ Creep.prototype.healFriendly = function() {
   }
   return false;
 }
+
