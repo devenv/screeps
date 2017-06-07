@@ -15,6 +15,7 @@ Soldier.prototype.act = function() {
         var exitDir = this.creep.room.findExitTo(flag.pos.roomName);
         var exit = this.creep.pos.findClosestByRange(exitDir);
         this.creep.moveTo(exit);
+        this.creep.memory.mode === 'attack';
         return
       }
     }
