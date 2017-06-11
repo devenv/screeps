@@ -40,7 +40,7 @@ Claimer.prototype.act = function() {
 
 Claimer.prototype.attackController = function() {
   var controller = Game.rooms[this.creep.pos.roomName].controller;
-  if(!controller.my) {
+  if(controller && !controller.my) {
     this.creep.memory.moved = true;
     this.creep.moveTo(controller);
     this.creep.attackController(controller);
