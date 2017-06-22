@@ -109,7 +109,12 @@ Creep.prototype.attackHostiles = function() {
     var target = this.room.find(FIND_HOSTILE_CREEPS, {filter: t => t.name !== 'Source Keeper'})[0];
     if(target !== null) {
       this.moveTo(target);
-      this.attack(target);
+      if(this.body.some(part => part.type === ATTACK)) {
+        this.attack(target);
+      }
+      if(this.body.some(part => part.type === RANGED_ATTACK)) {
+        this.rangedAttack(target);
+      }
       if(Math.random() > 0.9) {
         this.say('die', true);
       }
@@ -127,7 +132,12 @@ Creep.prototype.attackSpawns = function() {
   if(targets !== undefined && targets.length > 0) {
     var trg = Game.getObjectById(targets[0]);
     this.moveTo(trg);
-    this.attack(trg);
+    if(this.body.some(part => part.type === ATTACK)) {
+      this.attack(target);
+    }
+    if(this.body.some(part => part.type === RANGED_ATTACK)) {
+      this.rangedAttack(target);
+    }
     if(Math.random() > 0.9) {
       this.say('destroy', true);
     }
